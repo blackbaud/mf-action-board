@@ -21,31 +21,43 @@ export class JenkinsService {
   getActionItems(): Promise<ActionItem[]> {
     const headers = new Headers({'Authorization': 'Basic ' + window.btoa(GITHUB_USER + ':' + GITHUB_TOKEN)});
     const options = new RequestOptions({headers: headers});
-    let jobsPromises = [];
-    let newActionItems: ActionItem[] = [];
+    const envPromises = [];
+    const newActionItems: ActionItem[] = [];
     JENKINS_ENV.forEach((env) => {
-      let url = env.url;
-      let envProjects = env.projects;
-      envProjects.forEach((project) => {
-        let promise = this.http.get(url + 'job/' + project + '/lastCompletedBuild/api/json', options)
-          .toPromise()
-          .then(response => {
-            let jobDetails = new JobDetails();
-            jobDetails.result = response.json().result;
-            jobDetails.timestamp = response.json().timestamp;
-            jobDetails.jobName = project;
-            jobDetails.building = response.json().building;
-            jobDetails.url = response.json().url;
-            if (jobDetails.result === 'FAILURE') {
-              newActionItems.push(this.convertToActionItem(jobDetails));
+      const url = env.url;
+      const envProjects = env.projects.reduce((map, obj) => {
+        map[obj] = obj;
+        return map;
+      }, {});
+      const promise = this.http.get(
+        url + 'api/json?tree=jobs[name,lastCompletedBuild[number,duration,timestamp,result,url]]', options)
+        .toPromise()
+        .then((response) => {
+          const jobs = response.json().jobs;
+          jobs.forEach((job) => {
+            const lastCompletedBuild = job.lastCompletedBuild;
+            if (lastCompletedBuild) {
+              const jobName = job.name;
+              const jobStatus = lastCompletedBuild.result;
+              const jobUrl = lastCompletedBuild.url;
+              const buildTimestamp = lastCompletedBuild.timestamp;
+              if (envProjects[jobName] && jobStatus === 'FAILURE') {
+                const jobDetails = new JobDetails();
+                jobDetails.result = jobStatus;
+                jobDetails.jobName = jobName;
+                jobDetails.timestamp = buildTimestamp;
+                jobDetails.building = jobStatus === 'blue-anime';
+                jobDetails.url = jobUrl;
+                newActionItems.push(this.convertToActionItem(jobDetails));
+              }
             }
-          })
-          .catch(this.handleError);
-        jobsPromises.push(promise);
-      });
+          });
+        })
+        .catch(this.handleError);
+      envPromises.push(promise);
     });
     return new Promise<ActionItem[]>((resolve) => {
-      Promise.all(jobsPromises).then(() => {
+      Promise.all(envPromises).then(() => {
         resolve(newActionItems);
       });
     });
