@@ -13,9 +13,6 @@ import { GITHUB_USER, GITHUB_TOKEN } from '../../config/app-config-constants';
 @Injectable()
 export class JenkinsService {
 
-  public baseUrl: string = 'https://jenkins-oscf-sandbox.blackbaudcloud.com';
-  public jobs: string[];
-
   constructor(private http: Http) {}
 
   getActionItems(): Promise<ActionItem[]> {
