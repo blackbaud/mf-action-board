@@ -32,27 +32,7 @@ export class JenkinsService {
       const promise = this.http.get(
         url + 'api/json?tree=jobs[name,lastCompletedBuild[number,duration,timestamp,result,url]]', options)
         .toPromise()
-        .then((response) => {
-          const jobs = response.json().jobs;
-          jobs.forEach((job) => {
-            const lastCompletedBuild = job.lastCompletedBuild;
-            if (lastCompletedBuild) {
-              const jobName = job.name;
-              const jobStatus = lastCompletedBuild.result;
-              const jobUrl = lastCompletedBuild.url;
-              const buildTimestamp = lastCompletedBuild.timestamp;
-              if (envProjects[jobName] && jobStatus === 'FAILURE') {
-                const jobDetails = new JobDetails();
-                jobDetails.result = jobStatus;
-                jobDetails.jobName = jobName;
-                jobDetails.timestamp = buildTimestamp;
-                jobDetails.building = jobStatus === 'blue-anime';
-                jobDetails.url = jobUrl;
-                newActionItems.push(this.convertToActionItem(jobDetails));
-              }
-            }
-          });
-        })
+        .then((response) => this.processJob(response, newActionItems, envProjects))
         .catch(this.handleError);
       envPromises.push(promise);
     });
@@ -61,6 +41,28 @@ export class JenkinsService {
         resolve(newActionItems);
       });
     });
+  }
+
+  private processJob(response, newActionItems, envProjects) {
+      const jobs = response.json().jobs;
+      jobs.forEach((job) => {
+        const lastCompletedBuild = job.lastCompletedBuild;
+        if (lastCompletedBuild) {
+          const jobName = job.name;
+          const jobStatus = lastCompletedBuild.result;
+          if (envProjects[jobName] && jobStatus === 'FAILURE') {
+            const jobUrl = lastCompletedBuild.url;
+            const buildTimestamp = lastCompletedBuild.timestamp;
+            const jobDetails = new JobDetails();
+            jobDetails.result = jobStatus;
+            jobDetails.jobName = jobName;
+            jobDetails.timestamp = buildTimestamp;
+            jobDetails.building = jobStatus === 'blue-anime';
+            jobDetails.url = jobUrl;
+            newActionItems.push(this.convertToActionItem(jobDetails));
+          }
+        }
+      });
   }
 
   private convertToActionItem(jobDetails: JobDetails): ActionItem {
