@@ -16,6 +16,7 @@ export class ActionItemsComponent implements OnInit {
     actionItems: ActionItem[];
     githubConfig: GithubConfig;
     pollIntervalHandle;
+    private configActionItems: ActionItem[] = this.loadConfigActionItems();
 
     constructor(private githubService: GithubService, private jenkinsService: JenkinsService) {
       this.githubConfig = new GithubConfig();
@@ -35,7 +36,7 @@ export class ActionItemsComponent implements OnInit {
         }, 30000);
       });
     } else {
-      this.loadConfigActionItems();
+      this.actionItems = this.configActionItems;
     }
   }
 
@@ -53,7 +54,7 @@ export class ActionItemsComponent implements OnInit {
     this.githubConfig.token = localStorage.getItem(MF_GITHUB_TOKEN);
   }
 
-    private loadConfigActionItems() {
+    private loadConfigActionItems(): ActionItem[] {
       const configActionItems = [];
       const githubTeamActionItem = new ActionItem();
       githubTeamActionItem.name = 'GitHub Team Name:';
@@ -87,7 +88,7 @@ export class ActionItemsComponent implements OnInit {
       githubTokenActionItem.type = 'Open PR';
       githubTokenActionItem.model = 'token';
       configActionItems.push(githubTokenActionItem);
-      this.actionItems = configActionItems;
+      return configActionItems;
     }
 
     saveConfig() {
