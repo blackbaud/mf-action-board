@@ -5,7 +5,10 @@ import { GithubService } from '../github/services/github.service';
 import { JenkinsService } from '../jenkins/services/jenkins.service';
 import * as moment from 'moment';
 import { GithubConfig } from '../domain/github-config';
-import { MF_GITHUB_TEAM, MF_GITHUB_TEAM_ID, MF_GITHUB_TOKEN, MF_GITHUB_USERNAME } from '../config/app-config-constants';
+import {
+  ACTION_ITEM_POLLING_INTERVAL_IN_MS, MF_GITHUB_TEAM, MF_GITHUB_TEAM_ID, MF_GITHUB_TOKEN,
+  MF_GITHUB_USERNAME
+} from '../config/app-config-constants';
 
 @Component({
     selector: 'action-items',
@@ -33,7 +36,7 @@ export class ActionItemsComponent implements OnInit {
         this.getActionItemsList();
         this.pollIntervalHandle = setInterval(() => {
           this.getActionItemsList();
-        }, 30000);
+        }, ACTION_ITEM_POLLING_INTERVAL_IN_MS);
       });
     } else {
       this.actionItems = this.configActionItems;

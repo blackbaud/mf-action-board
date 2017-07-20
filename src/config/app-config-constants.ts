@@ -1,3 +1,6 @@
+// It is not advised to make this constant very frequent
+// since Github rate limits requests
+export const ACTION_ITEM_POLLING_INTERVAL_IN_MS = 30000;
 export const MF_GITHUB_TEAM = 'MF_GITHUB_TEAM';
 export const MF_GITHUB_TEAM_ID = 'MF_GITHUB_TEAM_ID';
 export const MF_GITHUB_USERNAME = 'MF_GITHUB_USERNAME';
