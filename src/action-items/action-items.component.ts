@@ -61,8 +61,8 @@ export class ActionItemsComponent implements OnInit {
       const configActionItems = [];
       configActionItems.push(this.createConfigActionItem('GitHub Team Name', 'team'));
       configActionItems.push(this.createConfigActionItem('GitHub Team ID', 'teamId'));
-      configActionItems.push(this.createConfigActionItem('Github User Name', 'userName'));
-      configActionItems.push(this.createConfigActionItem('Github Token', 'token'));
+      configActionItems.push(this.createConfigActionItem('GitHub User Name', 'userName'));
+      configActionItems.push(this.createConfigActionItem('GitHub Token', 'token'));
       return configActionItems;
     }
 
