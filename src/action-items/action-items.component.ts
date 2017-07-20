@@ -56,39 +56,22 @@ export class ActionItemsComponent implements OnInit {
 
     private loadConfigActionItems(): ActionItem[] {
       const configActionItems = [];
-      const githubTeamActionItem = new ActionItem();
-      githubTeamActionItem.name = 'GitHub Team Name:';
-      githubTeamActionItem.created = moment.now();
-      githubTeamActionItem.priority = 0;
-      githubTeamActionItem.source = 'config';
-      githubTeamActionItem.type = 'Open PR';
-      githubTeamActionItem.model = 'team';
-      configActionItems.push(githubTeamActionItem);
-      const githubTeamIdActionItem = new ActionItem();
-      githubTeamIdActionItem.name = 'GitHub Team ID:';
-      githubTeamIdActionItem.created = moment.now();
-      githubTeamIdActionItem.priority = 0;
-      githubTeamIdActionItem.source = 'config';
-      githubTeamIdActionItem.type = 'Open PR';
-      githubTeamIdActionItem.model = 'teamId';
-      configActionItems.push(githubTeamIdActionItem);
-      const githubUsernameActionItem = new ActionItem();
-      githubUsernameActionItem.name = 'GitHub User Name:';
-      githubUsernameActionItem.created = moment.now();
-      githubUsernameActionItem.priority = 0;
-      githubUsernameActionItem.source = 'config';
-      githubUsernameActionItem.type = 'Open PR';
-      githubUsernameActionItem.model = 'userName';
-      configActionItems.push(githubUsernameActionItem);
-      const githubTokenActionItem = new ActionItem();
-      githubTokenActionItem.name = 'GitHub Token:';
-      githubTokenActionItem.created = moment.now();
-      githubTokenActionItem.priority = 0;
-      githubTokenActionItem.source = 'config';
-      githubTokenActionItem.type = 'Open PR';
-      githubTokenActionItem.model = 'token';
-      configActionItems.push(githubTokenActionItem);
+      configActionItems.push(this.createConfigActionItem('GitHub Team Name', 'team'));
+      configActionItems.push(this.createConfigActionItem('GitHub Team ID', 'teamId'));
+      configActionItems.push(this.createConfigActionItem('Github User Name', 'userName'));
+      configActionItems.push(this.createConfigActionItem('Github Token', 'token'));
       return configActionItems;
+    }
+
+    private createConfigActionItem(name: string, model: string): ActionItem {
+      const configActionItem = new ActionItem();
+      configActionItem.name = name;
+      configActionItem.created = moment.now();
+      configActionItem.priority = 0;
+      configActionItem.source = 'config';
+      configActionItem.type = 'Open PR';
+      configActionItem.model = model;
+      return configActionItem;
     }
 
     saveConfig() {
