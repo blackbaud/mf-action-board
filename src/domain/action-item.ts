@@ -5,6 +5,5 @@ export class ActionItem {
     source: string;
     created: number;
     url: string;
-    value?: string;
     model?: string;
 }
