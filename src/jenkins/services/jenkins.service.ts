@@ -51,7 +51,7 @@ export class JenkinsService {
     const newActionItems: ActionItem[] = [];
     JENKINS_ENV.forEach((url) => {
       const promise = this.http.get(
-        url + 'api/json?tree=jobs[name,color,lastCompletedBuild[number,duration,timestamp,result,url]]', this.options)
+        url + 'api/json?tree=jobs[name,lastCompletedBuild[number,duration,timestamp,result,url]]', this.options)
         .toPromise()
         .then((response) => this.processJobs(response, newActionItems))
         .catch(this.handleError);
