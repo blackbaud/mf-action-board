@@ -86,7 +86,6 @@ export class JenkinsService {
   }
 
   private includeJob(job) {
-    console.log('job', job);
     const jobName = job.name;
     const jobType = jobName.substring(jobName.indexOf('_') + 1, jobName.length);
     const jobNameToBuildName = jobName.substring(0, jobName.indexOf('_'));
