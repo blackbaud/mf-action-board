@@ -13,7 +13,7 @@
 }
 
 .action-item-panel.progress-bar {
-  line-height: normal;
+  line-height: inherit;
   width: 100%;
 }
 .action-item-panel.yellow {
