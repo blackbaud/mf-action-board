@@ -29,14 +29,22 @@ export class ActionItemsComponent implements OnInit {
   ngOnInit() {
     this.configService.loadConfigFromStorage();
     if (this.configService.isConfigured()) {
-      this.displayChangeConfigButton = true;
-      this.displaySaveConfigButton = false;
+      this.displayChangeConfigButtonHideSaveConfigButton()
       this.loadActionItems();
     } else {
-      this.displayChangeConfigButton = false;
-      this.displaySaveConfigButton = true;
+      this.displaySaveConfigButtonHideChangeConfigButton()
       this.loadConfig();
     }
+  }
+
+  private displayChangeConfigButtonHideSaveConfigButton(){
+    this.displayChangeConfigButton = true;
+    this.displaySaveConfigButton = false;
+  }
+
+  private displaySaveConfigButtonHideChangeConfigButton(){
+    this.displayChangeConfigButton = false;
+    this.displaySaveConfigButton = true;
   }
 
   private loadActionItems() {
@@ -77,15 +85,13 @@ export class ActionItemsComponent implements OnInit {
   saveConfig() {
     this.configService.saveConfig();
     if (this.configService.isConfigured()) {
-      this.displaySaveConfigButton = false;
-      this.displayChangeConfigButton = true;
+      this.displayChangeConfigButtonHideSaveConfigButton();
     }
     this.loadActionItems();
   }
 
   changeConfig() {
-    this.displaySaveConfigButton = true;
-    this.displayChangeConfigButton = false;
+    this.displaySaveConfigButtonHideChangeConfigButton();
     window.clearInterval(this.pollIntervalHandle);
     this.loadConfig();
   }
