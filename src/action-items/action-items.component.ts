@@ -9,25 +9,25 @@ import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../config/app-config-constan
 import { ConfigService } from '../config/config.service';
 
 @Component({
-    selector: 'action-items',
-    templateUrl: './action-items.component.html',
-    styleUrls: ['./action-items.component.css']
+  selector: 'action-items',
+  templateUrl: './action-items.component.html',
+  styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit {
-    actionItems: ActionItem[];
-    githubConfig: GithubConfig = this.configService.githubConfig;
-    pollIntervalHandle;
-    private configActionItems: ActionItem[] = this.loadConfigActionItems();
+  actionItems: ActionItem[];
+  githubConfig: GithubConfig = this.configService.githubConfig;
+  pollIntervalHandle;
+  private configActionItems: ActionItem[] = this.loadConfigActionItems();
 
-    constructor(
-      private githubService: GithubService,
-      private jenkinsService: JenkinsService,
-      private configService: ConfigService) {}
+  constructor(private githubService: GithubService,
+              private jenkinsService: JenkinsService,
+              private configService: ConfigService) {
+  }
 
-    ngOnInit() {
-      this.configService.loadConfigFromStorage();
-      this.init();
-    }
+  ngOnInit() {
+    this.configService.loadConfigFromStorage();
+    this.init();
+  }
 
   private init() {
     if (this.configService.isConfigured()) {
@@ -42,74 +42,74 @@ export class ActionItemsComponent implements OnInit {
     }
   }
 
-    private loadConfigActionItems(): ActionItem[] {
-      const configActionItems = [];
-      configActionItems.push(this.createConfigActionItem('GitHub Team Name', 'team'));
-      configActionItems.push(this.createConfigActionItem('GitHub Team ID', 'teamId'));
-      configActionItems.push(this.createConfigActionItem('GitHub User Name', 'userName'));
-      configActionItems.push(this.createConfigActionItem('GitHub Token', 'token'));
-      return configActionItems;
+  private loadConfigActionItems(): ActionItem[] {
+    const configActionItems = [];
+    configActionItems.push(this.createConfigActionItem('GitHub Team Name', 'team'));
+    configActionItems.push(this.createConfigActionItem('GitHub Team ID', 'teamId'));
+    configActionItems.push(this.createConfigActionItem('GitHub User Name', 'userName'));
+    configActionItems.push(this.createConfigActionItem('GitHub Token', 'token'));
+    return configActionItems;
+  }
+
+  private createConfigActionItem(name: string, model: string): ActionItem {
+    const configActionItem = new ActionItem();
+    configActionItem.name = name;
+    configActionItem.created = moment.now();
+    configActionItem.priority = 0;
+    configActionItem.source = 'config';
+    configActionItem.type = 'Open PR';
+    configActionItem.model = model;
+    return configActionItem;
+  }
+
+  saveConfig() {
+    this.configService.saveConfig();
+    this.init();
+  }
+
+  resetConfig() {
+    window.clearInterval(this.pollIntervalHandle);
+    this.configService.resetConfig();
+    this.init();
+  }
+
+  getActionItemsList(): void {
+    Promise.all([this.githubService.getActionItems(), this.jenkinsService.getActionItems()]).then(
+      actionItems => {
+        this.actionItems = this.sortByPriorityAndOpenDuration(Array.prototype.concat.apply([], actionItems));
+      }
+    );
+  }
+
+  getTimeElapsed(time) {
+    return moment(time).fromNow();
+  }
+
+  sortByPriorityAndOpenDuration(actionItems: ActionItem[]): ActionItem[] {
+    const red = actionItems.filter(function (a) {
+      return a.priority === 1;
+    });
+
+    const yellow = actionItems.filter(function (a) {
+      return a.priority === 2;
+    });
+
+    const green = actionItems.filter(function (a) {
+      return a.priority === 3;
+    });
+
+    return red.sort(this.sortByOpenDuration)
+      .concat(yellow.sort(this.sortByOpenDuration))
+      .concat(green.sort(this.sortByOpenDuration));
+  }
+
+  sortByOpenDuration(a, b) {
+    if (a.created > b.created) {
+      return 1;
+    } else if (a.created < b.created) {
+      return -1;
+    } else {
+      return 0;
     }
-
-    private createConfigActionItem(name: string, model: string): ActionItem {
-      const configActionItem = new ActionItem();
-      configActionItem.name = name;
-      configActionItem.created = moment.now();
-      configActionItem.priority = 0;
-      configActionItem.source = 'config';
-      configActionItem.type = 'Open PR';
-      configActionItem.model = model;
-      return configActionItem;
-    }
-
-    saveConfig() {
-      this.configService.saveConfig();
-      this.init();
-    }
-
-    resetConfig() {
-      window.clearInterval(this.pollIntervalHandle);
-      this.configService.resetConfig();
-      this.init();
-    }
-
-    getActionItemsList(): void {
-        Promise.all([this.githubService.getActionItems(), this.jenkinsService.getActionItems()]).then(
-            actionItems => {
-                this.actionItems = this.sortByPriorityAndOpenDuration(Array.prototype.concat.apply([], actionItems));
-            }
-        );
-    }
-
-    getTimeElapsed(time) {
-        return moment(time).fromNow();
-    }
-
-    sortByPriorityAndOpenDuration(actionItems: ActionItem[]): ActionItem[] {
-        const red = actionItems.filter(function(a) {
-            return a.priority === 1;
-        });
-
-        const yellow = actionItems.filter(function(a) {
-            return a.priority === 2;
-        });
-
-        const green = actionItems.filter(function(a) {
-            return a.priority === 3;
-        });
-
-        return red.sort(this.sortByOpenDuration)
-            .concat(yellow.sort(this.sortByOpenDuration))
-            .concat(green.sort(this.sortByOpenDuration));
-    }
-
-    sortByOpenDuration(a, b) {
-        if (a.created > b.created) {
-            return 1;
-        } else if (a.created < b.created) {
-            return -1;
-        } else {
-            return 0;
-        }
-    }
+  }
 }

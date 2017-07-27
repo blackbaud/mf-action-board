@@ -4,12 +4,13 @@ import 'rxjs/add/operator/toPromise';
 
 import { ActionItem } from '../../domain/action-item';
 import { PriorityCalculator } from '../../domain/priority-calculator';
-import {ConfigService} from '../../config/config.service';
+import { ConfigService } from '../../config/config.service';
 
 @Injectable()
 export class GithubService {
 
-  constructor(private http: Http, private configService: ConfigService) {}
+  constructor(private http: Http, private configService: ConfigService) {
+  }
 
   getActionItems(): Promise<ActionItem[]> {
     const mfGithubTeam = this.configService.getConfig().team;

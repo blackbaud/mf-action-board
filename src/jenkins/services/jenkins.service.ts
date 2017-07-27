@@ -36,9 +36,13 @@ export class JenkinsService {
       .toPromise()
       .then((response) => {
         const repos = response.json();
-        const reposNoForks = repos.filter((repo) => { return repo.owner.login === 'blackbaud'; });
+        const reposNoForks = repos.filter((repo) => {
+          return repo.owner.login === 'blackbaud';
+        });
         this.repoNames = reposNoForks
-          .map((repo) => { return repo.name; })
+          .map((repo) => {
+            return repo.name;
+          })
           .reduce((map, repoName) => {
             map[repoName] = repoName;
             return map;
@@ -66,8 +70,8 @@ export class JenkinsService {
   }
 
   private processJobs(response, newActionItems) {
-      const jobs = response.json().jobs;
-      jobs.forEach((job) => this.addNewActionItem(job, newActionItems));
+    const jobs = response.json().jobs;
+    jobs.forEach((job) => this.addNewActionItem(job, newActionItems));
   }
 
   private addNewActionItem(job, newActionItems) {

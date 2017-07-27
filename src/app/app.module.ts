@@ -23,4 +23,5 @@ import { ConfigService } from '../config/config.service';
   providers: [JenkinsService, GithubService, ConfigService],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}
