@@ -26,10 +26,10 @@ export class ActionItemsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.loadConfigFromStorage();
-    this.init();
+    this.loadActionItems();
   }
 
-  private init() {
+  private loadActionItems() {
     if (this.configService.isConfigured()) {
       this.jenkinsService.loadRepos().then(() => {
         this.getActionItemsList();
@@ -37,9 +37,11 @@ export class ActionItemsComponent implements OnInit {
           this.getActionItemsList();
         }, ACTION_ITEM_POLLING_INTERVAL_IN_MS);
       });
-    } else {
-      this.actionItems = this.configActionItems;
     }
+  }
+
+  private loadConfig() {
+    this.actionItems = this.configActionItems;
   }
 
   private loadConfigActionItems(): ActionItem[] {
@@ -64,13 +66,12 @@ export class ActionItemsComponent implements OnInit {
 
   saveConfig() {
     this.configService.saveConfig();
-    this.init();
+    this.loadActionItems();
   }
 
-  resetConfig() {
+  changeConfig() {
     window.clearInterval(this.pollIntervalHandle);
-    this.configService.resetConfig();
-    this.init();
+    this.loadConfig();
   }
 
   getActionItemsList(): void {
