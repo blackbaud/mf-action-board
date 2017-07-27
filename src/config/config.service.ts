@@ -6,10 +6,6 @@ import { MF_GITHUB_TEAM, MF_GITHUB_TEAM_ID, MF_GITHUB_TOKEN, MF_GITHUB_USERNAME 
 export class ConfigService {
   githubConfig = new GithubConfig();
 
-  public setConfig(githubConfig: GithubConfig): void {
-    this.githubConfig = githubConfig;
-  }
-
   public getConfig(): GithubConfig {
     return this.githubConfig;
   }
