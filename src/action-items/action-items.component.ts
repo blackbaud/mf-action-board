@@ -17,6 +17,8 @@ export class ActionItemsComponent implements OnInit {
   actionItems: ActionItem[];
   githubConfig: GithubConfig = this.configService.githubConfig;
   pollIntervalHandle;
+  displaySaveConfigButton: boolean;
+  displayChangeConfigButton: boolean;
   private configActionItems: ActionItem[] = this.loadConfigActionItems();
 
   constructor(private githubService: GithubService,
@@ -27,8 +29,12 @@ export class ActionItemsComponent implements OnInit {
   ngOnInit() {
     this.configService.loadConfigFromStorage();
     if (this.configService.isConfigured()) {
+      this.displayChangeConfigButton = true;
+      this.displaySaveConfigButton = false;
       this.loadActionItems();
     } else {
+      this.displayChangeConfigButton = false;
+      this.displaySaveConfigButton = true;
       this.loadConfig();
     }
   }
@@ -70,12 +76,26 @@ export class ActionItemsComponent implements OnInit {
 
   saveConfig() {
     this.configService.saveConfig();
+    if (this.configService.isConfigured()) {
+      this.displaySaveConfigButton = false;
+      this.displayChangeConfigButton = true;
+    }
     this.loadActionItems();
   }
 
   changeConfig() {
+    this.displaySaveConfigButton = true;
+    this.displayChangeConfigButton = false;
     window.clearInterval(this.pollIntervalHandle);
     this.loadConfig();
+  }
+
+  getDisplaySaveConfigButton() {
+    return this.displaySaveConfigButton;
+  }
+
+  getDisplayChangeConfigButton() {
+    return this.displayChangeConfigButton;
   }
 
   getActionItemsList(): void {
