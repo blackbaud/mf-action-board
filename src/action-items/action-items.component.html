@@ -110,7 +110,7 @@
                 <div id="timeElapsedSinceEvent" class="time-elapsed">{{ this.getTimeElapsed(actionItem.created) }}
                 </div>
                 <div id="buildProgress" class="progress">
-                  <div id="buildProgressCompleted" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="Width:40%"> </div>
+                  <div id="buildProgressCompleted" class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" [ngStyle]="{ 'width': getProgressBarPercent()}"> </div>
                 </div>
               </div>
             </div>
