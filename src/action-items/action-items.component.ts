@@ -26,7 +26,11 @@ export class ActionItemsComponent implements OnInit {
 
   ngOnInit() {
     this.configService.loadConfigFromStorage();
-    this.loadActionItems();
+    if (this.configService.isConfigured()) {
+      this.loadActionItems();
+    } else {
+      this.loadConfig();
+    }
   }
 
   private loadActionItems() {
