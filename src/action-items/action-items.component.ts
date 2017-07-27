@@ -115,6 +115,12 @@ export class ActionItemsComponent implements OnInit {
     return moment(time).fromNow();
   }
 
+  getProgressBarPercentage() {
+    const percentage = 40;
+    const out =  "width:" + percentage + "%";
+    return out;
+  }
+
   shouldShowEmptyBoardCongrats() {
     return this.showEmptyBoardCongrats;
   }
