@@ -106,7 +106,13 @@
           <div class="action-item-content">
             <div class="col-sm-1"><i class="icon fa fa-github fa-4x"></i></div>
             <div class="action-item-text col-sm-10">{{ actionItem.name }}
-              <div class="time-elapsed">{{ this.getTimeElapsed(actionItem.created) }}</div>
+              <div id="timeSinceBuildAndProgressBarWrapper">
+                <div id="timeElapsedSinceEvent" class="time-elapsed">{{ this.getTimeElapsed(actionItem.created) }}
+                </div>
+                <div id="buildProgress" class="progress">
+                  <div id="buildProgressCompleted" class="progress-bar" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="Width:40%"> </div>
+                </div>
+              </div>
             </div>
             <div class="col-sm-1">
               <img class="rage-face" src="../assets/yellow-face.png">

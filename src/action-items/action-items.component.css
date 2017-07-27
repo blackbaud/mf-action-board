@@ -78,3 +78,23 @@ span#teamUsingBoard{
 img#noItemsImg.expand{
   width: 90em;
 }
+
+#timeSinceBuildAndProgressBarWrapper{
+  overflow: hidden;
+}
+
+#timeElapsedSinceEvent{
+  float: left;
+  padding-right: 10px;
+}
+
+#buildProgress{
+  height: 35px;
+  overflow: hidden;
+  background-color: white;
+}
+
+#buildProgressCompleted{
+  background-color: grey;
+}
+
