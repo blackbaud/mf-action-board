@@ -5,10 +5,8 @@ import { GithubService } from '../github/services/github.service';
 import { JenkinsService } from '../jenkins/services/jenkins.service';
 import * as moment from 'moment';
 import { GithubConfig } from '../domain/github-config';
-import {
-  ACTION_ITEM_POLLING_INTERVAL_IN_MS, MF_GITHUB_TEAM, MF_GITHUB_TEAM_ID, MF_GITHUB_TOKEN,
-  MF_GITHUB_USERNAME
-} from '../config/app-config-constants';
+import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../config/app-config-constants';
+import { ConfigService } from '../config/config.service';
 
 @Component({
     selector: 'action-items',
@@ -17,21 +15,22 @@ import {
 })
 export class ActionItemsComponent implements OnInit {
     actionItems: ActionItem[];
-    githubConfig: GithubConfig;
+    githubConfig: GithubConfig = this.configService.githubConfig;
     pollIntervalHandle;
     private configActionItems: ActionItem[] = this.loadConfigActionItems();
 
-    constructor(private githubService: GithubService, private jenkinsService: JenkinsService) {
-      this.githubConfig = new GithubConfig();
-    }
+    constructor(
+      private githubService: GithubService,
+      private jenkinsService: JenkinsService,
+      private configService: ConfigService) {}
 
     ngOnInit() {
-      this.loadConfigFromStorage();
+      this.configService.loadConfigFromStorage();
       this.init();
     }
 
   private init() {
-    if (this.isConfigured()) {
+    if (this.configService.isConfigured()) {
       this.jenkinsService.loadRepos().then(() => {
         this.getActionItemsList();
         this.pollIntervalHandle = setInterval(() => {
@@ -41,20 +40,6 @@ export class ActionItemsComponent implements OnInit {
     } else {
       this.actionItems = this.configActionItems;
     }
-  }
-
-  private isConfigured() {
-      return this.githubConfig.team !== null
-        && this.githubConfig.teamId !== null
-        && this.githubConfig.userName !== null
-        && this.githubConfig.token !== null;
-    }
-
-  private loadConfigFromStorage() {
-    this.githubConfig.team = localStorage.getItem(MF_GITHUB_TEAM);
-    this.githubConfig.teamId = localStorage.getItem(MF_GITHUB_TEAM_ID);
-    this.githubConfig.userName = localStorage.getItem(MF_GITHUB_USERNAME);
-    this.githubConfig.token = localStorage.getItem(MF_GITHUB_TOKEN);
   }
 
     private loadConfigActionItems(): ActionItem[] {
@@ -78,28 +63,13 @@ export class ActionItemsComponent implements OnInit {
     }
 
     saveConfig() {
-      if (this.githubConfig.team) {
-        localStorage.setItem(MF_GITHUB_TEAM, this.githubConfig.team);
-      }
-      if (this.githubConfig.teamId) {
-        localStorage.setItem(MF_GITHUB_TEAM_ID, this.githubConfig.teamId);
-      }
-      if (this.githubConfig.userName) {
-        localStorage.setItem(MF_GITHUB_USERNAME, this.githubConfig.userName);
-      }
-      if (this.githubConfig.token) {
-        localStorage.setItem(MF_GITHUB_TOKEN, this.githubConfig.token);
-      }
+      this.configService.saveConfig();
       this.init();
     }
 
     resetConfig() {
       window.clearInterval(this.pollIntervalHandle);
-      this.githubConfig.team = null;
-      this.githubConfig.teamId = null;
-      this.githubConfig.userName = null;
-      this.githubConfig.token = null;
-      localStorage.clear();
+      this.configService.resetConfig();
       this.init();
     }
 
