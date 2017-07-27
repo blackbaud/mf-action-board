@@ -25,6 +25,7 @@ export class GithubService {
   }
 
   private convertToActionItem(pr: any): ActionItem {
+    console.log(pr.labels)
     const regex = '/blackbaud/(.*)/issues';
     const repo = pr.url.match(regex)[1];
     return PriorityCalculator.calculatePriority({
