@@ -10,8 +10,6 @@ import { DO_NOT_MERGE_LABEL_NAME } from './github.constants';
 @Injectable()
 export class GithubService {
 
-  // private doNotMerge = (pr) =>  this.determineDoNotMergeLabel(pr);
-
   constructor(private http: Http, private configService: ConfigService) {
   }
 
@@ -43,11 +41,7 @@ export class GithubService {
 
   private determineDoNotMergeLabel(pr: any): boolean {
     let labelNames = pr.labels.map(label => { return label.name; });
-    if (labelNames.indexOf(DO_NOT_MERGE_LABEL_NAME) > -1) {
-      return true;
-    } else {
-      return false;
-    }
+    return labelNames.indexOf(DO_NOT_MERGE_LABEL_NAME) > -1;
   }
 
   private handleError(error: any): Promise<any> {
