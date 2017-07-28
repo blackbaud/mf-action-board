@@ -115,8 +115,7 @@ export class ActionItemsComponent implements OnInit {
     return moment(time).fromNow();
   }
 
-  getProgressBarPercent() {
-    const percentage = 70;
+  getProgressBarPercent(percentage) {
     return `${percentage}%`;
   }
 

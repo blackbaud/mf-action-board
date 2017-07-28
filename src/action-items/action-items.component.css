@@ -79,22 +79,23 @@ img#noItemsImg.expand{
   width: 90em;
 }
 
-#timeSinceBuildAndProgressBarWrapper{
+.time-elapsed-and-progress-bar-wrapper{
   overflow: hidden;
 }
 
-#timeElapsedSinceEvent{
+.time-elapsed-in-wrapper{
+  font-size: 20px;
   float: left;
   padding-right: 10px;
 }
 
-#buildProgress{
+.progress{
   height: 35px;
   overflow: hidden;
   background-color: white;
 }
 
-#buildProgressCompleted{
+.progress-bar{
   background-color: grey;
 }
 

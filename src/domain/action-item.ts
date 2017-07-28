@@ -7,4 +7,5 @@ export class ActionItem {
   url: string;
   model?: string;
   building?: boolean;
+  buildPercentage?: number;
 }

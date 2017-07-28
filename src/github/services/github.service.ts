@@ -33,7 +33,7 @@ export class GithubService {
       type: 'Open PR',
       source: 'github',
       created: new Date(pr.created_at).getTime(),
-      url: `${pr.html_url}`
+      url: `${pr.html_url}`,
     });
   }
 
