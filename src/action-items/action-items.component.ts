@@ -14,7 +14,7 @@ import { ConfigService } from '../config/config.service';
   styleUrls: ['./action-items.component.css']
 })
 export class ActionItemsComponent implements OnInit {
-  actionItems: ActionItem[];
+  actionItems: ActionItem[] = [];
   showEmptyBoardCongrats = false;
   githubConfig: GithubConfig = this.configService.githubConfig;
   pollIntervalHandle;
@@ -27,6 +27,7 @@ export class ActionItemsComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.setUpNoties();
     this.configService.loadConfigFromStorage();
     if (this.configService.isConfigured()) {
       this.isConfiguring = false;
@@ -35,6 +36,21 @@ export class ActionItemsComponent implements OnInit {
       this.isConfiguring = true;
       this.loadConfig();
     }
+  }
+
+  private setUpNoties() {
+    Notification.requestPermission((permission) => {
+      if (permission === 'granted') {
+        const notification = new Notification('Welcome to MF Action Board!', {
+          dir: 'auto',
+          lang: 'en',
+          icon: '../assets/angular-logo.png'
+        });
+        setTimeout(() => {
+          notification.close();
+        }, 5000);
+      }
+    });
   }
 
   private loadActionItems() {
@@ -46,6 +62,52 @@ export class ActionItemsComponent implements OnInit {
         }, ACTION_ITEM_POLLING_INTERVAL_IN_MS);
       });
     }
+  }
+
+  getActionItemsList(): void {
+    Promise.all([this.githubService.getActionItems(), this.jenkinsService.getActionItems()]).then(
+      actionItems => {
+        const oldActionItems = this.actionItems;
+        this.actionItems = this.sortByPriorityAndOpenDuration(Array.prototype.concat.apply([], actionItems));
+        const newActionItems = this.getNewActionItems(oldActionItems, this.actionItems);
+        this.notifyNewActionItems(newActionItems);
+        this.checkIfShouldDisplayEmptyBoardCongrats();
+      }
+    );
+  }
+
+  private getNewActionItems(oldActionItems: ActionItem[], nextActionItems: ActionItem[]) {
+    const oldActionItemMap = oldActionItems.reduce((map, actionItem) => {
+      map[actionItem.name] = actionItem;
+      return map;
+    }, {});
+    const newActionItems = nextActionItems.filter((actionItem) => {
+      return !oldActionItemMap.hasOwnProperty(actionItem.name);
+    });
+    return newActionItems;
+  }
+
+  private notifyNewActionItems(newActionItems: ActionItem[]): void {
+    newActionItems.forEach((actionItem) => {
+      this.notify(actionItem);
+    });
+  }
+
+  private notify(actionItem: ActionItem): void {
+    const options = { dir: 'auto', lang: 'en' };
+    if (actionItem.source === 'github') {
+      options['icon'] = '../assets/pull-request.png';
+    } else if (actionItem.source === 'jenkins') {
+      options['icon'] = '../assets/jenkins-failed-build-icon.png';
+    }
+    const notification = new Notification(actionItem.name, options);
+    setTimeout(() => {
+      notification.close();
+    }, 5000);
+    notification.onclick = (event) => {
+      event.preventDefault();
+      window.open(actionItem.url, '_blank');
+    };
   }
 
   private loadConfig() {
@@ -92,15 +154,6 @@ export class ActionItemsComponent implements OnInit {
 
   getDisplayChangeConfigButton() {
     return !this.isConfiguring;
-  }
-
-  getActionItemsList(): void {
-    Promise.all([this.githubService.getActionItems(), this.jenkinsService.getActionItems()]).then(
-      actionItems => {
-        this.actionItems = this.sortByPriorityAndOpenDuration(Array.prototype.concat.apply([], actionItems));
-        this.checkIfShouldDisplayEmptyBoardCongrats();
-      }
-    );
   }
 
   isConfigured() {
