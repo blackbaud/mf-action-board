@@ -7,6 +7,7 @@ import * as moment from 'moment';
 import { GithubConfig } from '../domain/github-config';
 import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../config/app-config-constants';
 import { ConfigService } from '../config/config.service';
+import { NotificationsService } from '../notifications/services/notifications.service';
 
 @Component({
   selector: 'action-items',
@@ -23,11 +24,12 @@ export class ActionItemsComponent implements OnInit {
 
   constructor(private githubService: GithubService,
               private jenkinsService: JenkinsService,
-              private configService: ConfigService) {
+              private configService: ConfigService,
+              private notificationsService: NotificationsService) {
   }
 
   ngOnInit() {
-    this.setUpNoties();
+    this.notificationsService.setUpNoties();
     this.configService.loadConfigFromStorage();
     if (this.configService.isConfigured()) {
       this.isConfiguring = false;
@@ -36,21 +38,6 @@ export class ActionItemsComponent implements OnInit {
       this.isConfiguring = true;
       this.loadConfig();
     }
-  }
-
-  private setUpNoties() {
-    Notification.requestPermission((permission) => {
-      if (permission === 'granted') {
-        const notification = new Notification('Welcome to MF Action Board!', {
-          dir: 'auto',
-          lang: 'en',
-          icon: '../assets/angular-logo.png'
-        });
-        setTimeout(() => {
-          notification.close();
-        }, 5000);
-      }
-    });
   }
 
   private loadActionItems() {
@@ -70,7 +57,7 @@ export class ActionItemsComponent implements OnInit {
         const oldActionItems = this.actionItems;
         this.actionItems = this.sortByPriorityAndOpenDuration(Array.prototype.concat.apply([], actionItems));
         const newActionItems = this.getNewActionItems(oldActionItems, this.actionItems);
-        this.notifyNewActionItems(newActionItems);
+        this.notificationsService.notifyNewActionItems(newActionItems);
         this.checkIfShouldDisplayEmptyBoardCongrats();
       }
     );
@@ -85,29 +72,6 @@ export class ActionItemsComponent implements OnInit {
       return !oldActionItemMap.hasOwnProperty(actionItem.name);
     });
     return newActionItems;
-  }
-
-  private notifyNewActionItems(newActionItems: ActionItem[]): void {
-    newActionItems.forEach((actionItem) => {
-      this.notify(actionItem);
-    });
-  }
-
-  private notify(actionItem: ActionItem): void {
-    const options = { dir: 'auto', lang: 'en' };
-    if (actionItem.source === 'github') {
-      options['icon'] = '../assets/pull-request.png';
-    } else if (actionItem.source === 'jenkins') {
-      options['icon'] = '../assets/jenkins-failed-build-icon.png';
-    }
-    const notification = new Notification(actionItem.name, options);
-    setTimeout(() => {
-      notification.close();
-    }, 5000);
-    notification.onclick = (event) => {
-      event.preventDefault();
-      window.open(actionItem.url, '_blank');
-    };
   }
 
   private loadConfig() {
