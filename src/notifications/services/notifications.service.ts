@@ -3,6 +3,9 @@ import { ActionItem } from '../../domain/action-item';
 
 @Injectable()
 export class NotificationsService {
+
+  private CLOSE_NOTIFICATION_TIME_IN_MS = 5000;
+
   public setUpNoties() {
     Notification.requestPermission((permission) => {
       if (permission === 'granted') {
@@ -11,11 +14,15 @@ export class NotificationsService {
           lang: 'en',
           icon: '../assets/angular-logo.png'
         });
-        setTimeout(() => {
-          notification.close();
-        }, 5000);
+        this.closeNotification(notification);
       }
     });
+  }
+
+  private closeNotification(notification: Notification) {
+    setTimeout(() => {
+      notification.close();
+    }, this.CLOSE_NOTIFICATION_TIME_IN_MS);
   }
 
   public notifyNewActionItems(newActionItems: ActionItem[]): void {
@@ -32,9 +39,7 @@ export class NotificationsService {
       options['icon'] = '../assets/jenkins-failed-build-icon.png';
     }
     const notification = new Notification(actionItem.name, options);
-    setTimeout(() => {
-      notification.close();
-    }, 5000);
+    this.closeNotification(notification);
     notification.onclick = (event) => {
       event.preventDefault();
       window.open(actionItem.url, '_blank');
