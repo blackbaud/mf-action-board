@@ -9,7 +9,11 @@ import {JenkinsService} from '../jenkins/services/jenkins.service';
 import {ConfigService} from '../config/config.service';
 import {GithubConfig} from '../domain/github-config';
 import {NotificationsService} from '../notifications/services/notifications.service';
-import {Observable} from "rxjs/Observable";
+import {Observable} from 'rxjs/Observable';
+
+const actionItemTextClass = '.action-item-text';
+let compiled;
+let componentElements;
 
 describe('AppComponent', () => {
   beforeEach(async(() => {
@@ -26,25 +30,25 @@ describe('AppComponent', () => {
         { provide: NotificationsService, useClass: FakeNotificationsService}
       ]
     }).compileComponents();
-  }));
-
-  it('should create the app', async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app).toBeTruthy();
-  }));
-
-  it(`should have as title 'app works!'`, async(() => {
-    const fixture = TestBed.createComponent(AppComponent);
-    const app = fixture.debugElement.componentInstance;
-    expect(app.title).toEqual('Action Item Dashboard');
-  }));
-
-  it('should render title in a h1 tag', async(() => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    const compiled = fixture.debugElement.nativeElement;
-    expect(compiled.querySelector('h1').textContent).toContain('Action Item Dashboard');
+    compiled = fixture.debugElement.nativeElement;
+
+    componentElements = {
+      actionItemLabels: (actionItemIndex: number) => { return compiled.querySelectorAll(actionItemTextClass)[actionItemIndex].textContent; },
+      applicationTitle: () => { return compiled.querySelector('h1'); },
+    };
+  }));
+
+  it('should render title', async(() => {
+    expect(componentElements.applicationTitle().textContent).toContain('Action Item Dashboard');
+  }));
+
+  it('should show the configuration action items when not configured', async(() => {
+    expect(componentElements.actionItemLabels(0)).toContain('GitHub Team Name');
+    expect(componentElements.actionItemLabels(1)).toContain('GitHub Team ID');
+    expect(componentElements.actionItemLabels(2)).toContain('GitHub User Name');
+    expect(componentElements.actionItemLabels(3)).toContain('GitHub Token');
   }));
 });
 
