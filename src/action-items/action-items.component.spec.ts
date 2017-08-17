@@ -1,4 +1,4 @@
-import {TestBed, async, fakeAsync, tick, flush} from '@angular/core/testing';
+import {TestBed, async, fakeAsync, flush} from '@angular/core/testing';
 
 import { ActionItemsComponent } from './action-items.component';
 import { FormsModule } from '@angular/forms';
@@ -44,7 +44,6 @@ const mockPrReview = {
 const componentElements = {
     actionItemLabelsList: () => { return compiled.querySelectorAll(actionItemTextClass); },
     actionItemLabels: (actionItemIndex: number) => { return componentElements.actionItemLabelsList()[actionItemIndex].textContent; },
-    applicationTitle: () => { return compiled.querySelector('h1'); },
     teamName: () => { return compiled.querySelector('#teamUsingBoard').textContent; }
 };
 
