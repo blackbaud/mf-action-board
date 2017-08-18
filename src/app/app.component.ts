@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { APP_LABELS } from './app.constants';
 
 @Component({
   selector: 'mf-app-root',
@@ -6,5 +7,5 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  title = 'Action Item Dashboard';
+  title = APP_LABELS.TITLE;
 }
