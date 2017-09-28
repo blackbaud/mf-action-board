@@ -16,7 +16,7 @@ export class ConfigService {
   constructor(private http: Http) {
   }
 
-  public getConfig(): GithubConfig {
+  public get github(): GithubConfig {
     return this.githubConfig;
   }
 

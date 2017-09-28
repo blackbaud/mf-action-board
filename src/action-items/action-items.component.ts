@@ -58,7 +58,7 @@ export class ActionItemsComponent implements OnInit {
 
   getActionItemsList(): void {
     const promises: Promise<ActionItem[]>[] = [];
-    if (this.configService.getConfig().isConfigured()) {
+    if (this.configService.github.isConfigured()) {
       promises.push(this.githubService.getActionItems());
       promises.push(this.jenkinsService.getActionItems());
     }
@@ -141,7 +141,7 @@ export class ActionItemsComponent implements OnInit {
   }
 
   getTeamUsingBoard() {
-    return this.configService.getConfig().team;
+    return this.configService.github.team;
   }
 
   getTimeElapsed(time) {

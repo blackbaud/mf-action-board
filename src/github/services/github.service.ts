@@ -14,12 +14,12 @@ export class GithubService {
   }
 
   getActionItems(): Promise<ActionItem[]> {
-    if (!this.configService.getConfig().isConfigured()) {
+    if (!this.configService.github.isConfigured()) {
       return this.handleError('Ignoring GitHub calls since not configured');
     }
-    const mfGithubTeam = this.configService.getConfig().team;
-    const mfGithubUsername = this.configService.getConfig().userName;
-    const mfGithubToken = this.configService.getConfig().token;
+    const mfGithubTeam = this.configService.github.team;
+    const mfGithubUsername = this.configService.github.userName;
+    const mfGithubToken = this.configService.github.token;
     const headers = new Headers({'Authorization': 'Basic ' + window.btoa(mfGithubUsername + ':' + mfGithubToken)});
     const options = new RequestOptions({headers: headers});
     return this.http.get('https://api.github.com/search/issues?q=is:open+is:pr+team:' + mfGithubTeam, options)
