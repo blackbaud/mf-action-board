@@ -20,6 +20,10 @@ export class ConfigService {
     return this.githubConfig;
   }
 
+  public get vsts(): VstsConfig {
+    return this.vstsConfig;
+  }
+
   public isConfigured() {
     return this.githubConfig.isConfigured() || this.vstsConfig.isConfigured();
   }
@@ -77,6 +81,14 @@ export class ConfigService {
       this.vstsConfig[key] = value;
     } else {
       this.githubConfig[key] = value;
+    }
+  }
+
+  public getConfigValue(type: string, key: string) {
+    if (type === 'vsts') {
+      return this.vstsConfig[key];
+    } else {
+      return this.githubConfig[key];
     }
   }
 }

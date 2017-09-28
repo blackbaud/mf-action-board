@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
 import { ActionItem } from '../domain/action-item';
 import { GithubService } from '../github/services/github.service';
+import { VstsService } from '../github/services/vsts.service';
 import { JenkinsService } from '../jenkins/services/jenkins.service';
 import * as moment from 'moment';
 import { GithubConfig } from '../domain/github-config';
@@ -25,6 +26,7 @@ export class ActionItemsComponent implements OnInit {
   private configActionItems: ActionItem[] = this.loadConfigActionItems();
 
   constructor(private githubService: GithubService,
+              private vstsService: VstsService,
               private jenkinsService: JenkinsService,
               private configService: ConfigService,
               private notificationsService: NotificationsService) {
@@ -55,7 +57,12 @@ export class ActionItemsComponent implements OnInit {
   }
 
   getActionItemsList(): void {
-    Promise.all([this.githubService.getActionItems(), this.jenkinsService.getActionItems()]).then(
+    const promises: [Promise<ActionItem[]>, Promise<ActionItem[]>, Promise<ActionItem[]>] = [
+      this.githubService.getActionItems(),
+      this.vstsService.getActionItems(),
+      this.jenkinsService.getActionItems()
+    ];
+    Promise.all(promises).then(
       actionItems => {
         const oldActionItems = this.actionItems;
         this.actionItems = this.sortByPriorityAndOpenDuration(Array.prototype.concat.apply([], actionItems));
@@ -181,6 +188,11 @@ export class ActionItemsComponent implements OnInit {
   saveConfigValue(key, newValue) {
     const [configType, configName] = key.split('.');
     this.configService.setConfigValue(configType, configName, newValue);
+  }
+
+  getConfigValue(key) {
+    const [configType, configName] = key.split('.');
+    return this.configService.getConfigValue(configType, configName);
   }
 
   private checkIfShouldDisplayEmptyBoardCongrats() {

@@ -32,7 +32,7 @@ export class GithubService {
       name: `${repo}: ${pr.title}`,
       priority: 0,
       type: 'Open PR',
-      source: 'github',
+      source: 'pr',
       created: new Date(pr.created_at).getTime(),
       url: `${pr.html_url}`,
       do_not_merge: this.determineDoNotMergeLabel(pr)
