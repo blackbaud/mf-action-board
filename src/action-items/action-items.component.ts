@@ -57,11 +57,14 @@ export class ActionItemsComponent implements OnInit {
   }
 
   getActionItemsList(): void {
-    const promises: [Promise<ActionItem[]>, Promise<ActionItem[]>, Promise<ActionItem[]>] = [
-      this.githubService.getActionItems(),
-      this.vstsService.getActionItems(),
-      this.jenkinsService.getActionItems()
-    ];
+    const promises: Promise<ActionItem[]>[] = [];
+    if (this.configService.getConfig().isConfigured()) {
+      promises.push(this.githubService.getActionItems());
+      promises.push(this.jenkinsService.getActionItems());
+    }
+    if (this.configService.vsts.isConfigured()) {
+      promises.push(this.vstsService.getActionItems());
+    }
     Promise.all(promises).then(
       actionItems => {
         const oldActionItems = this.actionItems;
@@ -96,6 +99,7 @@ export class ActionItemsComponent implements OnInit {
     configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.TOKEN, 'github.token'));
     configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.USERNAME, 'vsts.username'));
     configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.TOKEN, 'vsts.token'));
+    configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.TEAM, 'vsts.team'));
     return configActionItems;
   }
 

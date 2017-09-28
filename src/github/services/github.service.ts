@@ -14,6 +14,9 @@ export class GithubService {
   }
 
   getActionItems(): Promise<ActionItem[]> {
+    if (!this.configService.getConfig().isConfigured()) {
+      return this.handleError('Ignoring GitHub calls since not configured');
+    }
     const mfGithubTeam = this.configService.getConfig().team;
     const mfGithubUsername = this.configService.getConfig().userName;
     const mfGithubToken = this.configService.getConfig().token;
@@ -40,7 +43,7 @@ export class GithubService {
   }
 
   private determineDoNotMergeLabel(pr: any): boolean {
-    let labelNames = pr.labels.map(label => { return label.name; });
+    const labelNames = pr.labels.map(label => { return label.name; });
     return labelNames.indexOf(DO_NOT_MERGE_LABEL_NAME) > -1;
   }
 

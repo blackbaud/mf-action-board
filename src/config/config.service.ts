@@ -3,7 +3,7 @@ import { GithubConfig } from '../domain/github-config';
 import { VstsConfig } from '../domain/vsts-config';
 import { MF_GITHUB_TEAM, MF_GITHUB_TEAM_ID,
   MF_GITHUB_TOKEN, MF_GITHUB_USERNAME,
-  MF_VSTS_USERNAME, MF_VSTS_TOKEN } from './app-config-constants';
+  MF_VSTS_USERNAME, MF_VSTS_TOKEN, MF_VSTS_TEAM } from './app-config-constants';
 import { Http } from '@angular/http';
 import 'rxjs/add/operator/map';
 
@@ -35,6 +35,7 @@ export class ConfigService {
     this.githubConfig.token = localStorage.getItem(MF_GITHUB_TOKEN);
     this.vstsConfig.username = localStorage.getItem(MF_VSTS_USERNAME);
     this.vstsConfig.token = localStorage.getItem(MF_VSTS_TOKEN);
+    this.vstsConfig.team = localStorage.getItem(MF_VSTS_TEAM);
   }
 
   public saveConfig(): void {
@@ -55,6 +56,9 @@ export class ConfigService {
     }
     if (this.vstsConfig.token) {
       localStorage.setItem(MF_VSTS_TOKEN, this.vstsConfig.token);
+    }
+    if (this.vstsConfig.team) {
+      localStorage.setItem(MF_VSTS_TEAM, this.vstsConfig.team);
     }
   }
 

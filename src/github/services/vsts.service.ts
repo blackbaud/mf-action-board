@@ -3,6 +3,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { ConfigService } from '../../config/config.service';
+import { VSTS_REPOS } from './vsts-repos';
 import { ActionItem } from '../../domain/action-item';
 import { PriorityCalculator } from '../../domain/priority-calculator';
 
@@ -18,16 +19,23 @@ export class VstsService {
   }
 
   getActionItems(): Promise<ActionItem[]> {
+    if (!this.configService.vsts.isConfigured()) {
+      return this.handleError('Ignoring VSTS calls since not configured');
+    }
     const username = this.configService.vsts.username;
     const token = this.configService.vsts.token;
-    const repo = 'skyux-spa-workflows';
+    const team = this.configService.vsts.team;
+    const repos = VSTS_REPOS[team];
     const authToken = window.btoa(`${username}:${token}`);
     const headers = new Headers({'Authorization': `Basic ${authToken}`});
     const options = new RequestOptions({headers: headers});
-    return this.http.get(this.prUrl(repo), options)
-      .toPromise()
-      .then(response => response.json().value.map((item => this.convertToActionItem(item))))
-      .catch(this.handleError);
+    const promises = repos.map(repo => {
+      return this.http.get(this.prUrl(repo), options)
+        .toPromise()
+        .then(response => response.json().value.map((item => this.convertToActionItem(item))))
+        .catch(this.handleError);
+    });
+    return Promise.all(promises);
   }
 
   private convertToActionItem(pr: any): ActionItem {

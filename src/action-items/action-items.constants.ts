@@ -7,6 +7,7 @@ export const CONFIG = {
   },
   VSTS: {
     USERNAME: 'VSTS Username',
+    TEAM: 'VSTS Team',
     TOKEN: 'VSTS Token'
   }
 };

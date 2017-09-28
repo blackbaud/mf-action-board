@@ -8,6 +8,7 @@ export const MF_GITHUB_USERNAME = 'MF_GITHUB_USERNAME';
 export const MF_GITHUB_TOKEN = 'MF_GITHUB_TOKEN';
 export const MF_VSTS_USERNAME = 'MF_VSTS_USERNAME';
 export const MF_VSTS_TOKEN = 'MF_VSTS_TOKEN';
+export const MF_VSTS_TEAM = 'MF_VSTS_TEAM';
 export const GITHUB_PR_SLA_MS = 14400000;
 export const JENKINS_ACTION_ITEM_SLA_MS = 43200000;
 export const JENKINS_JOB_BUILDING_COLOR = 'red_anime';
