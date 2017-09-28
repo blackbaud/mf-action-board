@@ -19,7 +19,7 @@
         <div class="action-item-content">
           <div class="col-sm-1"><i class="icon fa fa-cog fa-4x"></i></div>
           <div class="action-item-text col-sm-10">{{ actionItem.name }}:
-            <input [(ngModel)]="githubConfig[actionItem.model]" ngTrim class="action-item-config" type="text"/>
+            <input [ngModel]="githubConfig[actionItem.model]" (ngModelChange)="saveConfigValue(actionItem.model, $event)" ngTrim class="action-item-config" type="text"/>
           </div>
           <div class="col-sm-1">
             <img class="rage-face" src="../assets/red-face.png">

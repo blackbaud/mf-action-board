@@ -83,10 +83,12 @@ export class ActionItemsComponent implements OnInit {
 
   private loadConfigActionItems(): ActionItem[] {
     const configActionItems = [];
-    configActionItems.push(this.createConfigActionItem(CONFIG.TEAM, 'team'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.TEAM_ID, 'teamId'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.USER_NAME, 'userName'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.TOKEN, 'token'));
+    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.TEAM, 'github.team'));
+    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.TEAM_ID, 'github.teamId'));
+    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.USER_NAME, 'github.userName'));
+    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.TOKEN, 'github.token'));
+    configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.USERNAME, 'vsts.username'));
+    configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.TOKEN, 'vsts.token'));
     return configActionItems;
   }
 
@@ -174,6 +176,11 @@ export class ActionItemsComponent implements OnInit {
     } else {
       return 0;
     }
+  }
+
+  saveConfigValue(key, newValue) {
+    const [configType, configName] = key.split('.');
+    this.configService.setConfigValue(configType, configName, newValue);
   }
 
   private checkIfShouldDisplayEmptyBoardCongrats() {
