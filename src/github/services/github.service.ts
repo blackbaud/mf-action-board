@@ -13,7 +13,7 @@ export class GithubService {
   constructor(private http: Http, private configService: ConfigService) {}
 
   loadRepos() {
-    const mfGithubTeamId = this.configService.getConfig().teamId;
+    const mfGithubTeamId = this.configService.githubConfig.teamId;
     return this.http.get('https://api.github.com/teams/' + mfGithubTeamId + '/repos?per_page=100', this.configService.options)
       .toPromise()
       .then((response) => {
