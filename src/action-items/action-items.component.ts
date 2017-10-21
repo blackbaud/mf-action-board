@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { OnInit } from '@angular/core';
-import { ActionItem } from '../domain/action-item';
+import { ActionItem, BaseActionItem } from '../domain/action-item';
 import { GithubService } from '../github/services/github.service';
 import { VstsService } from '../github/services/vsts.service';
 import { JenkinsService } from '../jenkins/services/jenkins.service';
@@ -104,12 +104,11 @@ export class ActionItemsComponent implements OnInit {
   }
 
   private createConfigActionItem(name: string, model: string): ActionItem {
-    const configActionItem = new ActionItem();
+    const configActionItem = new BaseActionItem();
     configActionItem.name = name;
     configActionItem.created = moment.now();
     configActionItem.priority = 0;
     configActionItem.source = 'config';
-    configActionItem.type = 'Open PR';
     configActionItem.model = model;
     return configActionItem;
   }
