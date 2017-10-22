@@ -2,7 +2,7 @@ import { GITHUB_PR_SLA_MS, JENKINS_ACTION_ITEM_SLA_MS } from '../config/app-conf
 import { DO_NOT_MERGE_LABEL_NAME } from '../github/services/github.constants';
 import { JobDetails } from './jobDetails';
 
-export class BaseActionItem {
+export abstract class BaseActionItem {
   url: string;
   name: string;
   created: number;
@@ -10,10 +10,7 @@ export class BaseActionItem {
   model: string;
   source: string;
 
-  get type() {
-    // TODO make this an abstract class so it really doesn't happen
-    return 'this.should.never.happen';
-  }
+  abstract get type();
 }
 
 export abstract class PullRequest extends BaseActionItem {
@@ -106,4 +103,4 @@ export class Build extends BaseActionItem {
   }
 }
 
-export type ActionItem = PullRequest | Build | BaseActionItem;
+export type ActionItem = PullRequest | Build;
