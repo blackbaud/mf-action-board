@@ -11,11 +11,17 @@ import { GithubService } from '../github/services/github.service';
 import { VstsService } from '../github/services/vsts.service';
 import { ConfigService } from '../config/config.service';
 import { NotificationsService } from '../notifications/services/notifications.service';
+import { PullRequestComponent } from './pull-request/pull-request.component';
+import { RageFaceComponent } from './rage-face/rage-face.component';
+import { BuildComponent } from './build/build.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ActionItemsComponent
+    ActionItemsComponent,
+    PullRequestComponent,
+    RageFaceComponent,
+    BuildComponent
   ],
   imports: [
     BrowserModule,

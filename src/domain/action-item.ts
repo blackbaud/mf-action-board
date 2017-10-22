@@ -7,8 +7,13 @@ export class BaseActionItem {
   name: string;
   created: number;
   priority: number;
-  source: string;
   model: string;
+  source: string;
+
+  get type() {
+    // TODO make this an abstract class so it really doesn't happen
+    return 'this.should.never.happen';
+  }
 }
 
 export abstract class PullRequest extends BaseActionItem {
@@ -26,6 +31,10 @@ export abstract class PullRequest extends BaseActionItem {
         return 3;
       }
   }
+
+  get type() {
+    return 'pr';
+  }
 }
 
 export class GitHubPullRequest extends PullRequest {
@@ -33,7 +42,6 @@ export class GitHubPullRequest extends PullRequest {
     super();
     const repo = prInfo.url.match('/blackbaud/(.*)/issues')[1];
     this.name = `${repo}: ${prInfo.title}`;
-    this.source = 'pr';
     this.created = new Date(prInfo.created_at).getTime();
     this.url = prInfo.html_url;
     this.do_not_merge = prInfo.labels.map(l => l.name).includes(DO_NOT_MERGE_LABEL_NAME);
@@ -52,7 +60,6 @@ export class VstsPullRequest extends PullRequest {
     super();
     const repo = prInfo.repository.name;
     this.name = `${repo}: ${prInfo.title}`;
-    this.source = 'pr';
     this.created = new Date(prInfo.creationDate).getTime();
     this.url = `${this.ROOTURL}/_git/${repo}/pullrequest/${prInfo.pullRequestId}`;
     this.do_not_merge = false;
@@ -87,12 +94,15 @@ export class Build extends BaseActionItem {
   constructor(jobDetails: JobDetails) {
     super();
     this.name = jobDetails.jobName;
-    this.source = 'jenkins';
     this.created = new Date(jobDetails.timestampLastCompletedBuild).getTime();
     this.url = jobDetails.url;
     this.building = jobDetails.building;
     this.buildPercentage = Build.calcBuildPercentage(this.building, jobDetails.timestampCurrentBuild, jobDetails.estimatedDuration);
     this.priority = Build.calcPriority(this.created);
+  }
+
+  get type() {
+    return 'build';
   }
 }
 

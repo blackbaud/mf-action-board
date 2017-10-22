@@ -1,7 +1,3 @@
-.action-item-list {
-  color: white;
-}
-
 .action-item-content {
   padding: 0px 20px;
 }
@@ -32,10 +28,6 @@
   background-color: #ff1a1a;
 }
 
-.action-item-panel.blue {
-  background-color: mediumblue;
-}
-
 .action-item-text {
   font-family: Helvetica, sans-serif;
   font-size: 45px;
@@ -44,10 +36,6 @@
   white-space: nowrap;
   text-overflow: ellipsis;
   overflow: hidden;
-}
-
-input.action-item-config {
-  color: black;
 }
 
 .icon {
@@ -66,31 +54,27 @@ input.action-item-config {
   font-size: 20px;
 }
 
-span#teamUsingBoard{
-  font-size: medium;
-  color: white;
+.time-elapsed-and-progress-bar-wrapper{
+  overflow: hidden;
 }
 
-img#noItemsImg.expand{
-  width: 90em;
+.time-elapsed-in-wrapper{
+  font-size: 20px;
+  float: left;
+  padding-right: 10px;
+}
+
+.progress{
+  height: 35px;
+  overflow: hidden;
+  background-color: white;
+}
+
+.progress-bar{
+  background-color: grey;
 }
 
 #boardUpdatingMessage {
   color: white;
   margin-left: 10px;
-}
-
-#boardUpdatingMessage:after {
-  overflow: hidden;
-  display: inline-block;
-  vertical-align: bottom;
-  -webkit-animation: ellipsis steps(4,end) 900ms infinite;
-  animation: ellipsis steps(4,end) 900ms infinite;
-  content: "\2026"; /* ascii code for the ellipsis character */
-  width: 0px;
-}
-
-.row {
-  margin-left: 0px;
-  margin-right: 0px;
 }
