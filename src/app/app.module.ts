@@ -4,7 +4,6 @@ import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
-import { ActionItemsComponent } from '../action-items/action-items.component';
 
 import { JenkinsService } from '../jenkins/services/jenkins.service';
 import { GithubService } from '../github/services/github.service';
@@ -17,16 +16,17 @@ import { BuildComponent } from './build/build.component';
 import { ConfigScreenComponent } from './config-screen/config-screen.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SprintLitComponent } from './sprint-lit/sprint-lit.component';
+import { ActionListComponent } from './action-list/action-list.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ActionItemsComponent,
     PullRequestComponent,
     RageFaceComponent,
     BuildComponent,
     ConfigScreenComponent,
-    SprintLitComponent
+    SprintLitComponent,
+    ActionListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,18 +1,18 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionItem } from '../domain/action-item';
-import { GithubService } from '../github/services/github.service';
-import { VstsService } from '../github/services/vsts.service';
-import { JenkinsService } from '../jenkins/services/jenkins.service';
-import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../config/app-config-constants';
-import { ConfigService } from '../config/config.service';
-import { NotificationsService } from '../notifications/services/notifications.service';
+import { ActionItem } from '../../domain/action-item';
+import { GithubService } from '../../github/services/github.service';
+import { VstsService } from '../../github/services/vsts.service';
+import { JenkinsService } from '../../jenkins/services/jenkins.service';
+import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../../config/app-config-constants';
+import { ConfigService } from '../../config/config.service';
+import { NotificationsService } from '../../notifications/services/notifications.service';
 
 @Component({
-  selector: 'mf-action-items',
-  templateUrl: './action-items.component.html',
-  styleUrls: ['./action-items.component.css']
+  selector: 'mf-action-list',
+  templateUrl: './action-list.component.html',
+  styleUrls: ['./action-list.component.css']
 })
-export class ActionItemsComponent implements OnInit {
+export class ActionListComponent implements OnInit {
   actionItems: ActionItem[] = [];
   loading = false;
   lastCount = -1;
