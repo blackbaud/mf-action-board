@@ -1,33 +1,17 @@
-<button *ngIf="getDisplaySaveConfigButton()" (click)="saveConfig()">Save Config</button>
-<button *ngIf="getDisplayChangeConfigButton()" (click)="changeConfig()">Change Config</button>
-<span *ngIf="isConfigured()"
-  class="label label-default"
-  id="teamUsingBoard">
-  {{getTeamUsingBoard()}}
-</span>
-<span
-  *ngIf="isBoardUpdating.isIt"
-  id="boardUpdatingMessage">
-  Updating Board
-</span>
+<div class="col-md-12 row labelBar">
+  <div class="col-md-1">
+    <span class="label label-default">{{team}}</span>
+  </div>
+  <div class="col-md-10"></div>
+  <div class="col-md-1">
+    <span class="label label-default" *ngIf="loading">
+      <i class="fa fa-spinner">Loading</i>
+    </span>
+  </div>
+</div>
 
-<div class="action-item-list">
-  <div class="row" *ngFor="let actionItem of actionItems">
-    <div class="col-sm-1"></div>
-    <div *ngIf="actionItem.priority == 0">
-      <div *ngIf="actionItem.source == 'config'" class="col-sm-12 action-item-panel blue buffer">
-        <div class="action-item-content">
-          <div class="col-sm-1"><i class="icon fa fa-cog fa-4x"></i></div>
-          <div class="action-item-text col-sm-10">{{ actionItem.name }}:
-            <input [ngModel]="getConfigValue(actionItem.model)" (ngModelChange)="saveConfigValue(actionItem.model, $event)" ngTrim class="action-item-config" type="text"/>
-          </div>
-          <div class="col-sm-1">
-            <mf-rage-face></mf-rage-face>
-          </div>
-        </div>
-      </div>
-    </div>
-
+<div class="action-item-list" *ngIf="lastCount > 0">
+  <div *ngFor="let actionItem of actionItems">
     <div *ngIf="actionItem.type === 'pr'">
       <mf-pull-request [pr]="actionItem"></mf-pull-request>
     </div>
@@ -35,10 +19,7 @@
     <div *ngIf="actionItem.type === 'build'">
       <mf-build [build]="actionItem"></mf-build>
     </div>
-
-    <div class="col-sm-1"></div>
-  </div>
-  <div align="middle" *ngIf="shouldShowEmptyBoardCongrats()">
-    <img id="noItemsImg" src="../assets/carolineLIT.jpg" class="expand">
   </div>
 </div>
+
+<mf-sprint-lit *ngIf="lastCount == 0"></mf-sprint-lit>

@@ -4,7 +4,6 @@ import 'rxjs/add/operator/toPromise';
 
 import { JobDetails } from '../../domain/jobDetails';
 import { ActionItem, Build } from '../../domain/action-item';
-import { PriorityCalculator } from '../../domain/priority-calculator';
 
 import {
   JENKINS_JOB_BUILDING_COLOR, JENKINS_ENV

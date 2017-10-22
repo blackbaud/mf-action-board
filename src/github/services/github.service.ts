@@ -3,7 +3,6 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { ActionItem, GitHubPullRequest, PullRequest } from '../../domain/action-item';
-import { PriorityCalculator } from '../../domain/priority-calculator';
 import { ConfigService } from '../../config/config.service';
 import { DO_NOT_MERGE_LABEL_NAME } from './github.constants';
 

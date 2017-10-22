@@ -5,7 +5,6 @@ import 'rxjs/add/operator/toPromise';
 import { ConfigService } from '../../config/config.service';
 import { VSTS_REPOS } from './vsts-repos';
 import { ActionItem, VstsPullRequest, PullRequest} from '../../domain/action-item';
-import { PriorityCalculator } from '../../domain/priority-calculator';
 
 @Injectable()
 export class VstsService {

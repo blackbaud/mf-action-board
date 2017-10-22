@@ -14,6 +14,9 @@ import { NotificationsService } from '../notifications/services/notifications.se
 import { PullRequestComponent } from './pull-request/pull-request.component';
 import { RageFaceComponent } from './rage-face/rage-face.component';
 import { BuildComponent } from './build/build.component';
+import { ConfigScreenComponent } from './config-screen/config-screen.component';
+import { AppRoutingModule } from './app-routing.module';
+import { SprintLitComponent } from './sprint-lit/sprint-lit.component';
 
 @NgModule({
   declarations: [
@@ -21,11 +24,14 @@ import { BuildComponent } from './build/build.component';
     ActionItemsComponent,
     PullRequestComponent,
     RageFaceComponent,
-    BuildComponent
+    BuildComponent,
+    ConfigScreenComponent,
+    SprintLitComponent
   ],
   imports: [
     BrowserModule,
     FormsModule,
+    AppRoutingModule,
     HttpModule
   ],
   providers: [JenkinsService, GithubService, VstsService, ConfigService, NotificationsService],

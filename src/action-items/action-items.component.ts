@@ -1,15 +1,11 @@
-import { Component } from '@angular/core';
-import { OnInit } from '@angular/core';
-import { ActionItem, BaseActionItem } from '../domain/action-item';
+import { Component, OnInit } from '@angular/core';
+import { ActionItem } from '../domain/action-item';
 import { GithubService } from '../github/services/github.service';
 import { VstsService } from '../github/services/vsts.service';
 import { JenkinsService } from '../jenkins/services/jenkins.service';
-import * as moment from 'moment';
-import { GithubConfig } from '../domain/github-config';
 import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../config/app-config-constants';
 import { ConfigService } from '../config/config.service';
 import { NotificationsService } from '../notifications/services/notifications.service';
-import { CONFIG } from './action-items.constants';
 
 @Component({
   selector: 'mf-action-items',
@@ -18,12 +14,8 @@ import { CONFIG } from './action-items.constants';
 })
 export class ActionItemsComponent implements OnInit {
   actionItems: ActionItem[] = [];
-  showEmptyBoardCongrats = false;
-  githubConfig: GithubConfig = this.configService.githubConfig;
-  pollIntervalHandle;
-  isConfiguring: boolean;
-  isBoardUpdating = this.configService.boardUpdating;
-  private configActionItems: ActionItem[] = this.loadConfigActionItems();
+  loading = false;
+  lastCount = -1;
 
   constructor(private githubService: GithubService,
               private vstsService: VstsService,
@@ -35,20 +27,15 @@ export class ActionItemsComponent implements OnInit {
   ngOnInit() {
     this.notificationsService.setUpNoties();
     this.configService.loadConfigFromStorage();
-    if (this.configService.isConfigured()) {
-      this.isConfiguring = false;
-      this.loadActionItems();
-    } else {
-      this.isConfiguring = true;
-      this.loadConfig();
-    }
+    this.loadActionItems();
   }
 
   private loadActionItems() {
     if (this.configService.isConfigured()) {
+      this.loading = true;
       this.githubService.loadRepos().then(() => {
         this.getActionItemsList();
-        this.pollIntervalHandle = setInterval(() => {
+        setInterval(() => {
           this.configService.checkForRefresh();
           this.getActionItemsList();
         }, ACTION_ITEM_POLLING_INTERVAL_IN_MS);
@@ -57,6 +44,7 @@ export class ActionItemsComponent implements OnInit {
   }
 
   getActionItemsList(): void {
+    this.loading = true;
     const promises: Promise<ActionItem[]>[] = [];
     if (this.configService.github.isConfigured()) {
       promises.push(this.githubService.getActionItems());
@@ -71,7 +59,8 @@ export class ActionItemsComponent implements OnInit {
         this.actionItems = this.sortByPriorityAndOpenDuration(Array.prototype.concat.apply([], actionItems));
         const newActionItems = this.getNewActionItems(oldActionItems, this.actionItems);
         this.notificationsService.notifyNewActionItems(newActionItems);
-        this.checkIfShouldDisplayEmptyBoardCongrats();
+        this.loading = false;
+        this.lastCount = this.actionItems.length;
       }
     );
   }
@@ -87,72 +76,8 @@ export class ActionItemsComponent implements OnInit {
     return newActionItems;
   }
 
-  private loadConfig() {
-    this.actionItems = this.configActionItems;
-  }
-
-  private loadConfigActionItems(): ActionItem[] {
-    const configActionItems = [];
-    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.TEAM, 'github.team'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.TEAM_ID, 'github.teamId'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.USER_NAME, 'github.userName'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.GIT_HUB.TOKEN, 'github.token'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.USERNAME, 'vsts.username'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.TOKEN, 'vsts.token'));
-    configActionItems.push(this.createConfigActionItem(CONFIG.VSTS.TEAM, 'vsts.team'));
-    return configActionItems;
-  }
-
-  private createConfigActionItem(name: string, model: string): ActionItem {
-    const configActionItem = new BaseActionItem();
-    configActionItem.name = name;
-    configActionItem.created = moment.now();
-    configActionItem.priority = 0;
-    configActionItem.source = 'config';
-    configActionItem.model = model;
-    return configActionItem;
-  }
-
-  saveConfig() {
-    this.configService.saveConfig();
-    if (this.configService.isConfigured()) {
-      this.isConfiguring = false;
-    }
-    this.loadActionItems();
-  }
-
-  changeConfig() {
-    this.isConfiguring = true;
-    window.clearInterval(this.pollIntervalHandle);
-    this.loadConfig();
-  }
-
-  getDisplaySaveConfigButton() {
-    return this.isConfiguring;
-  }
-
-  getDisplayChangeConfigButton() {
-    return !this.isConfiguring;
-  }
-
-  isConfigured() {
-    return this.configService.isConfigured();
-  }
-
-  getTeamUsingBoard() {
+  get team() {
     return this.configService.vsts.team || this.configService.github.team || 'Unknown';
-  }
-
-  getTimeElapsed(time) {
-    return moment(time).fromNow();
-  }
-
-  getProgressBarPercent(percentage) {
-    return `${percentage}%`;
-  }
-
-  shouldShowEmptyBoardCongrats() {
-    return this.showEmptyBoardCongrats;
   }
 
   sortByPriorityAndOpenDuration(actionItems: ActionItem[]): ActionItem[] {
@@ -188,17 +113,7 @@ export class ActionItemsComponent implements OnInit {
     }
   }
 
-  saveConfigValue(key, newValue) {
-    const [configType, configName] = key.split('.');
-    this.configService.setConfigValue(configType, configName, newValue);
-  }
-
-  getConfigValue(key) {
-    const [configType, configName] = key.split('.');
-    return this.configService.getConfigValue(configType, configName);
-  }
-
-  private checkIfShouldDisplayEmptyBoardCongrats() {
-    this.showEmptyBoardCongrats = this.actionItems.length === 0;
+  isLit() {
+    return this.actionItems.length === 0 && !this.loading;
   }
 }
