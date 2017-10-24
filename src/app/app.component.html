@@ -1,9 +1,13 @@
 <h1 class="text-center">
-  <a routerLink="/" routerLinkActive="active">
-    <i class="icon fa fa-home"></i>
+  <a routerLink="/"
+    routerLinkActive="invisible"
+    [routerLinkActiveOptions]="{exact: true}">
+    <i class="icon fa fa-angle-left"></i>
   </a>
   {{title}}
-  <a routerLink="/config" routerLinkActive="active">
+  <a routerLink="/config"
+    routerLinkActive="invisible"
+    [routerLinkActiveOptions]="{exact: true}">
     <i class="icon fa fa-cogs"></i>
   </a>
 </h1>
