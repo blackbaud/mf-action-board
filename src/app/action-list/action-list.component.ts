@@ -4,7 +4,7 @@ import { GithubService } from '../../github/services/github.service';
 import { VstsService } from '../../github/services/vsts.service';
 import { JenkinsService } from '../../jenkins/services/jenkins.service';
 import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../../config/app-config-constants';
-import { ConfigService } from '../../config/config.service';
+import { ConfigService } from '../../app/config.service';
 import { NotificationsService } from '../../notifications/services/notifications.service';
 
 @Component({
@@ -26,7 +26,6 @@ export class ActionListComponent implements OnInit {
 
   ngOnInit() {
     this.notificationsService.setUpNoties();
-    this.configService.loadConfigFromStorage();
     this.loadActionItems();
   }
 

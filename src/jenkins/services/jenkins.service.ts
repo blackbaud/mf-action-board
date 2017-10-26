@@ -8,7 +8,7 @@ import { ActionItem, Build, JenkinsBuild } from '../../domain/action-item';
 import {
   JENKINS_JOB_BUILDING_COLOR, JENKINS_ENV
 } from '../../config/app-config-constants';
-import { ConfigService } from '../../config/config.service';
+import { ConfigService } from '../../app/config.service';
 
 @Injectable()
 export class JenkinsService {

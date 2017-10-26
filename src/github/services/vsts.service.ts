@@ -3,7 +3,7 @@ import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 import * as moment from 'moment';
 
-import { ConfigService } from '../../config/config.service';
+import { ConfigService } from '../../app/config.service';
 import { VSTS_REPOS } from './vsts-repos';
 import { ActionItem, VstsPullRequest, PullRequest, Build, VstsBuild} from '../../domain/action-item';
 
