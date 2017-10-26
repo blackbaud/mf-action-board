@@ -9,7 +9,6 @@ import 'rxjs/add/operator/map';
 export class ConfigService {
   private githubConfig: GithubConfig;
   private vstsConfig: VstsConfig;
-  private appLastModified = new Date();
   public repos;
   public options: RequestOptions;
   constructor(private http: Http) {
@@ -65,24 +64,6 @@ export class ConfigService {
     if (this.vstsConfig.team) {
       localStorage.setItem(CONFIG.VSTS.TEAM, this.vstsConfig.team);
     }
-  }
-
-// TODO move to some sort of refresh service
-  public checkForRefresh() {
-    const siteUrl = window.location.href;
-    this.http.head(siteUrl)
-      .map(response => response.headers.get('Last-Modified'))
-      .subscribe(lastModifiedHeader => {
-        if (this.isTimeToRefreshPage(this.appLastModified, new Date(lastModifiedHeader))) {
-          setTimeout(() => {
-            window.location.reload();
-          }, 5000);
-        }
-      });
-  }
-
-  private isTimeToRefreshPage(appLastModified: Date, lastModifiedHeader: Date) {
-    return appLastModified && appLastModified.getTime() < lastModifiedHeader.getTime();
   }
 
   public setConfigValue(type: string, key: string, value: string) {
