@@ -3,7 +3,7 @@ import { Http } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { JobDetails } from '../../domain/jobDetails';
-import { ActionItem, Build } from '../../domain/action-item';
+import { ActionItem, Build, JenkinsBuild } from '../../domain/action-item';
 
 import {
   JENKINS_JOB_BUILDING_COLOR, JENKINS_ENV
@@ -55,7 +55,7 @@ export class JenkinsService {
         if (lastBuild && jobDetails.building) {
           jobDetails.timestampCurrentBuild = lastBuild.timestamp;
         }
-        newActionItems.push(new Build(jobDetails));
+        newActionItems.push(new JenkinsBuild(jobDetails));
       }
     }
   }
