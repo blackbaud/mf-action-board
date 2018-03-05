@@ -31,5 +31,9 @@ export const VSTS_REPOS = {
     'forms-management',
     'donation-form-reporting',
     'donation-form-reporting-database'
+  ],
+  'voltron' : [
+    'installment-engine',
+    'skyux-spa-installment-scheduler'
   ]
 };
