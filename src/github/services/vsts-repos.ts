@@ -34,6 +34,7 @@ export const VSTS_REPOS = {
   ],
   'voltron' : [
     'installment-engine',
-    'skyux-spa-installment-scheduler'
+    'skyux-spa-installment-scheduler',
+    'skyux-spa-installment-scheduler-mock-client-skyux1'
   ]
 };
