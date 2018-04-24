@@ -22,22 +22,22 @@ describe('action items', () => {
     let pr: any = {};
     pr.title = '[do not merge] happy cat code change';
     let vstsItem = new VstsPullRequest(pr);
-    expect(vstsItem.do_not_merge).toBeFalsy('There should be an indication of not merging');
+    expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
 
     pr.title = '[do not merge]happy cat code change';
     vstsItem = new VstsPullRequest(pr);
-    expect(vstsItem.do_not_merge).toBeFalsy('There should be an indication of not merging');
+    expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
 
     pr.title = '[do NOT merge] happy cat code change';
     vstsItem = new VstsPullRequest(pr);
-    expect(vstsItem.do_not_merge).toBeFalsy('There should be an indication of not merging');
+    expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
 
     pr.title = '[Do Not Merge] happy cat code change';
     vstsItem = new VstsPullRequest(pr);
-    expect(vstsItem.do_not_merge).toBeFalsy('There should be an indication of not merging');
+    expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
 
     pr.title = '[DO NOT MERGE] happy cat code change';
     vstsItem = new VstsPullRequest(pr);
-    expect(vstsItem.do_not_merge).toBeFalsy('There should be an indication of not merging');
+    expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
   });
 });
