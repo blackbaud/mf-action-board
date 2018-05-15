@@ -18,7 +18,7 @@ describe('action items', () => {
     expect(vstsItem.do_not_merge).toBeFalsy('There should be no indication of merge restricting');
   });
 
-  it('vsts items with tag should indicate not to merge them', () => {
+  it('vsts items with title should indicate not to merge them', () => {
     let pr: any = {};
     pr.title = '[do not merge] happy cat code change';
     let vstsItem = new VstsPullRequest(pr);
@@ -38,6 +38,23 @@ describe('action items', () => {
 
     pr.title = '[DO NOT MERGE] happy cat code change';
     vstsItem = new VstsPullRequest(pr);
+    expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
+  });
+
+  it('vsts items with tag should indicate not to merge them', () => {
+    let pr: any = {};
+    pr.labels = {name: 'DO NOT MERGE', active: true};
+
+    let vstsItem = new VstsPullRequest(pr);
+    expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
+  });
+
+  it('vsts items with tag and title should indicate not to merge them', () => {
+    let pr: any = {};
+    pr.labels = {name: 'DO NOT MERGE', active: true};
+    pr.title = '[do not merge] happy cat code change';
+
+    let vstsItem = new VstsPullRequest(pr);
     expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
   });
 });
