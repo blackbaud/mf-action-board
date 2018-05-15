@@ -40,6 +40,7 @@ export const VSTS_REPOS = {
     'skyux-lib-form',
     'skyux-spa-donation-forms',
     'forms-management',
+    'donation-form-int-tests',
     'donation-form-reporting',
     'donation-form-reporting-database',
     'common-eventhubs',
