@@ -60,8 +60,14 @@ export class VstsPullRequest extends PullRequest {
     this.name = `${repo}: ${prInfo.title}`;
     this.created = new Date(prInfo.creationDate).getTime();
     this.url = `${this.ROOTURL}/_git/${repo}/pullrequest/${prInfo.pullRequestId}`;
-    this.do_not_merge = this.hasDoNotMergeFlag(prInfo.title);
+    this.do_not_merge = this.hasDoNotMergeFlag(prInfo.title) || this.hasDoNotMergeLabel(prInfo);
     this.priority = PullRequest.calcPriority(this.created, this.do_not_merge);
+  }
+
+  private hasDoNotMergeLabel(prInfo: any) {
+    return prInfo && prInfo.labels && prInfo.labels.some(label =>
+      label.name.toLocaleLowerCase() === 'do not merge' && label.active === true
+    );
   }
 
   private hasDoNotMergeFlag(prTitle: string): boolean {
