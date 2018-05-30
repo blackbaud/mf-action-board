@@ -38,7 +38,6 @@ export const VSTS_REPOS = {
   ],
   'highlander': [
     'skyux-lib-form',
-    'skyux-spa-donation-forms',
     'forms-management',
     'donation-form-int-tests',
     'donation-form-reporting',
