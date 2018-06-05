@@ -49,5 +49,10 @@ export const VSTS_REPOS = {
     'installment-engine',
     'skyux-spa-installment-scheduler',
     'skyux-spa-installment-scheduler-mock-client-skyux1'
+  ],
+  'cerebro' : [
+    'receipt-manager',
+    'transaction-batcher',
+    'common-pdf'
   ]
 };
