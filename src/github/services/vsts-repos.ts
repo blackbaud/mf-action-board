@@ -16,8 +16,8 @@ export const VSTS_REPOS = {
     'skyux-lib-form',
     'skyux-spa-donation-forms',
     'identity-token',
-    'skyux-spa-reactive-demo'
-    'skyux-spa-donor-form',
+    'skyux-spa-reactive-demo',
+    'skyux-spa-donor-form'
   ],
   'we-are-batman': [
     'skyux-spa-workflows',
