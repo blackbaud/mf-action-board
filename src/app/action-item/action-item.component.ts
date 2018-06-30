@@ -1,7 +1,7 @@
 import { PRIORITY } from '../app.constants';
 import * as moment from 'moment';
 
-export abstract class ActionItemComponent {
+export class ActionItemComponent {
   calcPriorityClass(priority: number): String {
     switch (priority) {
       case 1: {

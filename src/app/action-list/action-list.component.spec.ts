@@ -1,19 +1,20 @@
 import {TestBed, async, fakeAsync, flush} from '@angular/core/testing';
 
-import { ActionItemsComponent } from './action-items.component';
+import { ActionItemComponent } from '../action-item/action-item.component';
 import { FormsModule } from '@angular/forms';
-import { GithubService } from '../github/services/github.service';
-import { JenkinsService } from '../jenkins/services/jenkins.service';
-import { VstsService } from '../github/services/vsts.service';
-import { ConfigService } from '../config/config.service';
-import { NotificationsService } from '../notifications/services/notifications.service';
-import { FakeGithubService } from '../testing/FakeGithubService';
-import { FakeJenkinsService } from '../testing/FakeJenkinsService';
-import { FakeNotificationsService } from '../testing/FakeNotificationsService';
-import { FakeVstsService } from '../testing/FakeVstsService';
-import { FakeConfigService } from '../testing/FakeConfigService';
-import { CONFIG } from './action-items.constants';
-import {GithubConfig} from '../domain/github-config';
+import { GithubService } from '../../github/services/github.service';
+import { JenkinsService } from '../../jenkins/services/jenkins.service';
+import { VstsService } from '../../github/services/vsts.service';
+import { ConfigService } from '../config.service';
+import { NotificationsService } from '../../notifications/services/notifications.service';
+import { FakeGithubService } from '../../testing/FakeGithubService';
+import { FakeJenkinsService } from '../../testing/FakeJenkinsService';
+import { FakeNotificationsService } from '../../testing/FakeNotificationsService';
+import { FakeVstsService } from '../../testing/FakeVstsService';
+import { FakeConfigService } from '../../testing/FakeConfigService';
+import { CONFIG } from '../app.constants';
+import { GithubConfig } from '../../domain/github-config';
+import { Component } from '@angular/core';
 
 const actionItemTextClass = '.action-item-text';
 let compiled;
@@ -24,6 +25,7 @@ const mockConfig: GithubConfig = {
     teamId: '1010101',
     userName: 'dude bro',
     token: 'goober',
+    watchList: '',
     isConfigured: () => true
 };
 const mockJenkinsJob = {
@@ -52,17 +54,23 @@ const componentElements = {
     teamName: () => { return compiled.querySelector('#teamUsingBoard').textContent; }
 };
 
+@Component({
+  selector: 'mf-action-items',
+  template: ''
+})
+export class MockActionItemComponent extends ActionItemComponent {}
+
 describe('Action Items', () => {
     describe('without configuration', () => {
         beforeEach(async(() => {
             compiled = createComponent();
         }));
 
-        it('should show the configuration action items', async(() => {
-            expect(componentElements.actionItemLabels(0)).toContain(CONFIG.GIT_HUB.TEAM);
-            expect(componentElements.actionItemLabels(1)).toContain(CONFIG.GIT_HUB.TEAM_ID);
-            expect(componentElements.actionItemLabels(2)).toContain(CONFIG.GIT_HUB.USER_NAME);
-            expect(componentElements.actionItemLabels(3)).toContain(CONFIG.GIT_HUB.TOKEN);
+        fit('should show the configuration action items', async(() => {
+            expect(componentElements.actionItemLabels(0)).toContain(CONFIG.GITHUB.TEAM);
+            expect(componentElements.actionItemLabels(1)).toContain(CONFIG.GITHUB.TEAM_ID);
+            expect(componentElements.actionItemLabels(2)).toContain(CONFIG.GITHUB.USERNAME);
+            expect(componentElements.actionItemLabels(3)).toContain(CONFIG.GITHUB.TOKEN);
         }));
     });
 
@@ -105,7 +113,7 @@ function createComponent() {
     TestBed.configureTestingModule({
         imports:      [ FormsModule ],
         declarations: [
-            ActionItemsComponent
+          MockActionItemComponent
         ],
         providers: [
             { provide: GithubService, useClass: FakeGithubService},
@@ -115,7 +123,7 @@ function createComponent() {
             { provide: NotificationsService, useClass: FakeNotificationsService}
         ]
     }).compileComponents();
-    fixture = TestBed.createComponent(ActionItemsComponent);
+    fixture = TestBed.createComponent(MockActionItemComponent);
     fixture.detectChanges();
     return fixture.debugElement.nativeElement;
 }

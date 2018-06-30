@@ -12,6 +12,6 @@ export class PullRequestComponent extends ActionItemComponent {
   pr: PullRequest;
 
   get priorityClass(): String {
-    return this.calcPriorityClass(this.pr.priority)
+    return this.calcPriorityClass(this.pr.priority);
   }
 }
