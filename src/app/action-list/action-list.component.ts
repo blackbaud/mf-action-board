@@ -6,6 +6,7 @@ import { JenkinsService } from '../../jenkins/services/jenkins.service';
 import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../app.constants';
 import { ConfigService } from '../../app/config.service';
 import { NotificationsService } from '../../notifications/services/notifications.service';
+import {PollingService} from '../polling.service';
 
 @Component({
   selector: 'mf-action-list',
@@ -21,6 +22,7 @@ export class ActionListComponent implements OnInit {
               private vstsService: VstsService,
               private jenkinsService: JenkinsService,
               private configService: ConfigService,
+              private pollingService: PollingService,
               private notificationsService: NotificationsService) {
   }
 
@@ -34,9 +36,7 @@ export class ActionListComponent implements OnInit {
       this.loading = true;
       this.githubService.loadRepos().then(() => {
         this.getActionItemsList();
-        setInterval(() => {
-          this.getActionItemsList();
-        }, ACTION_ITEM_POLLING_INTERVAL_IN_MS);
+        this.pollingService.startPoll(ACTION_ITEM_POLLING_INTERVAL_IN_MS, this.getActionItemsList);
       });
     }
   }
