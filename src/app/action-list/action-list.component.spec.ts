@@ -10,7 +10,7 @@ import {FakeNotificationsService} from '../../testing/FakeNotificationsService';
 import {FakeConfigService} from '../../testing/fake-config.service';
 import {GithubConfig} from '../../domain/github-config';
 import {ActionListComponent} from './action-list.component';
-import {ActionItem, GitHubPullRequest} from '../../domain/action-item';
+import {ActionItem, GitHubPullRequest, PullRequest} from '../../domain/action-item';
 import {PullRequestComponent} from '../pull-request/pull-request.component';
 import {BuildComponent} from '../build/build.component';
 import {RageFaceComponent} from '../rage-face/rage-face.component';
@@ -43,14 +43,40 @@ const githubPr = {
   title: 'Baby\'s first PR!'
 };
 
-fdescribe('ActionListComponent', () => {
+const emptyVstsSvc = {
+  getActionItems: () => {
+    return Promise.resolve([] as ActionItem[]);
+  }
+};
+
+const githubSvcWithData = {
+  loadRepos: () => {
+    return Promise.resolve({});
+  },
+
+  getActionItems: () => {
+    return Promise.resolve([new GitHubPullRequest(githubPr)] as ActionItem[]);
+  }
+};
+
+const emptyGithubSvc = {
+  loadRepos: () => {
+    return Promise.resolve({});
+  },
+
+  getActionItems: () => {
+    return Promise.resolve([] as ActionItem[]);
+  }
+};
+
+describe('ActionListComponent', () => {
   let fixture: ComponentFixture<ActionListComponent>;
   let component: ActionListComponent;
   let debugElement: DebugElement;
 
   const elements = {
     list: () => {
-      return debugElement.nativeElement.querySelectorAll('.action-item-list');
+      return debugElement.nativeElement.querySelector('.action-item-list');
     },
     items: () => {
       return debugElement.nativeElement.querySelectorAll('.action-item-text');
@@ -58,51 +84,23 @@ fdescribe('ActionListComponent', () => {
     item: (index: number) => {
       return elements.items()[0];
     },
+    sprintLit: () => {
+      return debugElement.nativeElement.querySelector('#sprint-lit');
+    },
     team: () => {
       return debugElement.nativeElement.querySelector('#team-name');
     }
   };
-  const doNothingPollingService = {
-    startPoll: (interval: number, func: () => void) => {
-    }
+
+  const teamNameTest = () => {
+    it('should show team name', fakeAsync(() => {
+      expect(elements.team().textContent).toContain(githubConfig.team);
+    }));
   };
 
   describe('when there are action items', () => {
     beforeEach(async(() => {
-      const githubSvc = {
-        loadRepos: () => {
-          return Promise.resolve({});
-        },
-
-        getActionItems: () => {
-          return Promise.resolve([new GitHubPullRequest(githubPr)] as ActionItem[]);
-        }
-      };
-      const vstsSvc = {
-        getActionItems: () => {
-          return Promise.resolve([] as ActionItem[]);
-        }
-      };
-      TestBed.configureTestingModule({
-        imports: [FormsModule],
-        declarations: [
-          ActionListComponent,
-          BuildComponent,
-          PullRequestComponent,
-          RageFaceComponent,
-          SprintLitComponent
-        ],
-        providers: [
-          {provide: GithubService, useValue: githubSvc},
-          {provide: VstsService, useValue: vstsSvc},
-          {provide: JenkinsService, useClass: FakeJenkinsService},
-          {provide: GithubConfig, useValue: githubConfig},
-          {provide: VstsConfig, useValue: vstsConfig},
-          {provide: ConfigService, useClass: FakeConfigService},
-          {provide: PollingService, useValue: doNothingPollingService},
-          {provide: NotificationsService, useClass: FakeNotificationsService}
-        ]
-      }).compileComponents();
+      testBed(githubSvcWithData, emptyVstsSvc).compileComponents();
     }));
 
     beforeEach(() => {
@@ -120,14 +118,71 @@ fdescribe('ActionListComponent', () => {
       fixture.detectChanges();
     }));
 
-    it('should show team name', fakeAsync(() => {
-      expect(elements.team().textContent).toContain(githubConfig.team);
-    }));
-
     it('should show list of items returned', fakeAsync(() => {
-      expect(elements.list()).toBeDefined();
+      expect(elements.list()).not.toBeNull();
       expect(elements.items().length).toBe(1);
       expect(elements.item(1).textContent).toContain(githubPr.title);
     }));
+
+    teamNameTest();
+  });
+
+  describe('when there are no action items', () => {
+    beforeEach(async(() => {
+      testBed(emptyGithubSvc, emptyVstsSvc).compileComponents();
+    }));
+
+    beforeEach(() => {
+      fixture = TestBed.createComponent(ActionListComponent);
+      component = fixture.componentInstance;
+      debugElement = fixture.debugElement;
+    });
+
+    beforeEach(fakeAsync(() => {
+      // render the component, which kicks off service promises
+      fixture.detectChanges();
+      // wait for initial promises to resolve
+      tick();
+      // refresh dom with promise results
+      fixture.detectChanges();
+    }));
+
+    it('should not show list of items', () => {
+      expect(elements.list()).toBeNull();
+    });
+
+    it('should show sprint is lit', () => {
+      expect(elements.sprintLit()).not.toBeNull();
+    });
+
+    teamNameTest();
   });
 });
+
+function testBed(githubSvc: { loadRepos: () => void, getActionItems: () => Promise<PullRequest[]> },
+                 vstsSvc: { getActionItems: () => Promise<PullRequest[]> }): typeof TestBed {
+  const doNothingPollingService = {
+    startPoll: (interval: number, func: () => void) => {
+    }
+  };
+  return TestBed.configureTestingModule({
+    imports: [FormsModule],
+    declarations: [
+      ActionListComponent,
+      BuildComponent,
+      PullRequestComponent,
+      RageFaceComponent,
+      SprintLitComponent
+    ],
+    providers: [
+      {provide: GithubService, useValue: githubSvc},
+      {provide: VstsService, useValue: vstsSvc},
+      {provide: JenkinsService, useClass: FakeJenkinsService},
+      {provide: GithubConfig, useValue: githubConfig},
+      {provide: VstsConfig, useValue: vstsConfig},
+      {provide: ConfigService, useClass: FakeConfigService},
+      {provide: PollingService, useValue: doNothingPollingService},
+      {provide: NotificationsService, useClass: FakeNotificationsService}
+    ]
+  });
+}
