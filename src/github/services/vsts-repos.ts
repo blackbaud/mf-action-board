@@ -43,6 +43,7 @@ export const VSTS_REPOS = {
     'donation-form-reporting',
     'donation-form-reporting-database',
     'common-eventhubs',
+    'form-consent',
     'transactor'
   ],
   'voltron' : [
