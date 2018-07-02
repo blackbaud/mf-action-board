@@ -42,7 +42,7 @@ export const VSTS_REPOS = {
     'donation-form-int-tests',
     'donation-form-reporting',
     'donation-form-reporting-database',
-    'common-eventhubs',
+    'common-async',
     'form-consent',
     'transactor'
   ],
