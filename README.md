@@ -50,7 +50,8 @@ Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app w
 
 ## Deployment to S3 bucket
 * Get keys from Eric Slater or Colby M. White
-  * put keys in `~/.aws/credentials` in a `[mf-action-board]` profile
+  * use the `awscli` to put keys in `~/.aws/credentials` in a `[mf-action-board]` profile
+  * `aws configure --profile=mf-action-board`
 * Run `npm run deploy`
 * deployment URI: `http://mf-action-board.s3-website.us-east-2.amazonaws.com`
 
