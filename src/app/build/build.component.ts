@@ -20,7 +20,7 @@ export class BuildComponent extends ActionItemComponent {
   }
 
   get priorityClass(): String {
-    return this.calcPriorityClass(this.build.priority)
+    return this.calcPriorityClass(this.build.priority);
   }
 
 }
