@@ -19,6 +19,7 @@ import {VstsConfig} from '../../domain/vsts-config';
 import {DebugElement} from '@angular/core';
 import {PollingService} from '../polling.service';
 
+// TODO put the common test configs in a common place
 const githubConfig: GithubConfig = {
   team: 'bros',
   teamId: '1010101',
