@@ -31,8 +31,7 @@ describe('BuildComponent', () => {
       finishTime: 1234567,
       id: '1234567',
     };
-    const build: Build = new VstsBuild(buildInfo);
-    component.build = build;
+    component.build = new VstsBuild(buildInfo);
     fixture.detectChanges();
     expect(component).toBeTruthy();
   });
