@@ -27,14 +27,16 @@ export const VSTS_REPOS = {
     'actions-adapter',
     'constituent-adapter',
     'skyux-spa-workflow-designer-docs',
-    'skyux-lib-action-form'
+    'skyux-lib-action-form',
+    'common-cosmos'
   ],
   'brady-bunch': [
     'social-posting',
     'token-store',
     'skyux-lib-common-ui-test',
     'skyux-spa-social',
-    'bluemoon-local-router'
+    'bluemoon-local-router',
+    'common-cosmos'
   ],
   'highlander': [
     'skyux-lib-form',
