@@ -27,7 +27,8 @@ export const VSTS_REPOS = {
     'actions-adapter',
     'constituent-adapter',
     'skyux-spa-workflow-designer-docs',
-    'skyux-lib-action-form'
+    'skyux-lib-action-form',
+    'skyux-lib-browser-cache'
   ],
   'brady-bunch': [
     'social-posting',
