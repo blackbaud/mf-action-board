@@ -1,8 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 
 import { AppComponent } from './app.component';
-import { Component } from '@angular/core';
 import { APP_LABELS } from './app.constants';
+import {FakeRefreshService} from '../testing/fake-refresh.service';
+import {RefreshService} from './refresh.service';
+import {RouterTestingModule} from '@angular/router/testing';
 
 let compiled;
 let fixture;
@@ -22,20 +24,17 @@ describe('App Component', () => {
 
 function createComponent() {
   TestBed.configureTestingModule({
+    imports: [
+      RouterTestingModule
+    ],
+    providers: [
+      {provide: RefreshService, useClass: FakeRefreshService}
+    ],
     declarations: [
-      AppComponent,
-      MockActionItemsComponent
+      AppComponent
     ]
   }).compileComponents();
   fixture = TestBed.createComponent(AppComponent);
   fixture.detectChanges();
   return fixture.debugElement.nativeElement;
 }
-
-
-@Component({
-  selector: 'mf-action-items',
-  template: ''
-})
-class MockActionItemsComponent {}
-

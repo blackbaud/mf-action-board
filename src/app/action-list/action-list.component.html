@@ -1,5 +1,5 @@
 <div class="col-md-12 row labelBar">
-  <div class="col-md-1">
+  <div class="col-md-1" id="team-name">
     <span class="label label-default">{{team}}</span>
   </div>
   <div class="col-md-10"></div>
@@ -22,4 +22,4 @@
   </div>
 </div>
 
-<mf-sprint-lit *ngIf="lastCount == 0"></mf-sprint-lit>
+<mf-sprint-lit id="sprint-lit" *ngIf="lastCount == 0"></mf-sprint-lit>

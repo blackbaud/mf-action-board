@@ -12,14 +12,14 @@ import {VstsPullRequest} from '../../domain/action-item';
 describe('action items', () => {
 
   it('vsts items without tag should not indicate no mergie', () => {
-    let pr: any = {};
+    const pr: any = { repository: {name: 'test'} };
     pr.title = 'happy cat code change';
     const vstsItem = new VstsPullRequest(pr);
     expect(vstsItem.do_not_merge).toBeFalsy('There should be no indication of merge restricting');
   });
 
   it('vsts items with title should indicate not to merge them', () => {
-    let pr: any = {};
+    const pr: any = { repository: {name: 'test'} };
     pr.title = '[do not merge] happy cat code change';
     let vstsItem = new VstsPullRequest(pr);
     expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
@@ -42,19 +42,19 @@ describe('action items', () => {
   });
 
   it('vsts items with tag should indicate not to merge them', () => {
-    let pr: any = {};
-    pr.labels = {name: 'DO NOT MERGE', active: true};
+    const pr: any = { repository: {name: 'test'} };
+    pr.labels = [{name: 'DO NOT MERGE', active: true}];
 
-    let vstsItem = new VstsPullRequest(pr);
+    const vstsItem = new VstsPullRequest(pr);
     expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
   });
 
   it('vsts items with tag and title should indicate not to merge them', () => {
-    let pr: any = {};
-    pr.labels = {name: 'DO NOT MERGE', active: true};
+    const pr: any = { repository: {name: 'test'} };
+    pr.labels = [{name: 'DO NOT MERGE', active: true}];
     pr.title = '[do not merge] happy cat code change';
 
-    let vstsItem = new VstsPullRequest(pr);
+    const vstsItem = new VstsPullRequest(pr);
     expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
   });
 });

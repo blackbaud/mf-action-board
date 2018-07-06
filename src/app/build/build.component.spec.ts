@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BuildComponent } from './build.component';
+import {RageFaceComponent} from '../rage-face/rage-face.component';
+import {Build, VstsBuild} from '../../domain/action-item';
 
 describe('BuildComponent', () => {
   let component: BuildComponent;
@@ -8,7 +10,10 @@ describe('BuildComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ BuildComponent ]
+      declarations: [
+        BuildComponent,
+        RageFaceComponent
+      ]
     })
     .compileComponents();
   }));
@@ -16,10 +21,18 @@ describe('BuildComponent', () => {
   beforeEach(() => {
     fixture = TestBed.createComponent(BuildComponent);
     component = fixture.componentInstance;
-    fixture.detectChanges();
   });
 
   it('should create', () => {
+    const buildInfo = {
+      definition: {
+        name: 'testBuild'
+      },
+      finishTime: 1234567,
+      id: '1234567',
+    };
+    component.build = new VstsBuild(buildInfo);
+    fixture.detectChanges();
     expect(component).toBeTruthy();
   });
 });

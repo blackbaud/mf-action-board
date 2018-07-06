@@ -18,6 +18,7 @@ import { ConfigScreenComponent } from './config-screen/config-screen.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SprintLitComponent } from './sprint-lit/sprint-lit.component';
 import { ActionListComponent } from './action-list/action-list.component';
+import {PollingService} from './polling.service';
 
 @NgModule({
   declarations: [
@@ -41,6 +42,7 @@ import { ActionListComponent } from './action-list/action-list.component';
     VstsService,
     ConfigService,
     NotificationsService,
+    PollingService,
     RefreshService
   ],
   bootstrap: [AppComponent]
