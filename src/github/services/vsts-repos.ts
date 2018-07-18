@@ -31,11 +31,12 @@ export const VSTS_REPOS = {
     'skyux-lib-browser-cache'
   ],
   'brady-bunch': [
-    'social-posting',
-    'token-store',
+    'bluemoon-local-router'
     'skyux-lib-common-ui-test',
     'skyux-spa-social',
-    'bluemoon-local-router'
+    'social-posting',
+    'social-posting-int-tests',
+    'token-store'
   ],
   'highlander': [
     'skyux-lib-form',
