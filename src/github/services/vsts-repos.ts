@@ -50,8 +50,9 @@ export const VSTS_REPOS = {
   ],
   'voltron' : [
     'installment-engine',
+    'installment-engine-int-tests',
     'skyux-spa-installment-scheduler',
-    'skyux-spa-installment-scheduler-mock-client-skyux1'
+    'skyux-spa-installment-engine-supportal'
   ],
   'cerebro' : [
     'receipt-manager',
