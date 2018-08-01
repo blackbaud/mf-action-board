@@ -12,7 +12,6 @@ export const VSTS_REPOS = {
     'facebook-api-client',
     'common-logging',
     'bb-java-base-docker-image',
-    'scs-definition-lng-lonextgen',
     'skyux-lib-form',
     'skyux-spa-donation-forms',
     'identity-token',
