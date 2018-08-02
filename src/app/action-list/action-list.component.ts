@@ -36,7 +36,7 @@ export class ActionListComponent implements OnInit {
       this.loading = true;
       this.githubService.loadRepos().then(() => {
         this.getActionItemsList();
-        this.pollingService.startPoll(ACTION_ITEM_POLLING_INTERVAL_IN_MS, this.getActionItemsList);
+        this.pollingService.startPoll(ACTION_ITEM_POLLING_INTERVAL_IN_MS, this.getActionItemsList.bind(this));
       });
     }
   }
