@@ -39,7 +39,6 @@ export const VSTS_REPOS = {
     'skyux-spa-social-smoke-tests'
   ],
   'highlander': [
-    'skyux-lib-form',
     'forms-management',
     'donation-form-int-tests',
     'donation-form-reporting',
