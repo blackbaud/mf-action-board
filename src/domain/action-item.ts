@@ -78,6 +78,7 @@ export class VstsPullRequest extends PullRequest {
 export class Build extends BaseActionItem {
   building: boolean;
   buildPercentage: number;
+  _buildType = 'build';
 
   static calcBuildPercentage(building: boolean, timestampCurrentBuild: string, estimatedDuration: string): number {
     if (building) {
@@ -100,7 +101,7 @@ export class Build extends BaseActionItem {
   }
 
   get type() {
-    return 'build';
+    return this._buildType;
   }
 }
 
@@ -123,6 +124,7 @@ export class VstsBuild extends Build {
 export class VstsRelease extends Build {
   constructor(releaseInfo: any) {
     super();
+    this._buildType = 'release';
     this.name = releaseInfo.releaseDefinition.name;
     this.created = moment(releaseInfo.createdOn).valueOf();
     this.url = releaseInfo._links.web.href;
