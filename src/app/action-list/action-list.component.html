@@ -16,7 +16,7 @@
       <mf-pull-request [pr]="actionItem"></mf-pull-request>
     </div>
 
-    <div *ngIf="actionItem.type === 'build'">
+    <div *ngIf="actionItem.type === 'build' || actionItem.type === 'release'">
       <mf-build [build]="actionItem"></mf-build>
     </div>
   </div>
