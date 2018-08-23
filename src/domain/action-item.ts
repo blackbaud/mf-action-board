@@ -128,8 +128,11 @@ export class VstsRelease extends Build {
     this.name = releaseInfo.releaseDefinition.name;
     this.created = moment(releaseInfo.createdOn).valueOf();
     this.url = releaseInfo._links.web.href;
-    const inProgressEnvs = releaseInfo.environments.filter(env => env.status === 'inProgress');
-    this.building = inProgressEnvs.length > 0;
+    const isInProgress = releaseInfo.environments.some(env => env.status === 'inProgress');
+    const requiresApproval = releaseInfo.environments
+      .some(env => env.preDeployApprovals && env.preDeployApprovals
+        .some(approval => approval.status === 'pending'));
+    this.building = isInProgress && !requiresApproval;
     this.buildPercentage = 50;
     this.priority = (this.building) ? 4 : Build.calcPriority(this.created);
   }

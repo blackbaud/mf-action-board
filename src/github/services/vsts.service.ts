@@ -45,8 +45,12 @@ export class VstsService {
     if (info === undefined) {
       return false;
     }
-    const failed_envs = info.environments.filter(env => env.status !== 'succeeded' && env.status !== 'canceled');
-    return failed_envs.length !== 0;
+    const failed_envs = info.environments.some(env => env.status !== 'succeeded' && env.status !== 'canceled');
+    const pending_approvals = info.environments
+      .some(env => env.preDeployApprovals
+        .some(approval => approval.status === 'pending'));
+
+    return failed_envs || pending_approvals;
   }
 
   getBuilds(): Promise<any> {
