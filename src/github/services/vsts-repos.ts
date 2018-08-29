@@ -52,7 +52,8 @@ export const VSTS_REPOS = {
     'installment-engine',
     'installment-engine-int-tests',
     'skyux-spa-installment-scheduler',
-    'skyux-spa-installment-engine-supportal'
+    'skyux-spa-installment-engine-supportal',
+    'common-payments-client'
   ],
   'cerebro' : [
     'receipt-manager',
