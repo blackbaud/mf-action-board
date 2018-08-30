@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { PollingService } from '../polling.service';
 
 @Component({
   selector: 'mf-sprint-lit',
@@ -14,11 +15,12 @@ export class SprintLitComponent {
     "../assets/carolineLIT.jpg"
   ];
 
-  constructor() {
+  constructor(private pollingService: PollingService) {
     this.setLitImage();
+    this.pollingService.startPoll(5000, this.setLitImage);
   }
 
-  private setLitImage() {
+  setLitImage = (): void => {
     this.litImage = this.litImages[Math.floor(Math.random() * this.litImages.length)];
   }
 }
