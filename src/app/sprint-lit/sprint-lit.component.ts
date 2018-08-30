@@ -8,6 +8,17 @@ import { Component } from '@angular/core';
 
 export class SprintLitComponent {
 
-  litImage: string = "../assets/ethanLIT.gif";
+  litImage: string;
+  litImages: Array<string> = [
+    "../assets/ethanLIT.gif",
+    "../assets/carolineLIT.jpg"
+  ];
 
+  constructor() {
+    this.setLitImage();
+  }
+
+  private setLitImage() {
+    this.litImage = this.litImages[Math.floor(Math.random() * this.litImages.length)];
+  }
 }
