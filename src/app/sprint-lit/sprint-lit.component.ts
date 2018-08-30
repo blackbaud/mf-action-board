@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { PollingService } from '../polling.service';
+import { SPRINT_LIT_REFRESH_INTERVAL_IN_MS } from "../app.constants";
 
 @Component({
   selector: 'mf-sprint-lit',
@@ -17,7 +18,7 @@ export class SprintLitComponent {
 
   constructor(private pollingService: PollingService) {
     this.setLitImage();
-    this.pollingService.startPoll(5000, this.setLitImage);
+    this.pollingService.startPoll(SPRINT_LIT_REFRESH_INTERVAL_IN_MS, this.setLitImage);
   }
 
   setLitImage = (): void => {
