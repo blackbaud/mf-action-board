@@ -5,5 +5,9 @@ import { Component } from '@angular/core';
   templateUrl: './sprint-lit.component.html',
   styleUrls: ['./sprint-lit.component.css']
 })
+
 export class SprintLitComponent {
+
+  litImage: string = "../assets/ethanLIT.gif";
+
 }
