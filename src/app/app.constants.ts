@@ -1,6 +1,6 @@
 // It is not advised to make this constant very frequent since Github rate limits requests
 export const ACTION_ITEM_POLLING_INTERVAL_IN_MS = 30000;
-export const SPRINT_LIT_REFRESH_INTERVAL_IN_MS = 60000;
+export const SPRINT_LIT_REFRESH_INTERVAL_IN_MS = 15 * 60 * 1000;
 
 export const APP_LABELS = {
   TITLE: 'Action Item Dashboard'
