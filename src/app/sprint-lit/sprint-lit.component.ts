@@ -12,10 +12,10 @@ export class SprintLitComponent {
 
   litImage: string;
   litImages: Array<string> = [
-    "../assets/ethanLIT.jpg",
-    "../assets/carolineLIT.jpg",
-    "../assets/gregLIT.jpg",
-    "../assets/rajLIT.jpg"
+    "../assets/lit/ethanLIT.jpg",
+    "../assets/lit/carolineLIT.jpg",
+    "../assets/lit/gregLIT.jpg",
+    "../assets/lit/rajLIT.jpg"
   ];
 
   constructor(private pollingService: PollingService) {

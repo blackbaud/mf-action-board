@@ -27,6 +27,6 @@ describe('SprintLitComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-    expect(component.litImage).not.toBeUndefined();
+    expect(component.litImage).toBeDefined();
   });
 });
