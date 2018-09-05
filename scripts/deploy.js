@@ -63,7 +63,7 @@ let pushFilesToS3 = function (config, s3) {
           ContentType: `${mimeType}`,
           ACL: 'public-read'
         }, (res) => {
-          console.log(res);
+          console.log(`successfully put ${fileName} in S3`);
         });
 
       });
