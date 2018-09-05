@@ -14,6 +14,11 @@ const assetBucketConfig = {
   folderPath: '../dist/assets' // path relative script's location
 };
 
+const litBucketConfig = {
+  s3BucketName: 'mf-action-board/assets/lit',
+  folderPath: '../dist/assets/lit'
+};
+
 // initialise S3 client
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
@@ -67,3 +72,4 @@ let pushFilesToS3 = function (config, s3) {
 };
 pushFilesToS3(rootBucketConfig, s3);
 pushFilesToS3(assetBucketConfig, s3);
+pushFilesToS3(litBucketConfig, s3);
