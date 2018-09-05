@@ -62,8 +62,12 @@ let pushFilesToS3 = function (config, s3) {
           Body: fileContent,
           ContentType: `${mimeType}`,
           ACL: 'public-read'
-        }, (res) => {
-          console.log(`successfully put ${fileName} in S3`);
+        }, (err, data) => {
+          if (err) {
+            console.error(`could not send ${fileName} to S3`, err);
+          } else {
+            console.log(`successfully sent ${fileName} to S3`);
+          }
         });
 
       });
