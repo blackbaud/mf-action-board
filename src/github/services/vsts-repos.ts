@@ -32,6 +32,7 @@ export const VSTS_REPOS = {
   ],
   'brady-bunch': [
     'social-posting',
+    'social-metrics',
     'token-store',
     'skyux-lib-common-ui-test',
     'skyux-spa-social',
