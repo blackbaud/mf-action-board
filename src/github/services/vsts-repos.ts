@@ -38,7 +38,7 @@ export const VSTS_REPOS = {
     'skyux-spa-social-smoke-tests'
     'social-metrics',
     'social-metrics-database',
-    'social-posting',
+    'social-posting'
   ],
   'highlander': [
     'forms-management',
