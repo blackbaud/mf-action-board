@@ -35,7 +35,7 @@ export const VSTS_REPOS = {
     'bluemoon-local-router',
     'skyux-lib-common-ui-test',
     'skyux-spa-social',
-    'skyux-spa-social-smoke-tests'
+    'skyux-spa-social-smoke-tests',
     'social-metrics',
     'social-metrics-database',
     'social-posting'
