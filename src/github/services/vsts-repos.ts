@@ -60,6 +60,8 @@ export const VSTS_REPOS = {
   'cerebro' : [
     'receipt-manager',
     'transaction-batcher',
-    'common-pdf'
+    'receipter',
+    'email-adapter',
+    'skyux-spa-receipt-manager'
   ]
 };
