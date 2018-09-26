@@ -41,7 +41,6 @@ export const VSTS_REPOS = {
     'social-posting'
   ],
   'highlander': [
-    'forms-management',
     'donation-form-int-tests',
     'donation-form-reporting',
     'donation-form-reporting-database',
