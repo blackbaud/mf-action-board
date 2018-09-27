@@ -1,12 +1,12 @@
 <div class="col-sm-12 action-item-panel buffer"
       [ngClass]="priorityClass">
   <a href="{{ build.url }}" target="_blank">
-    <div class="action-item-content">
-      <div class="col-sm-1">
+    <div class="action-item-content row">
+      <div class="col">
         <i *ngIf="build.type === 'build'" class="icon fa fa-server fa-4x"></i>
-        <i *ngIf="build.type === 'release'" class="icon fa fa-truck fa-flip-horizontal fa-4x"></i>
+        <i *ngIf="build.type === 'release'" class="icon fa fa-truck fa-4x"></i>
       </div>
-      <div class="action-item-text col-sm-10">{{ build.name }}
+      <div class="action-item-text col-10">{{ build.name }}
         <div class="time-elapsed-and-progress-bar-wrapper">
           <div class="time-elapsed-in-wrapper">{{ getTimeElapsed(build.created) }}
           </div>
@@ -15,7 +15,7 @@
           </div>
         </div>
       </div>
-      <div class="col-sm-1">
+      <div class="col">
         <mf-rage-face [priority]="build.priority"></mf-rage-face>
       </div>
     </div>

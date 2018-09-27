@@ -34,7 +34,6 @@
 }
 
 .icon {
-  padding-right: 20px;
   text-shadow: 2px 2px 5px black;
 }
 
@@ -47,4 +46,8 @@
 
 .time-elapsed {
   font-size: 20px;
+}
+
+.col {
+  text-align: center;
 }
