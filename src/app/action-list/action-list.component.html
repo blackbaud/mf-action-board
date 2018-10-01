@@ -1,11 +1,12 @@
 <div class="col-md-12 row labelBar">
   <div class="col-md-1" id="team-name">
-    <span class="label label-default">{{team}}</span>
+    <span class="badge badge-dark">{{team}}</span>
   </div>
   <div class="col-md-10"></div>
   <div class="col-md-1">
-    <span class="label label-default" *ngIf="loading">
-      <i class="fa fa-spinner">Loading</i>
+    <span class="badge badge-dark" *ngIf="loading">
+      <i class="fa fa-spinner fa-spin"></i>
+      Loading
     </span>
   </div>
 </div>
