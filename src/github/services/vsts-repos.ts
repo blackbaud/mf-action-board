@@ -13,6 +13,7 @@ export const VSTS_REPOS = {
     'common-logging',
     'bb-java-base-docker-image',
     'skyux-lib-form',
+    'skyux-lib-button-group',
     'skyux-spa-donation-forms',
     'identity-token',
     'skyux-spa-reactive-demo',
