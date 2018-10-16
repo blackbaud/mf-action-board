@@ -21,16 +21,17 @@ export const VSTS_REPOS = {
     'donor-form-smoke-tests'
   ],
   'we-are-batman': [
-    'skyux-spa-workflows',
-    'skyux-spa-apply-workflows',
-    'workflow-designer',
+    'actions-adapter',
     'azure-scheduler-sdk',
     'common-provider-pact',
-    'actions-adapter',
     'constituent-adapter',
-    'skyux-spa-workflow-designer-docs',
+    'workflow-designer',
     'skyux-lib-action-form',
-    'skyux-lib-browser-cache'
+    'skyux-lib-browser-cache',
+    'skyux-spa-apply-workflows',
+    'skyux-spa-workflow-designer-docs',
+    'skyux-spa-workflows',
+    'skyux-spa-workflows-supportal'
   ],
   'brady-bunch': [
     'bb-permissions-marketing-social',
