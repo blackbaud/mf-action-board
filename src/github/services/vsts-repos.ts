@@ -18,7 +18,8 @@ export const VSTS_REPOS = {
     'identity-token',
     'skyux-spa-reactive-demo',
     'skyux-spa-donor-form',
-    'donor-form-smoke-tests'
+    'donor-form-smoke-tests',
+    'donor-form-synth-monitor'
   ],
   'we-are-batman': [
     'actions-adapter',
