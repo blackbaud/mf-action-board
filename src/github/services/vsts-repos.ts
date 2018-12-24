@@ -50,7 +50,9 @@ export const VSTS_REPOS = {
     'donation-form-layout',
     'common-async',
     'form-consent',
-    'transactor'
+    'transactor',
+    'sasquatch',
+    'donor-form-synth-monitor'
   ],
   'voltron' : [
     'installment-engine',
