@@ -26,6 +26,7 @@ export const VSTS_REPOS = {
     'common-provider-pact',
     'constituent-adapter',
     'workflow-designer',
+    'workflow-designer-prod-tester',
     'skyux-lib-action-form',
     'skyux-lib-browser-cache',
     'skyux-spa-apply-workflows',
