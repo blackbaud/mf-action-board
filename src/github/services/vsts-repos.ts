@@ -53,7 +53,8 @@ export const VSTS_REPOS = {
     'form-consent',
     'transactor',
     'sasquatch',
-    'donor-form-synth-monitor'
+    'donor-form-synth-monitor',
+    'skyux-spa-donation-forms-supportal'
   ],
   'voltron' : [
     'installment-engine',
