@@ -58,6 +58,15 @@ describe('action items', () => {
       const vstsItem = new VstsPullRequest(pr);
       expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
     });
+
+    it('should show do not merge if it is a DRAFT pr', () => {
+      const pr: any = { repository: {name: 'test'} };
+      pr.title = 'the best happy cat code change';
+      pr.isDraft = true;
+
+      const vstsItem = new VstsPullRequest(pr);
+      expect(vstsItem.do_not_merge).toBeTruthy('There should be an indication of not merging');
+    });
   });
 
   describe('for VstsRelease items', () => {
