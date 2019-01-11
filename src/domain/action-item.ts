@@ -60,7 +60,7 @@ export class VstsPullRequest extends PullRequest {
     this.name = `${repo}: ${prInfo.title}`;
     this.created = new Date(prInfo.creationDate).getTime();
     this.url = `${this.ROOTURL}/_git/${repo}/pullrequest/${prInfo.pullRequestId}`;
-    this.do_not_merge = this.hasDoNotMergeFlag(prInfo.title) || this.hasDoNotMergeLabel(prInfo);
+    this.do_not_merge = this.hasDoNotMergeFlag(prInfo.title) || this.hasDoNotMergeLabel(prInfo) || prInfo.isDraft;
     this.priority = PullRequest.calcPriority(this.created, this.do_not_merge);
   }
 
