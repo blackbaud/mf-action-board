@@ -11,11 +11,13 @@ import { SPRINT_LIT_REFRESH_INTERVAL_IN_MS } from "../app.constants";
 export class SprintLitComponent {
 
   litImage: string;
-  litImages: Array<string> = [
-    "../assets/lit/ethanLIT.jpg",
-    "../assets/lit/carolineLIT.jpg",
-    "../assets/lit/gregLIT.jpg",
-    "../assets/lit/rajLIT.jpg"
+  litImageDir = '../assets/lit/';
+  imageNames: Array<string> = [
+    'ethanLIT.jpg',
+    'carolineLIT.jpg',
+    'gregLIT.jpg',
+    'rajLIT.jpg',
+    'ethan-ception.jpg'
   ];
 
   constructor(private pollingService: PollingService) {
@@ -24,6 +26,6 @@ export class SprintLitComponent {
   }
 
   setLitImage = (): void => {
-    this.litImage = this.litImages[Math.floor(Math.random() * this.litImages.length)];
+    this.litImage = this.litImageDir + this.imageNames[Math.floor(Math.random() * this.imageNames.length)];
   }
 }
