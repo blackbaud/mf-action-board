@@ -53,10 +53,8 @@ export const VSTS_REPOS = {
     'donation-form-reporting',
     'donation-form-reporting-database',
     'donation-form-layout',
-    'common-async',
     'form-consent',
     'transactor',
-    'sasquatch',
     'donor-form-synth-monitor',
     'skyux-spa-donation-forms-supportal'
   ],
