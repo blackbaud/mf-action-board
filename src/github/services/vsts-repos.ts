@@ -37,12 +37,12 @@ export const VSTS_REPOS = {
     'skyux-spa-workflows',
     'skyux-spa-workflows-supportal'
   ],
-  'brady-bunch': [
+  'animaniacs': [
     'bb-permissions-marketing-social',
     'bluemoon-local-router',
     'skyux-lib-common-ui-test',
     'skyux-spa-social',
-    'skyux-spa-social-admin',
+    'skyux-spa-social-supportal',
     'skyux-spa-social-smoke-tests',
     'social-metrics',
     'social-metrics-database',
