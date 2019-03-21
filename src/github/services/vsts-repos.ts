@@ -35,7 +35,8 @@ export const VSTS_REPOS = {
     'skyux-spa-apply-workflows',
     'skyux-spa-workflow-designer-docs',
     'skyux-spa-workflows',
-    'skyux-spa-workflows-supportal'
+    'skyux-spa-workflows-supportal',
+    'skyux-lib-dlq-management'
   ],
   'animaniacs': [
     'bb-permissions-marketing-social',
