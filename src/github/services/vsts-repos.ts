@@ -29,6 +29,7 @@ export const VSTS_REPOS = {
     'wfd-actions-adapter',
     'wfd-constituent-adapter',
     'workflow-designer',
+    'wfd-email-adapter',
     'workflow-designer-prod-tester',
     'skyux-lib-action-form',
     'skyux-lib-browser-cache',
