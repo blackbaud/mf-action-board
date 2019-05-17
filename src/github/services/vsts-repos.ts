@@ -2,15 +2,11 @@
 // this is because VSTS does not have a concept of a team owning a repo. :shrug:
 export const VSTS_REPOS = {
   'micro-cervezas': [
-    'common-test',
-    'common-retry',
     'bluemoon-admin-login',
     'bluemoon-config-server',
-    'java-project-builder',
     'skyux-routes-long',
     'social-donation-receiver',
     'facebook-api-client',
-    'common-logging',
     'bb-java-base-docker-image',
     'skyux-lib-form',
     'skyux-lib-button-group',
