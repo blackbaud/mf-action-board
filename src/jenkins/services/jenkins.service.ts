@@ -72,23 +72,23 @@ export class JenkinsService {
   private includeJob(job) {
     const jobName = job.name;
     const jobType = jobName.substring(jobName.indexOf('_') + 1, jobName.length);
-    const jobNameToBuildName = this.determineBuildName(jobName);
+    const repoNameFromJob = this.determineRepoName(jobName);
     return jobType !== 'release'
       && jobType !== 'promote'
       && job.color !== 'disabled'
-      && (this.configService.repos[jobNameToBuildName] || this.isInWatchList(jobNameToBuildName))
+      && (this.configService.repos[repoNameFromJob] || this.isInWatchList(repoNameFromJob))
       // hardcoded exclusion of two builds that  @micro-dev has tickets to go fix.
       && jobName !== 'notifications-component_int-apps-test'
       && jobName !== 'notifications-component_dev-apps-test-nightly'
       && job.lastCompletedBuild.result === 'FAILURE';
   }
 
-  private determineBuildName(jobName:any){
-      let jobNameToBuildName = jobName.substring(0, jobName.indexOf('_'));
-      if (jobName.indexOf('luminate-online') != -1) {
-        jobNameToBuildName = jobName;
+  private determineRepoName(jobName: any) {
+      let repoName = jobName.substring(0, jobName.indexOf('_'));
+      if (jobName.indexOf('luminate-online') !== -1) {
+        repoName = jobName;
       }
-      return jobNameToBuildName;
+      return repoName;
   }
 
   private handleError(error: any): Promise<any> {
