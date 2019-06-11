@@ -84,11 +84,13 @@ export class JenkinsService {
   }
 
   private determineRepoName(jobName: any) {
-      let repoName = jobName.substring(0, jobName.indexOf('_'));
-      if (jobName.indexOf('luminate-online') !== -1) {
-        repoName = jobName;
-      }
-      return repoName;
+    let repoName;
+    if (jobName.startsWith('luminate-online')) {
+      repoName = 'luminate-online';
+    } else {
+      repoName = jobName.substring(0, jobName.indexOf('_'));
+    }
+    return repoName;
   }
 
   private handleError(error: any): Promise<any> {
