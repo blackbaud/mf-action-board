@@ -80,7 +80,7 @@ export class JenkinsService {
       // hardcoded exclusion of two builds that  @micro-dev has tickets to go fix.
       && jobName !== 'notifications-component_int-apps-test'
       && jobName !== 'notifications-component_dev-apps-test-nightly'
-      && job.lastCompletedBuild.result === 'FAILURE';
+      && (job.lastCompletedBuild.result === 'FAILURE' || job.lastCompletedBuild.result === 'UNSTABLE');
   }
 
   private determineRepoName(jobName: any) {
