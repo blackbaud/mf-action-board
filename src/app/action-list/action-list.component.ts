@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActionItem } from '../../domain/action-item';
 import { GithubService } from '../../github/services/github.service';
 import { VstsService } from '../../github/services/vsts.service';
-import { JenkinsService } from '../../jenkins/services/jenkins.service';
+import { JenkinsService } from '../shared/services/jenkins.service';
 import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../app.constants';
 import { ConfigService } from '../../app/config.service';
 import { NotificationsService } from '../../notifications/services/notifications.service';

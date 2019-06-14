@@ -1,7 +1,7 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PollingService } from '../polling.service';
 
 import { SprintLitComponent } from './sprint-lit.component';
-import {PollingService} from '../polling.service';
 
 describe('SprintLitComponent', () => {
   let component: SprintLitComponent;
@@ -11,13 +11,12 @@ describe('SprintLitComponent', () => {
     }
   };
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [ SprintLitComponent ],
       providers: [{provide: PollingService, useValue: doNothingPollingService}]
-    })
-    .compileComponents();
-  }));
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(SprintLitComponent);

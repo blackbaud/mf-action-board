@@ -1,23 +1,23 @@
-import {async, ComponentFixture, fakeAsync, TestBed, tick} from '@angular/core/testing';
-import {FormsModule} from '@angular/forms';
-import {GithubService} from '../../github/services/github.service';
-import {JenkinsService} from '../../jenkins/services/jenkins.service';
-import {VstsService} from '../../github/services/vsts.service';
-import {ConfigService} from '../config.service';
-import {NotificationsService} from '../../notifications/services/notifications.service';
-import {FakeJenkinsService} from '../../testing/FakeJenkinsService';
-import {FakeNotificationsService} from '../../testing/FakeNotificationsService';
-import {FakeConfigService} from '../../testing/fake-config.service';
-import {GithubConfig} from '../../domain/github-config';
-import {ActionListComponent} from './action-list.component';
-import {ActionItem, GitHubPullRequest, PullRequest} from '../../domain/action-item';
-import {PullRequestComponent} from '../pull-request/pull-request.component';
-import {BuildComponent} from '../build/build.component';
-import {RageFaceComponent} from '../rage-face/rage-face.component';
-import {SprintLitComponent} from '../sprint-lit/sprint-lit.component';
-import {VstsConfig} from '../../domain/vsts-config';
-import {DebugElement} from '@angular/core';
-import {PollingService} from '../polling.service';
+import { DebugElement } from '@angular/core';
+import { ComponentFixture, fakeAsync, TestBed, tick } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { ActionItem, GitHubPullRequest, PullRequest } from '../../domain/action-item';
+import { GithubConfig } from '../../domain/github-config';
+import { VstsConfig } from '../../domain/vsts-config';
+import { GithubService } from '../../github/services/github.service';
+import { VstsService } from '../../github/services/vsts.service';
+import { NotificationsService } from '../../notifications/services/notifications.service';
+import { FakeConfigService } from '../../testing/fake-config.service';
+import { FakeJenkinsService } from '../../testing/FakeJenkinsService';
+import { FakeNotificationsService } from '../../testing/FakeNotificationsService';
+import { BuildComponent } from '../build/build.component';
+import { ConfigService } from '../config.service';
+import { PollingService } from '../polling.service';
+import { PullRequestComponent } from '../pull-request/pull-request.component';
+import { RageFaceComponent } from '../rage-face/rage-face.component';
+import { JenkinsService } from '../shared/services/jenkins.service';
+import { SprintLitComponent } from '../sprint-lit/sprint-lit.component';
+import { ActionListComponent } from './action-list.component';
 
 // TODO put the common test configs in a common place
 const githubConfig: GithubConfig = {
@@ -94,15 +94,15 @@ describe('ActionListComponent', () => {
   };
 
   const teamNameTest = () => {
-    it('should show team name', fakeAsync(() => {
+    it('should show team name', () => {
       expect(elements.team().textContent).toContain(githubConfig.team);
-    }));
+    });
   };
 
   describe('when there are action items', () => {
-    beforeEach(async(() => {
-      testBed(githubSvcWithData, emptyVstsSvc).compileComponents();
-    }));
+    beforeEach(() => {
+      testBed(githubSvcWithData, emptyVstsSvc);
+    });
 
     beforeEach(() => {
       fixture = TestBed.createComponent(ActionListComponent);
@@ -119,19 +119,19 @@ describe('ActionListComponent', () => {
       fixture.detectChanges();
     }));
 
-    it('should show list of items returned', fakeAsync(() => {
+    it('should show list of items returned', () => {
       expect(elements.list()).not.toBeNull();
       expect(elements.items().length).toBe(1);
       expect(elements.item(1).textContent).toContain(githubPr.title);
-    }));
+    });
 
     teamNameTest();
   });
 
   describe('when there are no action items', () => {
-    beforeEach(async(() => {
-      testBed(emptyGithubSvc, emptyVstsSvc).compileComponents();
-    }));
+    beforeEach(() => {
+      testBed(emptyGithubSvc, emptyVstsSvc);
+    });
 
     beforeEach(() => {
       fixture = TestBed.createComponent(ActionListComponent);

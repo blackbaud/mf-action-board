@@ -5,7 +5,7 @@ import { HttpModule } from '@angular/http';
 
 import { AppComponent } from './app.component';
 
-import { JenkinsService } from '../jenkins/services/jenkins.service';
+import { JenkinsService } from './shared/services/jenkins.service';
 import { GithubService } from '../github/services/github.service';
 import { VstsService } from '../github/services/vsts.service';
 import { ConfigService } from './config.service';

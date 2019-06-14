@@ -1,12 +1,12 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
+import { RouterTestingModule } from '@angular/router/testing';
+import { GithubConfig } from '../../domain/github-config';
+import { VstsConfig } from '../../domain/vsts-config';
+import { FakeConfigService } from '../../testing/fake-config.service';
+import { ConfigService } from '../config.service';
 
 import { ConfigScreenComponent } from './config-screen.component';
-import {ConfigService} from '../config.service';
-import {FakeConfigService} from '../../testing/fake-config.service';
-import {GithubConfig} from '../../domain/github-config';
-import {VstsConfig} from '../../domain/vsts-config';
-import {RouterTestingModule} from '@angular/router/testing';
-import {FormsModule} from '@angular/forms';
 
 // TODO put the common test configs in a common place
 const githubConfig: GithubConfig = {
@@ -29,7 +29,7 @@ describe('ConfigScreenComponent', () => {
   let component: ConfigScreenComponent;
   let fixture: ComponentFixture<ConfigScreenComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
@@ -40,10 +40,9 @@ describe('ConfigScreenComponent', () => {
         {provide: VstsConfig, useValue: vstsConfig},
         {provide: ConfigService, useClass: FakeConfigService}
       ],
-      declarations: [ ConfigScreenComponent ]
-    })
-    .compileComponents();
-  }));
+      declarations: [ConfigScreenComponent]
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(ConfigScreenComponent);

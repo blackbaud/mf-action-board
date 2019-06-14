@@ -1,63 +1,60 @@
 import { Injectable } from '@angular/core';
-import { Http } from '@angular/http';
+import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { JobDetails } from '../../domain/jobDetails';
-import { ActionItem, Build, JenkinsBuild } from '../../domain/action-item';
+import { JENKINS_ENV, JENKINS_JOB_BUILDING_COLOR } from '../../../config/app-config-constants';
+import { ActionItem, JenkinsBuild } from '../../../domain/action-item';
 
-import {
-  JENKINS_JOB_BUILDING_COLOR, JENKINS_ENV
-} from '../../config/app-config-constants';
-import { ConfigService } from '../../app/config.service';
+import { JobDetails } from '../../../domain/jobDetails';
+import { ConfigService } from '../../config.service';
 
 @Injectable()
 export class JenkinsService {
 
-  constructor(private http: Http, private configService: ConfigService) {}
+  constructor(private http: Http, private configService: ConfigService) {
+  }
 
-  getActionItems(): Promise<ActionItem[]> {
-    const envPromises = [];
-    const newActionItems: Build[] = [];
-    JENKINS_ENV.forEach((url) => {
-      const promise = this.http.get(
-        url + 'api/json?tree=jobs[name,color,inQueue,lastCompletedBuild[number,timestamp,result,url],lastBuild[number,timestamp,estimatedDuration]]',
-        this.configService.options)
-        .toPromise()
-        .then((response) => this.processJobs(response, newActionItems))
-        .catch(this.handleError);
-      envPromises.push(promise);
-    });
-    return new Promise<ActionItem[]>((resolve) => {
-      Promise.all(envPromises).then(() => {
-        resolve(newActionItems);
+  public getActionItems(): Promise<ActionItem[]> {
+    const envPromises: Array<Promise<JenkinsBuild[]>> = JENKINS_ENV
+      .map(url => {
+        return this.http.get(this.fullurl(url), this.configService.options)
+          .toPromise()
+          .then((response) => this.processJobs(response))
+          .catch(this.handleError);
       });
-    });
+    return Promise.all(envPromises)
+      .then((results: JenkinsBuild[][]) => {
+        let builds: JenkinsBuild[] = [];
+        results.forEach(val => builds = builds.concat(val));
+        return builds;
+      });
   }
 
-  private processJobs(response, newActionItems) {
-    const jobs = response.json().jobs;
-    jobs.forEach((job) => this.addNewActionItem(job, newActionItems));
+  private fullurl(baseUrl: string): string {
+    return `${baseUrl}api/json?tree=jobs[name,color,inQueue,lastCompletedBuild[number,timestamp,result,url],lastBuild[number,timestamp,estimatedDuration]]`;
   }
 
-  private addNewActionItem(job, newActionItems) {
+  private processJobs(response: Response): JenkinsBuild[] {
+    return response.json().jobs
+      .filter((job) => job.lastCompletedBuild && this.includeJob(job))
+      .map((job) => this.toActionItem(job));
+  }
+
+  private toActionItem(job): JenkinsBuild {
     const lastCompletedBuild = job.lastCompletedBuild;
     const jobDetails = new JobDetails();
-    if (lastCompletedBuild) {
-      if (this.includeJob(job)) {
-        const jobStatus = lastCompletedBuild.result;
-        jobDetails.result = jobStatus;
-        jobDetails.jobName = job.name;
-        jobDetails.timestampLastCompletedBuild = lastCompletedBuild.timestamp;
-        jobDetails.building = this.isBuilding(job);
-        jobDetails.url = lastCompletedBuild.url;
-        const lastBuild = job.lastBuild;
-        jobDetails.estimatedDuration = lastBuild.estimatedDuration;
-        if (lastBuild && jobDetails.building) {
-          jobDetails.timestampCurrentBuild = lastBuild.timestamp;
-        }
-        newActionItems.push(new JenkinsBuild(jobDetails));
-      }
+    const jobStatus = lastCompletedBuild.result;
+    jobDetails.result = jobStatus;
+    jobDetails.jobName = job.name;
+    jobDetails.timestampLastCompletedBuild = lastCompletedBuild.timestamp;
+    jobDetails.building = this.isBuilding(job);
+    jobDetails.url = lastCompletedBuild.url;
+    const lastBuild = job.lastBuild;
+    jobDetails.estimatedDuration = lastBuild.estimatedDuration;
+    if (lastBuild && jobDetails.building) {
+      jobDetails.timestampCurrentBuild = lastBuild.timestamp;
     }
+    return new JenkinsBuild(jobDetails);
   }
 
   private isBuilding(job) {
@@ -96,7 +93,7 @@ export class JenkinsService {
   private handleError(error: any): Promise<any> {
     console.error('An error occurred', error);
     // ignore failure so that Promise.All() in calling component can resolve successful calls
-    return Promise.resolve();
+    return Promise.resolve([]);
   }
 
   private buildTypeString(jobDetails: JobDetails): string {
