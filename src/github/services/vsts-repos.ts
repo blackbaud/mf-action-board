@@ -51,6 +51,7 @@ export const VSTS_REPOS = {
     'donation-form-reporting',
     'donation-form-reporting-database',
     'donation-form-layout',
+    'email-adapter',
     'form-consent',
     'transactor',
     'donor-form-synth-monitor',
