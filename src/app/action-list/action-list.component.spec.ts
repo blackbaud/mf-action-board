@@ -18,31 +18,7 @@ import { RageFaceComponent } from '../rage-face/rage-face.component';
 import { JenkinsService } from '../shared/services/jenkins.service';
 import { SprintLitComponent } from '../sprint-lit/sprint-lit.component';
 import { ActionListComponent } from './action-list.component';
-
-// TODO put the common test configs in a common place
-const githubConfig: GithubConfig = {
-  team: 'bros',
-  teamId: '1010101',
-  userName: 'dude bro',
-  token: 'goober',
-  watchList: '',
-  isConfigured: () => true
-};
-
-const vstsConfig: VstsConfig = {
-  team: 'bros',
-  token: 'token',
-  username: 'dude bro',
-  isConfigured: () => true
-};
-
-const githubPr = {
-  labels: [{name: 'a random label'}],
-  createdAt: 1502982366420,
-  url: 'https://www.github.com/blackbaud/testRepo/issues',
-  html_url: 'https://www.github.com/blackbaud/testRepo',
-  title: 'Baby\'s first PR!'
-};
+import { TEST_GITHUB_CONFIG, TEST_GITHUB_PR, TEST_VSTS_CONFIG } from '../../testing/constants';
 
 const emptyVstsSvc = {
   getActionItems: () => {
@@ -56,7 +32,7 @@ const githubSvcWithData = {
   },
 
   getActionItems: () => {
-    return Promise.resolve([new GitHubPullRequest(githubPr)] as ActionItem[]);
+    return Promise.resolve([new GitHubPullRequest(TEST_GITHUB_PR)] as ActionItem[]);
   }
 };
 
@@ -95,7 +71,7 @@ describe('ActionListComponent', () => {
 
   const teamNameTest = () => {
     it('should show team name', () => {
-      expect(elements.team().textContent).toContain(githubConfig.team);
+      expect(elements.team().textContent).toContain(TEST_GITHUB_CONFIG.team);
     });
   };
 
@@ -122,7 +98,7 @@ describe('ActionListComponent', () => {
     it('should show list of items returned', () => {
       expect(elements.list()).not.toBeNull();
       expect(elements.items().length).toBe(1);
-      expect(elements.item(1).textContent).toContain(githubPr.title);
+      expect(elements.item(1).textContent).toContain(TEST_GITHUB_PR.title);
     });
 
     teamNameTest();
@@ -179,8 +155,8 @@ function testBed(githubSvc: { loadRepos: () => void, getActionItems: () => Promi
       {provide: GithubService, useValue: githubSvc},
       {provide: VstsService, useValue: vstsSvc},
       {provide: JenkinsService, useClass: FakeJenkinsService},
-      {provide: GithubConfig, useValue: githubConfig},
-      {provide: VstsConfig, useValue: vstsConfig},
+      {provide: GithubConfig, useValue: TEST_GITHUB_CONFIG},
+      {provide: VstsConfig, useValue: TEST_VSTS_CONFIG},
       {provide: ConfigService, useClass: FakeConfigService},
       {provide: PollingService, useValue: doNothingPollingService},
       {provide: NotificationsService, useClass: FakeNotificationsService}

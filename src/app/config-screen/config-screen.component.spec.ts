@@ -7,23 +7,7 @@ import { FakeConfigService } from '../../testing/fake-config.service';
 import { ConfigService } from '../config.service';
 
 import { ConfigScreenComponent } from './config-screen.component';
-
-// TODO put the common test configs in a common place
-const githubConfig: GithubConfig = {
-  team: 'bros',
-  teamId: '1010101',
-  userName: 'dude bro',
-  token: 'goober',
-  watchList: '',
-  isConfigured: () => true
-};
-
-const vstsConfig: VstsConfig = {
-  team: 'bros',
-  token: 'token',
-  username: 'dude bro',
-  isConfigured: () => true
-};
+import { TEST_GITHUB_CONFIG, TEST_VSTS_CONFIG } from '../../testing/constants';
 
 describe('ConfigScreenComponent', () => {
   let component: ConfigScreenComponent;
@@ -36,8 +20,8 @@ describe('ConfigScreenComponent', () => {
         FormsModule
       ],
       providers: [
-        {provide: GithubConfig, useValue: githubConfig},
-        {provide: VstsConfig, useValue: vstsConfig},
+        {provide: GithubConfig, useValue: TEST_GITHUB_CONFIG},
+        {provide: VstsConfig, useValue: TEST_VSTS_CONFIG},
         {provide: ConfigService, useClass: FakeConfigService}
       ],
       declarations: [ConfigScreenComponent]
