@@ -10,6 +10,7 @@ export abstract class AbstractConfigServiceIface {
   private static GITHUB = 'github';
   github: GithubConfig;
   vsts: VstsConfig;
+  repos: {[key: string]: string};
 
   public setConfigValue(type: string, key: string, value: string) {
     if (type === AbstractConfigServiceIface.VSTS) {
