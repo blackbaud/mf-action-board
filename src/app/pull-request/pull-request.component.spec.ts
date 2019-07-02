@@ -1,22 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { VstsPullRequest } from '../../domain/action-item';
+import { RageFaceComponent } from '../rage-face/rage-face.component';
 
 import { PullRequestComponent } from './pull-request.component';
-import {RageFaceComponent} from '../rage-face/rage-face.component';
-import {PullRequest, VstsPullRequest} from '../../domain/action-item';
 
 describe('PullRequestComponent', () => {
   let component: PullRequestComponent;
   let fixture: ComponentFixture<PullRequestComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         PullRequestComponent,
         RageFaceComponent
       ]
-    })
-    .compileComponents();
-  }));
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(PullRequestComponent);

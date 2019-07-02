@@ -1,22 +1,21 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { VstsBuild } from '../../domain/action-item';
+import { RageFaceComponent } from '../rage-face/rage-face.component';
 
 import { BuildComponent } from './build.component';
-import {RageFaceComponent} from '../rage-face/rage-face.component';
-import {Build, VstsBuild} from '../../domain/action-item';
 
 describe('BuildComponent', () => {
   let component: BuildComponent;
   let fixture: ComponentFixture<BuildComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
       declarations: [
         BuildComponent,
         RageFaceComponent
       ]
-    })
-    .compileComponents();
-  }));
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(BuildComponent);

@@ -1,4 +1,4 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { RageFaceComponent } from './rage-face.component';
 
@@ -6,12 +6,11 @@ describe('RageFaceComponent', () => {
   let component: RageFaceComponent;
   let fixture: ComponentFixture<RageFaceComponent>;
 
-  beforeEach(async(() => {
+  beforeEach(() => {
     TestBed.configureTestingModule({
-      declarations: [ RageFaceComponent ]
-    })
-    .compileComponents();
-  }));
+      declarations: [RageFaceComponent]
+    });
+  });
 
   beforeEach(() => {
     fixture = TestBed.createComponent(RageFaceComponent);
