@@ -57,7 +57,8 @@ export const VSTS_REPOS = {
     'donor-form-synth-monitor',
     'environment-form-config',
     'skyux-spa-donation-forms-supportal',
-    'donor-form-synth-monitor'
+    'donor-form-synth-monitor',
+    'skyux-spa-tools-settings'
   ],
   'voltron' : [
     'installment-engine',
