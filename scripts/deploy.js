@@ -22,7 +22,7 @@ const litBucketConfig = {
 // initialise S3 client
 const s3 = new AWS.S3({
   signatureVersion: 'v4',
-  credentials: new AWS.SharedIniFileCredentials({profile: 'mf-action-board'})
+  credentials: new AWS.SharedIniFileCredentials({profile: 'bb-lonxt-sandbox-ADFS-PowerUser'})
 });
 
 let pushFilesToS3 = function (config, s3) {

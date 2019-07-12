@@ -49,9 +49,7 @@ Within this project's directory, run the following commands
 Run `npm start` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
 
 ## Deployment to S3 bucket
-* Get keys from Eric Slater or Colby M. White
-  * use the `awscli` to put keys in `~/.aws/credentials` in a `[mf-action-board]` profile
-  * `aws configure --profile=mf-action-board`
+* Follow the instructions [here](https://wiki.blackbaud.com/display/AIR/How+to+request+access+to+AWS) to get access to `bb-lonxt-sandbox` as `ADFS-PowerUser`. Note that the keys expire every 4 hours and the tool on that page will need to be re-run to log in again.
 * Run `npm run deploy`
 * deployment URI: `http://mf-action-board.s3-website.us-east-2.amazonaws.com`
 
