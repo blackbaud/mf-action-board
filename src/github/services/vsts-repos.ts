@@ -5,16 +5,13 @@ export const VSTS_REPOS = {
     'bluemoon-admin-login',
     'bluemoon-config-server',
     'skyux-routes-long',
-    'social-donation-receiver',
-    'facebook-api-client',
     'bb-java-base-docker-image',
     'skyux-lib-form',
     'skyux-lib-button-group',
     'skyux-spa-donation-forms',
     'identity-token',
     'skyux-spa-reactive-demo',
-    'skyux-spa-donor-form',
-    'donor-form-synth-monitor'
+    'skyux-spa-donor-form'
   ],
   'we-are-batman': [
     'actions-adapter',
