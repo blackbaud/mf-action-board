@@ -74,5 +74,8 @@ export const VSTS_REPOS = {
     'receipter',
     'email-adapter',
     'skyux-spa-receipt-manager'
+  ],
+  'illuminati' : [
+    'social-donation-receiver'
   ]
 };
