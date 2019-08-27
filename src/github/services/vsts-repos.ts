@@ -34,7 +34,6 @@ export const VSTS_REPOS = {
   ],
   'animaniacs': [
     'bb-permissions-marketing-social',
-    'bluemoon-local-router',
     'skyux-lib-common-ui-test',
     'skyux-spa-social',
     'skyux-spa-social-supportal',
