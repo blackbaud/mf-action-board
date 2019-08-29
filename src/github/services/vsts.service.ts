@@ -140,7 +140,7 @@ export class VstsService {
       return null;
     } else {
       const definition = definitions.value.find(response => response.name === repo);
-      return definition !== null ? definition.id : null;
+      return definition ? definition.id : null;
     }
   }
 
