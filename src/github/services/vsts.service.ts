@@ -140,12 +140,8 @@ export class VstsService {
       return null;
     } else {
       const definition = definitions.value.find(response => response.name === repo);
-      return this.isNotEmpty(definition) ? definition.id : null;
+      return definition ? definition.id : null;
     }
-  }
-
-  isNotEmpty(definition) {
-    return definition !== null && definition !== undefined;
   }
 
   getLatestReleaseId(definition_id: number): Promise<number> {
