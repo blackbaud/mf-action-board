@@ -58,6 +58,8 @@ export const VSTS_REPOS = {
     'fms-efcfg-v2',
     'fms-cnsnt-v2',
     'fms-txntr-v2',
+    'fms-rport-v2',
+    'fms-lyout-v2',
     'skyux-spa-donation-forms'
   ],
   'voltron' : [
