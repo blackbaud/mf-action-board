@@ -78,6 +78,7 @@ export const VSTS_REPOS = {
     'skyux-spa-receipt-manager'
   ],
   'illuminati' : [
-    'social-donation-receiver'
+    'social-donation-receiver',
+    'facebook-api-client'
   ]
 };
