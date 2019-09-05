@@ -8,10 +8,9 @@ export const VSTS_REPOS = {
     'bb-java-base-docker-image',
     'skyux-lib-form',
     'skyux-lib-button-group',
-    'skyux-spa-donation-forms',
     'identity-token',
-    'skyux-spa-reactive-demo',
-    'skyux-spa-donor-form'
+    'skyux-spa-constituent-forms',
+    'skyux-spa-constituent-form-submission'
   ],
   'we-are-batman': [
     'actions-adapter',
