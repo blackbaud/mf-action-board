@@ -40,7 +40,8 @@ export const VSTS_REPOS = {
     'social-metrics',
     'social-metrics-database',
     'social-posting',
-    'rlp-rlshp-svc'
+    'rlp-rlshp-svc',
+    'skyux-lib-relationship-form'
   ],
   'highlander': [
     'donation-form-int-tests',
