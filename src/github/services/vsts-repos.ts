@@ -10,7 +10,9 @@ export const VSTS_REPOS = {
     'skyux-lib-button-group',
     'identity-token',
     'skyux-spa-constituent-forms',
-    'skyux-spa-constituent-form-submission'
+    'skyux-spa-constituent-form-submission',
+    'constituent-forms',
+    'constituent-form-submission'
   ],
   'we-are-batman': [
     'actions-adapter',
