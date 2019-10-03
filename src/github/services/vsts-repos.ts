@@ -12,7 +12,8 @@ export const VSTS_REPOS = {
     'skyux-spa-constituent-forms',
     'skyux-spa-constituent-form-submission',
     'constituent-forms',
-    'constituent-form-submission'
+    'constituent-form-submission',
+    'skyux-lib-constituent-form'
   ],
   'we-are-batman': [
     'actions-adapter',
