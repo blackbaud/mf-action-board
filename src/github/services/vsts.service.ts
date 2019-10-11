@@ -16,8 +16,6 @@ export class VstsService {
   PROJECT = 'Products';
   ROOTURL = `https://${this.ACCOUNT}.VisualStudio.com/${this.COLLECTION}/${this.PROJECT}`;
   PREVIEW_URL = `https://${this.ACCOUNT}.vsrm.VisualStudio.com/${this.PROJECT}`;
-  public errorCount = 0;
-  public errorReceived = false;
 
   constructor(private http: Http, private configService: ConfigService) {
   }
@@ -177,8 +175,6 @@ export class VstsService {
 
   private handleError(error: any, errorResult = {}): Promise<any> {
     console.error('An error occurred', error);
-    this.errorCount += 1;
-    this.errorReceived = true;
     // ignore failure so that Promise.All() in calling component can resolve successful calls
     return Promise.resolve(errorResult);
   }
