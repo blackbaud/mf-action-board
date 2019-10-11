@@ -79,7 +79,8 @@ export class VstsService {
   getRelease(release_id: number): Promise<any> {
     return this.http.get(this.releaseUrl(release_id), this.requestOptions)
       .toPromise()
-      .then(response => response.json());
+      .then(response => response.json())
+      .catch(this.handleError);
   }
 
   getLastMasterBuild(definition_id: number): Promise<any> {
@@ -90,20 +91,23 @@ export class VstsService {
       .toPromise()
       .then(response => response.json().value)
       .then(builds => builds.filter(build => build.sourceBranch === 'refs/heads/master'))
-      // this assumes that the response in reverse cronological order,
+      // this assumes that the response in reverse chronological order,
       // which isn't explicitly stated in the docs, but seems empirically true.
-      .then(builds => builds[0]);
+      .then(builds => builds[0])
+      .catch(this.handleError);
   }
 
   getBuildIds(): Promise<number[]> {
     if (!this.configService.vsts.isConfigured()) {
       return this.handleError('Ignoring VSTS calls since not configured');
     }
-    const promises: Promise<number>[] = this.repos.map(repo => {
+    const buildList = this.repos.build ?  this.repos.build : this.repos;
+    const promises: Promise<number>[] = buildList.map(repo => {
       return this.http.get(this.buildDefinitionsUrl(repo), this.requestOptions)
         .toPromise()
         .then(response => response.json())
-        .then(response => (response.count === 1) ? response.value[0].id : null);
+        .then(response => (response.count === 1) ? response.value[0].id : null)
+        .catch(this.handleError);
     });
     return Promise.all(promises);
   }
@@ -112,7 +116,8 @@ export class VstsService {
     if (!this.configService.vsts.isConfigured()) {
       return this.handleError('Ignoring VSTS calls since not configured');
     }
-    const promises: Promise<VstsPullRequest[]>[] = this.repos.map(repo => {
+    const repoList = this.repos.repo ?  this.repos.repo : this.repos;
+    const promises: Promise<VstsPullRequest[]>[] = repoList.map(repo => {
       return this.http.get(this.prUrl(repo), this.requestOptions)
         .toPromise()
         .then(response => response.json().value.map((item => new VstsPullRequest(item))))
@@ -125,7 +130,8 @@ export class VstsService {
     if (!this.configService.vsts.isConfigured()) {
       return this.handleError('Ignoring VSTS calls since not configured');
     }
-    const promises: Promise<VstsPullRequest[]>[] = this.repos.map(repo => {
+    const releaseList = this.repos.release ?  this.repos.release : this.repos;
+    const promises: Promise<VstsPullRequest[]>[] = releaseList.map(repo => {
       return this.http.get(this.releaseDefinitionsUrl(repo), this.requestOptions)
         .toPromise()
         .then(response => response.json())
@@ -151,7 +157,8 @@ export class VstsService {
     return this.http.get(this.releasesUrl(definition_id), this.requestOptions)
       .toPromise()
       .then(response => response.json())
-      .then(response => (response.count >= 1) ? response.value[0].id : null);
+      .then(response => (response.count >= 1) ? response.value[0].id : null)
+      .catch(this.handleError);
   }
 
   private get requestOptions(): RequestOptions {
