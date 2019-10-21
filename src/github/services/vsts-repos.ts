@@ -60,7 +60,8 @@ export const VSTS_REPOS = {
       'skyux-spa-donation-forms-supportal',
       'donor-form-synth-monitor',
       'skyux-spa-tools-settings',
-      'skyux-spa-donation-forms'
+      'skyux-spa-donation-forms',
+      'skyux-spa-donor-form'
     ],
     'build': [
       'donation-form-reporting',
@@ -73,7 +74,9 @@ export const VSTS_REPOS = {
       'environment-form-config',
       'skyux-spa-donation-forms-supportal',
       'donor-form-synth-monitor',
-      'skyux-spa-tools-settings'
+      'skyux-spa-tools-settings',
+      'skyux-spa-donation-forms',
+      'skyux-spa-donor-form'
     ],
     'release': [
       'fms-efcfg-v2',
