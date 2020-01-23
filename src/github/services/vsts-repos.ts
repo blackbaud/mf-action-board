@@ -36,10 +36,8 @@ export const VSTS_REPOS = {
   ],
   'animaniacs': [
     'bb-permissions-marketing-social',
-    'skyux-lib-common-ui-test',
     'skyux-spa-social',
     'skyux-spa-social-supportal',
-    'skyux-spa-social-smoke-tests',
     'social-metrics',
     'social-metrics-database',
     'social-posting',
