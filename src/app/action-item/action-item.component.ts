@@ -1,19 +1,20 @@
 import { PRIORITY } from '../app.constants';
 import * as moment from 'moment';
+import { ACTION_PRIORITY_IGNORE, ACTION_PRIORITY_NEW, ACTION_PRIORITY_NOW, ACTION_PRIORITY_SOON } from '../../domain/action-item';
 
 export class ActionItemComponent {
   calcPriorityClass(priority: number): String {
     switch (priority) {
-      case 1: {
+      case ACTION_PRIORITY_NOW: {
         return PRIORITY.RED;
       }
-      case 2: {
+      case ACTION_PRIORITY_SOON: {
         return PRIORITY.ORANGE;
       }
-      case 3: {
+      case ACTION_PRIORITY_NEW: {
         return PRIORITY.YELLOW;
       }
-      case 4: {
+      case ACTION_PRIORITY_IGNORE: {
         return PRIORITY.GREY;
       }
       default: {

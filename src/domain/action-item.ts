@@ -2,6 +2,13 @@ import { GITHUB_PR_SLA_MS, JENKINS_ACTION_ITEM_SLA_MS } from '../config/app-conf
 import { DO_NOT_MERGE_LABEL_NAME } from '../github/services/github.constants';
 import { JobDetails } from './jobDetails';
 import * as moment from 'moment';
+import {QueueConfiguration} from "../github/services/dead-letter-queues";
+import {DeadLetterQueueReport} from "../github/services/dead-letter-queue.service";
+
+export const ACTION_PRIORITY_NOW = 1;
+export const ACTION_PRIORITY_SOON = 2;
+export const ACTION_PRIORITY_NEW = 3;
+export const ACTION_PRIORITY_IGNORE = 4;
 
 export abstract class BaseActionItem {
   url: string;
@@ -14,19 +21,34 @@ export abstract class BaseActionItem {
   abstract get type();
 }
 
+export class DeadLetterQueue extends BaseActionItem {
+
+  constructor(report: DeadLetterQueueReport) {
+    super();
+    this.created = Date.now();
+    this.priority = ACTION_PRIORITY_NOW;
+    this.url = ''; // TODO???
+    this.name = `${report.scs}-${report.service} [${report.zone}]`;
+  }
+
+  get type() {
+    return 'dlq';
+  }
+}
+
 export abstract class PullRequest extends BaseActionItem {
   do_not_merge: boolean;
 
   static calcPriority(created: number, do_not_merge: boolean): number {
       const timeElapsed = Date.now() - created;
       if (do_not_merge === true) {
-        return 4;
+        return ACTION_PRIORITY_IGNORE;
       } else if (timeElapsed >= GITHUB_PR_SLA_MS) {
-        return 1;
+        return ACTION_PRIORITY_NOW;
       } else if (timeElapsed >= (GITHUB_PR_SLA_MS / 2)) {
-        return 2;
+        return ACTION_PRIORITY_SOON;
       } else {
-        return 3;
+        return ACTION_PRIORITY_NEW;
       }
   }
 
@@ -92,11 +114,11 @@ export class Build extends BaseActionItem {
   static calcPriority(created: number): number {
     const timeElapsed = Date.now() - created;
     if (timeElapsed >= JENKINS_ACTION_ITEM_SLA_MS) {
-      return 1;
+      return ACTION_PRIORITY_NOW;
     } else if (timeElapsed >= (JENKINS_ACTION_ITEM_SLA_MS / 2)) {
-      return 2;
+      return ACTION_PRIORITY_SOON;
     } else {
-      return 3;
+      return ACTION_PRIORITY_NEW;
     }
   }
 
@@ -134,7 +156,7 @@ export class VstsRelease extends Build {
         .some(approval => approval.status === 'pending'));
     this.building = isInProgress && !requiresApproval;
     this.buildPercentage = 50;
-    this.priority = (this.building) ? 4 : Build.calcPriority(this.created);
+    this.priority = (this.building) ? ACTION_PRIORITY_IGNORE : Build.calcPriority(this.created);
   }
 }
 
@@ -150,4 +172,8 @@ export class JenkinsBuild extends Build {
   }
 }
 
-export type ActionItem = PullRequest | Build;
+export type ActionItem = PullRequest | Build | DeadLetterQueue;
+
+export interface ActionItemService {
+  getActionItems(): Promise<ActionItem[]>;
+}

@@ -3,13 +3,13 @@ import { Http, Response } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
 import { JENKINS_ENV, JENKINS_JOB_BUILDING_COLOR } from '../../../config/app-config-constants';
-import { ActionItem, JenkinsBuild } from '../../../domain/action-item';
+import {ActionItem, ActionItemService, JenkinsBuild} from '../../../domain/action-item';
 
 import { JobDetails } from '../../../domain/jobDetails';
 import { ConfigService } from '../../config.service';
 
 @Injectable()
-export class JenkinsService {
+export class JenkinsService implements ActionItemService {
 
   constructor(private http: Http, private configService: ConfigService) {
   }

@@ -18,17 +18,20 @@ import { ConfigScreenComponent } from './config-screen/config-screen.component';
 import { AppRoutingModule } from './app-routing.module';
 import { SprintLitComponent } from './sprint-lit/sprint-lit.component';
 import { ActionListComponent } from './action-list/action-list.component';
-import {PollingService} from './polling.service';
+import { PollingService } from './polling.service';
+import { DeadLetterQueueService } from '../github/services/dead-letter-queue.service';
+import { DeadLetterQueueComponent } from './dead-letter-queue/dead-letter-queue.component';
 
 @NgModule({
   declarations: [
+    ActionListComponent,
     AppComponent,
-    PullRequestComponent,
-    RageFaceComponent,
     BuildComponent,
     ConfigScreenComponent,
+    DeadLetterQueueComponent,
+    PullRequestComponent,
+    RageFaceComponent,
     SprintLitComponent,
-    ActionListComponent
   ],
   imports: [
     BrowserModule,
@@ -37,13 +40,14 @@ import {PollingService} from './polling.service';
     HttpModule
   ],
   providers: [
-    JenkinsService,
-    GithubService,
-    VstsService,
     ConfigService,
+    DeadLetterQueueService,
+    GithubService,
+    JenkinsService,
     NotificationsService,
     PollingService,
-    RefreshService
+    RefreshService,
+    VstsService
   ],
   bootstrap: [AppComponent]
 })
