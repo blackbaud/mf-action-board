@@ -2,8 +2,7 @@ import { GITHUB_PR_SLA_MS, JENKINS_ACTION_ITEM_SLA_MS } from '../config/app-conf
 import { DO_NOT_MERGE_LABEL_NAME } from '../github/services/github.constants';
 import { JobDetails } from './jobDetails';
 import * as moment from 'moment';
-import {QueueConfiguration} from "../github/services/dead-letter-queues";
-import {DeadLetterQueueReport} from "../github/services/dead-letter-queue.service";
+import { DeadLetterQueueReport } from '../github/services/dead-letter-queue.service';
 
 export const ACTION_PRIORITY_NOW = 1;
 export const ACTION_PRIORITY_SOON = 2;

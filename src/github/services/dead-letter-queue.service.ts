@@ -13,6 +13,7 @@ export interface DeadLetterQueueReport {
 
 @Injectable()
 export class DeadLetterQueueService implements ActionItemService {
+  
   constructor(private http: Http,
               private configService: ConfigService) {}
 
@@ -23,25 +24,46 @@ export class DeadLetterQueueService implements ActionItemService {
   }
 
   private get populatedQueues(): Promise<DeadLetterQueue[]> {
-    const items = this.queues.map((config: QueueConfiguration) => {
-      return {
-        service: config.service,
-        scs: config.scs,
-        zone: config.zones[1]
-      };
-    }).map((report: DeadLetterQueueReport) => {
+    const items = this.populatedDeadLetterQueues.map((report) => {
       return new DeadLetterQueue(report);
     });
+
     return Promise.resolve(items);
   }
 
-  private get queues(): QueueConfiguration[] {
-    return DEAD_LETTER_QUEUES[this.configService.vsts.team];
+  private get populatedDeadLetterQueues(): DeadLetterQueueReport[] {
+    return this.deadLetterQueueReports
+      .filter((report: DeadLetterQueueReport) => {
+        return report.populated;
+      });
   }
 
-  private mashPromisesTogether( func: () => Promise<any>): Promise<any[]> {
-    return Promise.all([
-      func
-    ]).then(items => [].concat.apply([], items));
+  private get deadLetterQueueReports(): DeadLetterQueueReport[] {
+    let iterator = 0;
+    return this.queuesToCheck.map((requestData) => {
+      // need to convert data into a url, make api request, translate response to report
+      return {
+        service: requestData.service,
+        scs: requestData.scs,
+        zone: requestData.zone,
+        populated: iterator++ % 3 === 0
+      };
+    });
+  }
+
+  private get queuesToCheck() {
+    return [].concat(...this.queuesConfigurations.map((config) => {
+      return config.zones.map((zone) => {
+        return {
+          service: config.service,
+          scs: config.scs,
+          zone: zone
+        };
+      });
+    }));
+  }
+
+  private get queuesConfigurations(): QueueConfiguration[] {
+    return DEAD_LETTER_QUEUES[this.configService.vsts.team];
   }
 }
