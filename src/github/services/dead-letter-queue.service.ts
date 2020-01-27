@@ -1,64 +1,60 @@
 import {Injectable} from '@angular/core';
 import {ConfigService} from '../../app/config.service';
-import {Http} from '@angular/http';
 import {ActionItem, DeadLetterQueue} from '../../domain/action-item';
 import {DEAD_LETTER_QUEUES, QueueConfiguration} from './dead-letter-queues';
+import {BBAuth} from '@blackbaud/auth-client/';
+import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpParams} from '@angular/common/http';
 
 export interface DeadLetterQueueReport {
   service: string;
   scs: string;
   zone: string;
   populated: boolean;
+  url: string;
 }
 
 @Injectable()
 export class DeadLetterQueueService {
 
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               private configService: ConfigService) {}
 
   getActionItems(): Promise<ActionItem[]> {
-    return Promise.all([
-      this.populatedQueues
-    ]).then(items => [].concat.apply([], items));
+    return Promise.all(this.deadLetterQueueReports)
+      .then(reports =>
+        reports.filter(report => report.populated)
+          .map(populatedReport => new DeadLetterQueue(populatedReport)));
   }
 
-  private get populatedQueues(): Promise<DeadLetterQueue[]> {
-    const items = this.populatedDeadLetterQueues.map((report) => {
-      return new DeadLetterQueue(report);
-    });
-
-    return Promise.resolve(items);
-  }
-
-  private get populatedDeadLetterQueues(): DeadLetterQueueReport[] {
-    return this.deadLetterQueueReports
-      .filter((report: DeadLetterQueueReport) => {
-        return report.populated;
-      });
-  }
-
-  private get deadLetterQueueReports(): DeadLetterQueueReport[] {
+  private get deadLetterQueueReports(): Promise<DeadLetterQueueReport>[] {
     let iterator = 0;
-    return this.queuesToCheck.map((requestData) => {
-      // need to convert data into a url, make api request, translate response to report
-      return {
-        service: requestData.service,
-        scs: requestData.scs,
-        zone: requestData.zone,
-        populated: iterator++ % 3 === 0
-      };
+    return this.queuesToCheck.map(requestData => {
+      return requestData.then(data => {
+        return {
+          service: data.service,
+          scs: data.scs,
+          zone: data.zone,
+          url: data.url,
+          populated: iterator++ % 3 === 0
+        };
+      });
     });
   }
 
-  private get queuesToCheck() {
+  private get queuesToCheck(): Promise<DeadLetterQueueReport>[] {
     return [].concat(...this.queuesConfigurations.map((config) => {
-      return config.zones.map((zone) => {
-        return {
-          service: config.service,
-          scs: config.scs,
-          zone: zone
-        };
+      return config.zones.map(zone => {
+        return BBAuth.getUrl(`1bb://${config.scs}-${config.service}/dlq/status`, {zone: zone})
+            .then(url => {
+              return {
+                service: config.service,
+                scs: config.scs,
+                zone: zone,
+                url: url
+              };
+            }
+        );
       });
     }));
   }
