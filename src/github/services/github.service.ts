@@ -2,11 +2,11 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import {ActionItemService, GitHubPullRequest, PullRequest} from '../../domain/action-item';
+import { GitHubPullRequest, PullRequest } from '../../domain/action-item';
 import { ConfigService } from '../../app/config.service';
 
 @Injectable()
-export class GithubService implements ActionItemService {
+export class GithubService {
 
   constructor(private http: Http, private configService: ConfigService) {}
 

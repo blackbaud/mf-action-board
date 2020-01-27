@@ -5,10 +5,10 @@ import * as moment from 'moment';
 
 import { ConfigService } from '../../app/config.service';
 import { VSTS_REPOS } from './vsts-repos';
-import { ActionItem, VstsPullRequest, VstsBuild, VstsRelease, ActionItemService } from '../../domain/action-item';
+import { ActionItem, VstsPullRequest, VstsBuild, VstsRelease } from '../../domain/action-item';
 
 @Injectable()
-export class VstsService implements ActionItemService {
+export class VstsService {
   ACCOUNT = 'blackbaud';
   COLLECTION = 'DefaultCollection';
   VERSION = '2.0';

@@ -1,7 +1,7 @@
 import {Injectable} from '@angular/core';
 import {ConfigService} from '../../app/config.service';
 import {Http} from '@angular/http';
-import {ActionItem, ActionItemService, DeadLetterQueue} from '../../domain/action-item';
+import {ActionItem, DeadLetterQueue} from '../../domain/action-item';
 import {DEAD_LETTER_QUEUES, QueueConfiguration} from './dead-letter-queues';
 
 export interface DeadLetterQueueReport {
@@ -12,8 +12,8 @@ export interface DeadLetterQueueReport {
 }
 
 @Injectable()
-export class DeadLetterQueueService implements ActionItemService {
-  
+export class DeadLetterQueueService {
+
   constructor(private http: Http,
               private configService: ConfigService) {}
 

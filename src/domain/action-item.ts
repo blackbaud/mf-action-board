@@ -27,7 +27,7 @@ export class DeadLetterQueue extends BaseActionItem {
     this.created = Date.now();
     this.priority = ACTION_PRIORITY_NOW;
     this.url = ''; // TODO???
-    this.name = `${report.scs}-${report.service} [${report.zone}]`;
+    this.name = `${report.scs}-${report.service}: ${report.zone}`;
   }
 
   get type() {
@@ -172,7 +172,3 @@ export class JenkinsBuild extends Build {
 }
 
 export type ActionItem = PullRequest | Build | DeadLetterQueue;
-
-export interface ActionItemService {
-  getActionItems(): Promise<ActionItem[]>;
-}
