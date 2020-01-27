@@ -21,7 +21,6 @@ import { ActionListComponent } from './action-list/action-list.component';
 import { PollingService } from './polling.service';
 import { DeadLetterQueueService } from '../github/services/dead-letter-queue.service';
 import { DeadLetterQueueComponent } from './dead-letter-queue/dead-letter-queue.component';
-import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -38,8 +37,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     FormsModule,
     AppRoutingModule,
-    HttpModule,
-    HttpClientModule
+    HttpModule
   ],
   providers: [
     ConfigService,

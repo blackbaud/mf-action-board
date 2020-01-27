@@ -3,8 +3,7 @@ import {ConfigService} from '../../app/config.service';
 import {ActionItem, DeadLetterQueue} from '../../domain/action-item';
 import {DEAD_LETTER_QUEUES, QueueConfiguration} from './dead-letter-queues';
 import {BBAuth} from '@blackbaud/auth-client/';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
-import {HttpParams} from '@angular/common/http';
+import {Http} from '@angular/http';
 
 export interface DeadLetterQueueReport {
   service: string;
@@ -17,7 +16,7 @@ export interface DeadLetterQueueReport {
 @Injectable()
 export class DeadLetterQueueService {
 
-  constructor(private http: HttpClient,
+  constructor(private http: Http,
               private configService: ConfigService) {}
 
   getActionItems(): Promise<ActionItem[]> {
