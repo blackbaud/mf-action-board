@@ -38,6 +38,7 @@ export const VSTS_REPOS = {
     'bb-permissions-marketing-social',
     'skyux-spa-social',
     'skyux-spa-social-supportal',
+    'skyux-spa-social-synth-tests',
     'social-metrics',
     'social-metrics-database',
     'social-posting',
