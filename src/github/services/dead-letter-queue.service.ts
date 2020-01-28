@@ -11,6 +11,7 @@ export interface DeadLetterQueueReport {
   zone: string;
   populated: boolean;
   url: string;
+  call_failed: boolean
 }
 
 @Injectable()
@@ -35,6 +36,7 @@ export class DeadLetterQueueService {
           scs: data.scs,
           zone: data.zone,
           url: data.url,
+          call_failed: iterator % 2 === 0,
           populated: iterator++ % 3 === 0
         };
       });

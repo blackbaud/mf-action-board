@@ -25,7 +25,7 @@ export class DeadLetterQueue extends BaseActionItem {
   constructor(report: DeadLetterQueueReport) {
     super();
     this.created = Date.now();
-    this.priority = ACTION_PRIORITY_NOW;
+    this.priority = report.call_failed ? ACTION_PRIORITY_IGNORE: ACTION_PRIORITY_NOW;
     this.url = ''; // TODO???
     this.name = `${report.scs}-${report.service}: ${report.zone}`;
   }
