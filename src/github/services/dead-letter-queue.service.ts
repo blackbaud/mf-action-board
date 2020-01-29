@@ -43,7 +43,7 @@ export class DeadLetterQueueService {
       return request.restCall.then(statusReport => {
         return this.convertToReport(request.requestData, statusReport.positive_report);
       }).catch(() => {
-        return this.convertToReport(request.requestData, false, true);
+        return this.convertToErrorReport(request.requestData);
       });
     }));
   }
@@ -63,6 +63,10 @@ export class DeadLetterQueueService {
         );
       });
     }));
+  }
+
+  private convertToErrorReport(requestInputs: DeadLetterQueueReport): Promise<DeadLetterQueueReport> {
+    return this.convertToReport(requestInputs, false, true);
   }
 
   private convertToReport(requestInputs: DeadLetterQueueReport,
