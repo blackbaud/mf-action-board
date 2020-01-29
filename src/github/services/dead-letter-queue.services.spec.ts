@@ -5,13 +5,14 @@ import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
 import {ACTION_PRIORITY_IGNORE, ACTION_PRIORITY_NOW} from '../../domain/action-item';
 import {Observable} from 'rxjs/Observable';
+import {BBAuth} from '@blackbaud/auth-client';
 
 describe('dead letter queue service', () => {
 
-  const TEST_TEAM = 'test-team-name';
-  const TEAM_SVC = 'super-svc';
-  const TEAM_SCS = 'best-scs';
-  const SVC_ZONE = 'murika';
+  const TEAM_NAME = 'test-team-name';
+  const SERVICE_NAME = 'srvce';
+  const SCS_CODE = 'scs';
+  const DEPLOYMENT_ZONE = 'murika';
 
   let service: DeadLetterQueueService;
   let http: HttpClient;
@@ -19,7 +20,7 @@ describe('dead letter queue service', () => {
   beforeEach(() => {
    const fakeConfigSvc = {
       vsts: {
-        team: TEST_TEAM
+        team: TEAM_NAME
       }
     };
 
@@ -35,10 +36,10 @@ describe('dead letter queue service', () => {
 
     service = TestBed.get(DeadLetterQueueService);
     spyOn(service, 'getAllConfigurations').and.returnValue({
-      'test-team-name': [{
-        service: TEAM_SVC,
-        scs: TEAM_SCS,
-        zones: [SVC_ZONE]
+      [TEAM_NAME]: [{
+        service: SERVICE_NAME,
+        scs: SCS_CODE,
+        zones: [DEPLOYMENT_ZONE]
       }]
     });
 
@@ -79,4 +80,15 @@ describe('dead letter queue service', () => {
       expect(queues.pop().priority).toBe(ACTION_PRIORITY_IGNORE);
     });
   }));
+
+  // I don't want to be testing this library but it's crucial to make sure this doesn't break if we upgrade the version later
+  it('should get properly generated urls from BB Auth', (done) => {
+    BBAuth.getUrl(
+      `1bb://${SCS_CODE}-${SERVICE_NAME}/dlq/status`,
+      { zone: DEPLOYMENT_ZONE })
+      .then((url: string) => {
+        expect(url).toBe(`https://${SCS_CODE}-${DEPLOYMENT_ZONE}.app.blackbaud.net/${SERVICE_NAME}/dlq/status`);
+        done();
+    });
+  });
 });
