@@ -3,7 +3,7 @@ import {ConfigService} from '../../app/config.service';
 import {ActionItem, DeadLetterQueue} from '../../domain/action-item';
 import {DEAD_LETTER_QUEUES, QueueConfiguration} from './dead-letter-queues';
 import {BBAuth} from '@blackbaud/auth-client/';
-import {Http} from '@angular/http';
+import {Http, ResponseContentType} from '@angular/http';
 
 export interface DeadLetterQueueReport {
   service: string;
@@ -28,22 +28,17 @@ export class DeadLetterQueueService {
   }
 
   private get deadLetterQueueReports(): Promise<DeadLetterQueueReport>[] {
-    let iterator = 0;
     return this.queuesToCheck.map(requestData => {
       return requestData.then(data => {
         return {
-          restCall: this.http.get(data.url, {}).toPromise(),
+          restCall: this.http.get(data.url, { responseType: ResponseContentType.Json }).toPromise(),
           requestData: data
         };
       });
     }).map(apiRequest => apiRequest.then(request => {
       return request.restCall.then(response => {
-        console.log('== success ==');
-        console.log(response);
-        return this.convertToReport(request.requestData, iterator++ % 3 === 0);
-      }).catch(error => {
-        console.log('== failure ==');
-        console.log(error);
+        return this.convertToReport(request.requestData, response.json().positive_report);
+      }).catch(() => {
         return this.convertToReport(request.requestData, false, true);
       });
     }));

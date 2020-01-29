@@ -15,17 +15,16 @@ export const DEAD_LETTER_QUEUES = {
       service: 'wfdsn',
       scs: 'wfd',
       zones: [USA, CANADA, EUROPE, AUSTRALIA]
+    },
+    {
+      service: 'actns',
+      scs: 'wfd',
+      zones: [USA, CANADA, EUROPE, AUSTRALIA]
+    },
+    {
+      service: 'email',
+      scs: 'wfd',
+      zones: [USA, CANADA, EUROPE, AUSTRALIA]
     }
-    // ,
-    // {
-    //   service: 'actns',
-    //   scs: 'wfd',
-    //   zones: [USA, CANADA, EUROPE, AUSTRALIA]
-    // },
-    // {
-    //   service: 'email',
-    //   scs: 'wfd',
-    //   zones: [USA, CANADA, EUROPE, AUSTRALIA]
-    // }
   ]
 };
