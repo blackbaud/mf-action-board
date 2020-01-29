@@ -3,7 +3,7 @@ import {ConfigService} from '../../app/config.service';
 import {ActionItem, DeadLetterQueue} from '../../domain/action-item';
 import {DEAD_LETTER_QUEUES, QueueConfiguration} from './dead-letter-queues';
 import {BBAuth} from '@blackbaud/auth-client/';
-import {Http, ResponseContentType} from '@angular/http';
+import {HttpClient} from '@angular/common/http';
 
 export interface DeadLetterQueueReport {
   service: string;
@@ -14,10 +14,14 @@ export interface DeadLetterQueueReport {
   call_failed: boolean;
 }
 
+export interface StatusReport {
+  positive_report: boolean;
+}
+
 @Injectable()
 export class DeadLetterQueueService {
 
-  constructor(private http: Http,
+  constructor(private http: HttpClient,
               private configService: ConfigService) {}
 
   getActionItems(): Promise<ActionItem[]> {
@@ -31,13 +35,13 @@ export class DeadLetterQueueService {
     return this.queuesToCheck.map(requestData => {
       return requestData.then(data => {
         return {
-          restCall: this.http.get(data.url, { responseType: ResponseContentType.Json }).toPromise(),
+          restCall: this.getStatusReport(data.url),
           requestData: data
         };
       });
     }).map(apiRequest => apiRequest.then(request => {
-      return request.restCall.then(response => {
-        return this.convertToReport(request.requestData, response.json().positive_report);
+      return request.restCall.then(statusReport => {
+        return this.convertToReport(request.requestData, statusReport.positive_report);
       }).catch(() => {
         return this.convertToReport(request.requestData, false, true);
       });
@@ -72,6 +76,10 @@ export class DeadLetterQueueService {
       call_failed: restCallFailed,
       populated: foundDlqMessages
     });
+  }
+
+  private getStatusReport(url: string): Promise<StatusReport> {
+    return this.http.get<StatusReport>(url).toPromise();
   }
 
   private get queuesConfigurations(): QueueConfiguration[] {
