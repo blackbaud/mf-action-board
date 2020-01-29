@@ -29,20 +29,23 @@ export class DeadLetterQueueService {
 
   private get deadLetterQueueReports(): Promise<DeadLetterQueueReport>[] {
     let iterator = 0;
-    let tempReportData: DeadLetterQueueReport;
     return this.queuesToCheck.map(requestData => {
       return requestData.then(data => {
-        tempReportData = data;
-        return this.http.get(data.url, {}).toPromise();
+        return {
+          restCall: this.http.get(data.url, {}).toPromise(),
+          requestData: data
+        };
       });
-    }).map(restCall => restCall.then(response => {
-      console.log('== success ==');
-      console.log(response);
-      return this.convertToReport(tempReportData, iterator++ % 3 === 0);
-    }).catch(error => {
-      console.log('== failure ==');
-      console.log(error);
-      return this.convertToReport(tempReportData, false, true);
+    }).map(apiRequest => apiRequest.then(request => {
+      return request.restCall.then(response => {
+        console.log('== success ==');
+        console.log(response);
+        return this.convertToReport(request.requestData, iterator++ % 3 === 0);
+      }).catch(error => {
+        console.log('== failure ==');
+        console.log(error);
+        return this.convertToReport(request.requestData, false, true);
+      });
     }));
   }
 
