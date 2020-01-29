@@ -1,10 +1,10 @@
-import {TestBed} from '@angular/core/testing';
-import {XHRBackend} from '@angular/http';
+import {fakeAsync, TestBed, tick} from '@angular/core/testing';
 import {ConfigService} from '../../app/config.service';
 import {DeadLetterQueueService} from './dead-letter-queue.service';
-import {MockBackend} from '@angular/http/testing';
 import {of} from 'rxjs/observable/of';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import {ACTION_PRIORITY_IGNORE, ACTION_PRIORITY_NOW} from '../../domain/action-item';
+import {Observable} from 'rxjs/Observable';
 
 describe('dead letter queue service', () => {
 
@@ -17,7 +17,7 @@ describe('dead letter queue service', () => {
   let http: HttpClient;
 
   beforeEach(() => {
-    const fakeConfigSvc = {
+   const fakeConfigSvc = {
       vsts: {
         team: TEST_TEAM
       }
@@ -34,23 +34,49 @@ describe('dead letter queue service', () => {
     });
 
     service = TestBed.get(DeadLetterQueueService);
-    spyOn(service, 'fullQueueSet').and.returnValue({
-      TEST_TEAM: [{
+    spyOn(service, 'getAllConfigurations').and.returnValue({
+      'test-team-name': [{
         service: TEAM_SVC,
         scs: TEAM_SCS,
-        zone: [SVC_ZONE]
+        zones: [SVC_ZONE]
       }]
     });
 
     http = TestBed.get(HttpClient);
   });
 
-  it('should get zero configurations when no queues are found populated', () => {
-    // spyOn(http, 'get').and.returnValue(of({
-    //   json(): {
-    //     return { positive_report: false };
-    //   }
-    // }));
-    expect(service).toBeTruthy();
-  });
+  it('should get zero queues when none are found populated', fakeAsync(() => {
+    spyOn(http, 'get').and.returnValue(of({ positive_report: false }));
+
+    const items = service.getActionItems();
+    tick();
+
+    items.then(queues => {
+      expect(queues.length).toBe(0);
+    });
+  }));
+
+  it('should return queues found as populated with the priority set to the highest', fakeAsync(() => {
+    spyOn(http, 'get').and.returnValue(of({ positive_report: true }));
+
+    const items = service.getActionItems();
+    tick();
+
+    items.then(queues => {
+      expect(queues.length).toBe(1);
+      expect(queues.pop().priority).toBe(ACTION_PRIORITY_NOW);
+    });
+  }));
+
+  it('should return queues for failed api calls with the priority set to the lowest', fakeAsync(() => {
+    spyOn(http, 'get').and.returnValue(Observable.throw('something dun messed up hard...'));
+
+    const items = service.getActionItems();
+    tick();
+
+    items.then(queues => {
+      expect(queues.length).toBe(1);
+      expect(queues.pop().priority).toBe(ACTION_PRIORITY_IGNORE);
+    });
+  }));
 });
