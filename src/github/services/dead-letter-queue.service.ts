@@ -25,7 +25,6 @@ export class DeadLetterQueueService {
               private configService: ConfigService) {}
 
   getActionItems(): Promise<ActionItem[]> {
-    console.log('== getActionItems');
     return Promise.all(this.deadLetterQueueReports)
       .then(reports =>
         reports.filter(report => report.populated || report.call_failed)
@@ -33,39 +32,27 @@ export class DeadLetterQueueService {
   }
 
   private get deadLetterQueueReports(): Promise<DeadLetterQueueReport>[] {
-    console.log('== deadLetterQueueReports');
     return this.queuesToCheck.map(requestData => {
-      console.log('== mapping queues which needed checking');
       return requestData.then(data => {
-        console.log('== converting to api request info');
         return {
           restCall: this.getStatusReport(data.url),
           requestData: data
         };
       });
     }).map(apiRequest => apiRequest.then(request => {
-      console.log('== mapping the api');
       return request.restCall.then(statusReport => {
-        console.log('== successful api call');
         return this.convertToReport(request.requestData, statusReport.positive_report);
       }).catch(() => {
-        console.log('== failed api call');
         return this.convertToReport(request.requestData, false, true);
       });
     }));
   }
 
   private get queuesToCheck(): Promise<DeadLetterQueueReport>[] {
-    console.log('== queuesToCheck');
     return [].concat(...this.queuesConfigurations.map((config) => {
-      console.log('== mapping queuesConfigurations results');
-      console.log(config);
-      console.log(config.zones);
       return config.zones.map(zone => {
-        console.log('== mapping zones');
         return BBAuth.getUrl(`1bb://${config.scs}-${config.service}/dlq/status`, {zone: zone})
             .then(url => {
-              console.log('== returning from url generation');
               return {
                 service: config.service,
                 scs: config.scs,
@@ -81,7 +68,6 @@ export class DeadLetterQueueService {
   private convertToReport(requestInputs: DeadLetterQueueReport,
                           foundDlqMessages = false,
                           restCallFailed = false): Promise<DeadLetterQueueReport> {
-    console.log('== convertToReport');
     return Promise.resolve({
       service: requestInputs.service,
       scs: requestInputs.scs,
@@ -93,16 +79,11 @@ export class DeadLetterQueueService {
   }
 
   private getStatusReport(url: string): Promise<StatusReport> {
-    console.log('== getStatusReport');
     return this.http.get<StatusReport>(url).toPromise();
   }
 
   private get queuesConfigurations(): QueueConfiguration[] {
-    console.log('== queuesConfigurations');
-    console.log(this.configService.vsts.team);
-    const stuff = this.getAllConfigurations()[this.configService.vsts.team];
-    console.log(stuff);
-    return stuff;
+    return this.getAllConfigurations()[this.configService.vsts.team];
   }
 
   getAllConfigurations() {

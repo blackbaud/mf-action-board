@@ -24,7 +24,7 @@ describe('DeadLetterQueueComponent', () => {
     { call_failed: true, expected_priority: PRIORITY.GREY },
     { call_failed: false, expected_priority: PRIORITY.RED }
   ].forEach((inputs) => {
-    it('should create a dead letter queue item appropriately', () => {
+    it(`should create a dead letter queue item appropriately, call failed? ${inputs.call_failed}`, () => {
       const report = {
         service: 'my service',
         scs: 'my scs',
