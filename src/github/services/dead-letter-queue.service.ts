@@ -75,6 +75,10 @@ export class DeadLetterQueueService {
   }
 
   private get queuesConfigurations(): QueueConfiguration[] {
-    return DEAD_LETTER_QUEUES[this.configService.vsts.team];
+    return this.fullQueueSet[this.configService.vsts.team];
+  }
+
+  private get fullQueueSet() {
+    return DEAD_LETTER_QUEUES;
   }
 }
