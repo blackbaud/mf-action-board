@@ -35,19 +35,22 @@ describe('dead letter queue service', () => {
     });
 
     service = TestBed.get(DeadLetterQueueService);
-    spyOn(service, 'getAllConfigurations').and.returnValue({
-      [TEAM_NAME]: [{
-        service: SERVICE_NAME,
-        scs: SCS_CODE,
-        zones: [DEPLOYMENT_ZONE]
-      }]
-    });
 
     http = TestBed.get(HttpClient);
   });
 
+  it('should be okay to have no queue configurations', fakeAsync(() => {
+    const items = service.getActionItems();
+    tick();
+
+    items.then(queues => {
+      expect(queues.length).toBe(0);
+    });
+  }));
+
   it('should get zero queues when none are found populated', fakeAsync(() => {
     spyOn(http, 'get').and.returnValue(of({ positive_report: false }));
+    setupQueueConfigForTestTeam();
 
     const items = service.getActionItems();
     tick();
@@ -59,6 +62,7 @@ describe('dead letter queue service', () => {
 
   it('should return queues found as populated with the priority set to the highest', fakeAsync(() => {
     spyOn(http, 'get').and.returnValue(of({ positive_report: true }));
+    setupQueueConfigForTestTeam();
 
     const items = service.getActionItems();
     tick();
@@ -71,6 +75,7 @@ describe('dead letter queue service', () => {
 
   it('should return queues for failed api calls with the priority set to the lowest', fakeAsync(() => {
     spyOn(http, 'get').and.returnValue(Observable.throw('something dun messed up hard...'));
+    setupQueueConfigForTestTeam();
 
     const items = service.getActionItems();
     tick();
@@ -91,4 +96,14 @@ describe('dead letter queue service', () => {
         done();
     });
   });
+
+  function setupQueueConfigForTestTeam() {
+    spyOn(service, 'getAllConfigurations').and.returnValue({
+      [TEAM_NAME]: [{
+        service: SERVICE_NAME,
+        scs: SCS_CODE,
+        zones: [DEPLOYMENT_ZONE]
+      }]
+    });
+  }
 });

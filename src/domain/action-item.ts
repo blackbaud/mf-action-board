@@ -26,7 +26,7 @@ export class DeadLetterQueue extends BaseActionItem {
     super();
     this.created = Date.now();
     this.priority = report.call_failed ? ACTION_PRIORITY_IGNORE : ACTION_PRIORITY_NOW;
-    this.url = ''; // TODO???
+    this.url = ''; // TODO: uniformed way to take you somewhere helpful, maybe EngSys when it has DLQ support? :shrug_hard:
     this.name = `${report.scs}-${report.service}: ${report.zone}`;
   }
 

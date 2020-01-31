@@ -87,7 +87,8 @@ export class DeadLetterQueueService {
   }
 
   private get queuesConfigurations(): QueueConfiguration[] {
-    return this.getAllConfigurations()[this.configService.vsts.team];
+    const queueConfigurations = this.getAllConfigurations()[this.configService.vsts.team];
+    return (queueConfigurations) ? queueConfigurations : [];
   }
 
   getAllConfigurations() {
