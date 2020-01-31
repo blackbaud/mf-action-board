@@ -1,12 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import { ActionItem } from '../../domain/action-item';
+import { ACTION_PRIORITY_IGNORE, ACTION_PRIORITY_NEW, ACTION_PRIORITY_NOW, ACTION_PRIORITY_SOON, ActionItem} from '../../domain/action-item';
 import { GithubService } from '../../github/services/github.service';
 import { VstsService } from '../../github/services/vsts.service';
 import { JenkinsService } from '../shared/services/jenkins.service';
 import { ACTION_ITEM_POLLING_INTERVAL_IN_MS } from '../app.constants';
-import { ConfigService } from '../../app/config.service';
+import { ConfigService } from '../config.service';
 import { NotificationsService } from '../../notifications/services/notifications.service';
-import {PollingService} from '../polling.service';
+import { PollingService } from '../polling.service';
+import { DeadLetterQueueService } from '../../github/services/dead-letter-queue.service';
 
 @Component({
   selector: 'mf-action-list',
@@ -23,7 +24,8 @@ export class ActionListComponent implements OnInit {
               private jenkinsService: JenkinsService,
               private configService: ConfigService,
               private pollingService: PollingService,
-              private notificationsService: NotificationsService) {
+              private notificationsService: NotificationsService,
+              private deadLetterQueueService: DeadLetterQueueService) {
   }
 
   ngOnInit() {
@@ -50,6 +52,7 @@ export class ActionListComponent implements OnInit {
     }
     if (this.configService.vsts.isConfigured()) {
       promises.push(this.vstsService.getActionItems());
+      promises.push(this.deadLetterQueueService.getActionItems());
     }
     Promise.all(promises).then(
       actionItems => {
@@ -80,19 +83,19 @@ export class ActionListComponent implements OnInit {
 
   sortByPriorityAndOpenDuration(actionItems: ActionItem[]): ActionItem[] {
     const red = actionItems.filter((a) => {
-      return a.priority === 1;
+      return a.priority === ACTION_PRIORITY_NOW;
     });
 
     const orange = actionItems.filter((a) => {
-      return a.priority === 2;
+      return a.priority === ACTION_PRIORITY_SOON;
     });
 
     const yellow = actionItems.filter((a) => {
-      return a.priority === 3;
+      return a.priority === ACTION_PRIORITY_NEW;
     });
 
     const grey = actionItems.filter((a) => {
-      return a.priority === 4;
+      return a.priority === ACTION_PRIORITY_IGNORE;
     });
 
     return red.sort(this.sortByOpenDuration)
@@ -109,9 +112,5 @@ export class ActionListComponent implements OnInit {
     } else {
       return 0;
     }
-  }
-
-  isLit() {
-    return this.actionItems.length === 0 && !this.loading;
   }
 }

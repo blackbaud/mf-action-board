@@ -20,6 +20,10 @@
     <div *ngIf="actionItem.type === 'build' || actionItem.type === 'release'">
       <mf-build [build]="actionItem"></mf-build>
     </div>
+
+    <div *ngIf="actionItem.type === 'dlq'">
+      <mf-dlq [dlq]="actionItem"></mf-dlq>
+    </div>
   </div>
 </div>
 

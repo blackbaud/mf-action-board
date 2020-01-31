@@ -42,7 +42,8 @@ Within this project's directory, run the following commands
   * `build:read`
   * `release:read`
 * Team: The name of your team, which is used to determine which repos to query for.
-  The team name should match what's in [`vsts-repos.ts`](https://github.com/blackbaud/mf-action-board/blob/master/src/github/services/vsts-repos.ts). In the future this will likely be a dropdown.
+  The team name should match what's in [`vsts-repos.ts`](https://github.com/blackbaud/mf-action-board/blob/master/src/github/services/vsts-repos.ts) in order to pull those builds/prs/releases/etc. 
+  The same team name will be used for querying dead letter queue configurations found in [`dead-letter-queues.ts`](https://github.com/blackbaud/mf-action-board/blob/master/src/github/services/dead-letter-queues.ts).
 
 ## Development server
 

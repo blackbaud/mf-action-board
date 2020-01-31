@@ -2,9 +2,8 @@ import { Injectable } from '@angular/core';
 import { Http, Headers, RequestOptions } from '@angular/http';
 import 'rxjs/add/operator/toPromise';
 
-import { ActionItem, GitHubPullRequest, PullRequest } from '../../domain/action-item';
+import { GitHubPullRequest, PullRequest } from '../../domain/action-item';
 import { ConfigService } from '../../app/config.service';
-import { DO_NOT_MERGE_LABEL_NAME } from './github.constants';
 
 @Injectable()
 export class GithubService {

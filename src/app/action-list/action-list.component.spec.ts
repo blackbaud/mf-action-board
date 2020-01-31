@@ -19,6 +19,8 @@ import { JenkinsService } from '../shared/services/jenkins.service';
 import { SprintLitComponent } from '../sprint-lit/sprint-lit.component';
 import { ActionListComponent } from './action-list.component';
 import { TEST_GITHUB_CONFIG, TEST_GITHUB_PR, TEST_VSTS_CONFIG } from '../../testing/constants';
+import { DeadLetterQueueComponent } from '../dead-letter-queue/dead-letter-queue.component';
+import { DeadLetterQueueService } from '../../github/services/dead-letter-queue.service';
 
 const emptyVstsSvc = {
   getActionItems: () => {
@@ -41,6 +43,12 @@ const emptyGithubSvc = {
     return Promise.resolve({});
   },
 
+  getActionItems: () => {
+    return Promise.resolve([] as ActionItem[]);
+  }
+};
+
+const emptyDlqSvc = {
   getActionItems: () => {
     return Promise.resolve([] as ActionItem[]);
   }
@@ -147,6 +155,7 @@ function testBed(githubSvc: { loadRepos: () => void, getActionItems: () => Promi
     declarations: [
       ActionListComponent,
       BuildComponent,
+      DeadLetterQueueComponent,
       PullRequestComponent,
       RageFaceComponent,
       SprintLitComponent
@@ -159,7 +168,8 @@ function testBed(githubSvc: { loadRepos: () => void, getActionItems: () => Promi
       {provide: VstsConfig, useValue: TEST_VSTS_CONFIG},
       {provide: ConfigService, useClass: FakeConfigService},
       {provide: PollingService, useValue: doNothingPollingService},
-      {provide: NotificationsService, useClass: FakeNotificationsService}
+      {provide: NotificationsService, useClass: FakeNotificationsService},
+      {provide: DeadLetterQueueService, useValue: emptyDlqSvc}
     ]
   });
 }

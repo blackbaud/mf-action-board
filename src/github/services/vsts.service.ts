@@ -5,7 +5,7 @@ import * as moment from 'moment';
 
 import { ConfigService } from '../../app/config.service';
 import { VSTS_REPOS } from './vsts-repos';
-import { ActionItem, VstsPullRequest, PullRequest, Build, VstsBuild, VstsRelease} from '../../domain/action-item';
+import { ActionItem, VstsPullRequest, VstsBuild, VstsRelease } from '../../domain/action-item';
 
 @Injectable()
 export class VstsService {

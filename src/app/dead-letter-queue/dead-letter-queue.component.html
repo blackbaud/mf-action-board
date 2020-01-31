@@ -1,0 +1,13 @@
+<div class="col-sm-12 action-item-panel buffer" [ngClass]="priorityClass">
+    <div class="action-item-content row">
+      <div class="col">
+        <i class="icon fa fa-envelope fa-4x"></i>
+      </div>
+      <div class="action-item-text col-10">{{dlq.name}}
+        <div class="time-elapsed">{{getTimeElapsed(dlq.created)}}</div>
+      </div>
+      <div class="col">
+        <mf-rage-face [priority]="dlq.priority"></mf-rage-face>
+      </div>
+    </div>
+</div>
