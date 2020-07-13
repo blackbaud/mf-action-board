@@ -34,16 +34,32 @@ export const VSTS_REPOS = {
     'skyux-spa-workflows-supportal',
     'skyux-lib-dlq-management'
   ],
-  'animaniacs': [
+  'groot': [
     'bb-permissions-marketing-social',
+    'bb-permissions-marketing-suptl-social',
     'skyux-spa-social',
     'skyux-spa-social-supportal',
     'skyux-spa-social-synth-tests',
     'social-metrics',
     'social-metrics-database',
     'social-posting',
-    'rlp-rlshp-svc',
-    'skyux-lib-relationship-form'
+    'sps-social-posting-synth-monitor',
+    'bb-permissions-fundraising-receiptmanagement',
+    'bb-permissions-fundraising-renxt-receiptmanagement',
+    'bb-permissions-receiptingsupportal-suptl-receipting',
+    'receipt-manager',
+    'transaction-batcher',
+    'energon',
+    'energon-smoke-tests',
+    'rct-receipt-manager-synth-monitor'
+    'skyux-spa-receipting-docs',
+    'skyux-spa-receipt-manager',
+    'skyux-spa-receipt-settings',
+    'skyux-spa-addin-consolidated-receipts',
+    'skyux-spa-addin-gift-table',
+    'skyux-spa-receipt-supportal',
+    'skyux-spa-energon-supportal',
+    'skyux-spa-transaction-batcher-supportal'
   ],
   'highlander': {
     'repo': [
@@ -102,12 +118,6 @@ export const VSTS_REPOS = {
     'skyux-spa-installment-engine-supportal',
     'java-client-payments',
     'recurring-gift-schedule-formatter'
-  ],
-  'cerebro' : [
-    'receipt-manager',
-    'transaction-batcher',
-    'email-adapter',
-    'skyux-spa-receipt-manager'
   ],
   'illuminati' : [
     'social-donation-receiver',
