@@ -49,7 +49,6 @@ export const VSTS_REPOS = {
     'bb-permissions-receiptingsupportal-suptl-receipting',
     'receipt-manager',
     'transaction-batcher',
-    'email-adapter',
     'energon',
     'energon-smoke-tests',
     'rct-receipt-manager-synth-monitor'
