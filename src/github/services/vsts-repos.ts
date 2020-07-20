@@ -51,7 +51,7 @@ export const VSTS_REPOS = {
     'transaction-batcher',
     'energon',
     'energon-smoke-tests',
-    'rct-receipt-manager-synth-monitor'
+    'rct-receipt-manager-synth-monitor',
     'skyux-spa-receipting-docs',
     'skyux-spa-receipt-manager',
     'skyux-spa-receipt-settings',
@@ -77,6 +77,7 @@ export const VSTS_REPOS = {
       'skyux-spa-donation-forms',
       'skyux-spa-donation-form-designer',
       'skyux-spa-donor-form',
+      'skyux-spa-tools-settings',
       'skyux-lib-form'
     ],
     'build': [
@@ -94,6 +95,7 @@ export const VSTS_REPOS = {
       'skyux-spa-donation-forms',
       'skyux-spa-donation-form-designer',
       'skyux-spa-donor-form',
+      'skyux-spa-tools-settings',
       'skyux-lib-form'
     ],
     'release': [
@@ -108,7 +110,8 @@ export const VSTS_REPOS = {
       'skyux-spa-donation-forms-supportal',
       'skyux-spa-donation-forms',
       'skyux-spa-donation-form-designer',
-      'skyux-spa-donor-form'
+      'skyux-spa-donor-form',
+      'skyux-spa-tools-settings'
     ],
   },
   'voltron' : [
