@@ -51,7 +51,7 @@ export const VSTS_REPOS = {
     'transaction-batcher',
     'energon',
     'energon-smoke-tests',
-    'rct-receipt-manager-synth-monitor'
+    'rct-receipt-manager-synth-monitor',
     'skyux-spa-receipting-docs',
     'skyux-spa-receipt-manager',
     'skyux-spa-receipt-settings',
