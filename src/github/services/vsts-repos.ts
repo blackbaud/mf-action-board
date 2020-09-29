@@ -78,7 +78,8 @@ export const VSTS_REPOS = {
       'skyux-spa-donation-form-designer',
       'skyux-spa-donor-form',
       'skyux-spa-tools-settings',
-      'skyux-lib-form'
+      'skyux-lib-form',
+      'skyux-lib-donation-form'
     ],
     'build': [
       'donation-form-int-tests',
@@ -96,7 +97,8 @@ export const VSTS_REPOS = {
       'skyux-spa-donation-form-designer',
       'skyux-spa-donor-form',
       'skyux-spa-tools-settings',
-      'skyux-lib-form'
+      'skyux-lib-form',
+      'skyux-lib-donation-form'
     ],
     'release': [
       'fms-efcfg-v2',
