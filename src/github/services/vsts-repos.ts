@@ -66,7 +66,6 @@ export const VSTS_REPOS = {
       'donation-form-int-tests',
       'donation-form-reporting',
       'donation-form-reporting-database',
-      'donation-form-layout',
       'email-adapter',
       'transactor',
       'form-consent',
@@ -79,13 +78,19 @@ export const VSTS_REPOS = {
       'skyux-spa-donor-form',
       'skyux-spa-tools-settings',
       'skyux-lib-form',
-      'skyux-lib-donation-form'
+      'skyux-lib-donation-form',
+      'skyux-lib-constituent-form',
+      'skyux-spa-constituent-form-submission',
+      'skyux-spa-constituent-forms',
+      'constituent-forms',
+      'constituent-form-submission',
+      'constituent-form-integration-test',
+      'cfm-constituent-forms-synth-monitor'
     ],
     'build': [
       'donation-form-int-tests',
       'donation-form-reporting',
       'donation-form-reporting-database',
-      'donation-form-layout',
       'email-adapter',
       'transactor',
       'form-consent',
@@ -98,14 +103,20 @@ export const VSTS_REPOS = {
       'skyux-spa-donor-form',
       'skyux-spa-tools-settings',
       'skyux-lib-form',
-      'skyux-lib-donation-form'
+      'skyux-lib-donation-form',
+      'skyux-lib-constituent-form',
+      'skyux-spa-constituent-form-submission',
+      'skyux-spa-constituent-forms',
+      'constituent-forms',
+      'constituent-form-submission',
+      'constituent-form-integration-test',
+      'cfm-constituent-forms-synth-monitor'
     ],
     'release': [
       'fms-efcfg-v2',
       'fms-cnsnt-v2',
       'fms-txntr-v2',
       'fms-rport-v2',
-      'fms-lyout-v2',
       'fms-emadp-v2',
       'fms-donor-form-synth-monitor',
       'fms-donation-form-management-synth-monitor',
@@ -113,7 +124,12 @@ export const VSTS_REPOS = {
       'skyux-spa-donation-forms',
       'skyux-spa-donation-form-designer',
       'skyux-spa-donor-form',
-      'skyux-spa-tools-settings'
+      'skyux-spa-tools-settings',
+      'skyux-spa-constituent-form-submission',
+      'skyux-spa-constituent-forms',
+      'cfm-cfsub-v2',
+      'cfm-confm-v2',
+      'cfm-constituent-forms-synth-monitor'
     ],
   },
   'voltron' : [
